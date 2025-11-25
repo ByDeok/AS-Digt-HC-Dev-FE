@@ -1,0 +1,57 @@
+---
+description: Defines the standard workflow for task-based issue creation, development, and PR automation using gh CLI.
+globs: studio/Tasks/*.md, create_issues.ps1
+---
+
+# Issue Workflow Standard
+
+This rule defines the standard operating procedure for the AI agent and developer collaboration, covering task definition, issue generation, development, and pull request automation.
+
+## 1. Task Definition & Issue Creation
+
+### Task Definition
+- Create task descriptions in markdown format under `studio/Tasks/`.
+- File naming convention: `issue-{number}-{short-description}.md`.
+- Content must include a clear Title (H1) and Body (Description, Requirements, Checklist).
+
+### Issue Generation
+- Use the `create_issues.ps1` script located in the workspace root.
+- The script utilizes `gh` CLI to:
+  - Create issues in the remote repository.
+  - Prevent duplicate issue creation.
+  - Automatically apply the `Issue Automation` label.
+- **Command**: `.\create_issues.ps1`
+
+## 2. Development Cycle
+
+### Branching
+- Create a new branch for each issue.
+- Use prefixes based on the work type: `feat/`, `fix/`, `refactor/`, `chore/`.
+- Include the issue number or keywords in the branch name (e.g., `fix/header-issue-1`).
+
+### Implementation & Verification
+1. **Analysis**: Analyze the codebase to understand the context before making changes.
+2. **Implementation**: Modify the code to satisfy the task requirements.
+3. **Static Verification**:
+   - Run `npm run lint` to check for code style and errors.
+   - Run `npm run format` or `npm run format:check` to ensure formatting.
+4. **Runtime Verification**:
+   - Start the dev server (`npm run dev`).
+   - Use the `@Browser` tool to verify the fix or feature visually.
+
+## 3. Pull Request Automation
+
+### Commit Strategy
+- Follow Conventional Commits: `[Type] Description`.
+- Stage only relevant files using `git add`.
+
+### PR Creation
+- Use `gh pr create` to generate the Pull Request.
+- **Required Options**:
+  - `--title`: "[Type] Description"
+  - `--body`: Must include "Closes #IssueNumber" to link and auto-close the issue.
+  - `--reviewer`: Assign the appropriate reviewer (e.g., `ByDeok`).
+- **Example**:
+  ```bash
+  gh pr create --title "[Fix] Header responsive bug" --body "Closes #5" --reviewer ByDeok
+  ```
