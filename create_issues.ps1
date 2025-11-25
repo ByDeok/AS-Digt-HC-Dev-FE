@@ -10,6 +10,9 @@
     studio project (.git/config) and passes it explicitly to gh via --repo.
 #>
 
+# Force UTF-8 encoding for console output to handle non-ASCII characters (e.g., Korean) correctly
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 # Determine script directory so paths work regardless of current working directory.
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
@@ -22,22 +25,22 @@ if (-not (Test-Path $tasksDir)) {
     exit 1
 }
 
-# Infer GitHub repo (owner/name) from studio/.git/config so gh can run even if
-# the current directory is not a git repository.
+# Infer GitHub repo (owner/name) from studio/.git/config if available,
+# otherwise default to "ByDeok/studio".
 $gitConfigPath = Join-Path $studioDir ".git\config"
-if (-not (Test-Path $gitConfigPath)) {
-    Write-Error "Git config not found at: $gitConfigPath. Ensure 'studio' is a git repo."
-    exit 1
-}
+$repo = "ByDeok/studio"
 
-$gitConfigContent = Get-Content -Path $gitConfigPath -Raw
-$repo = $null
-if ($gitConfigContent -match "url\s*=\s*https://github\.com/([^/]+/[^\.]+)") {
-    $repo = $matches[1]
+if (Test-Path $gitConfigPath) {
+    $gitConfigContent = Get-Content -Path $gitConfigPath -Raw
+    if ($gitConfigContent -match "url\s*=\s*https://github\.com/([^/]+/[^\.]+)") {
+        $repo = $matches[1]
+    }
+} else {
+    Write-Warning "Git config not found at $gitConfigPath. Defaulting to repo: $repo"
 }
 
 if (-not $repo) {
-    Write-Error "Could not determine GitHub repo from $gitConfigPath"
+    Write-Error "Could not determine GitHub repo."
     exit 1
 }
 
