@@ -26,9 +26,9 @@ if (-not (Test-Path $tasksDir)) {
 }
 
 # Infer GitHub repo (owner/name) from studio/.git/config if available,
-# otherwise default to "ByDeok/studio".
+# otherwise default to "ByDeok/AS-Digt-HC-Dev-FE".
 $gitConfigPath = Join-Path $studioDir ".git\config"
-$repo = "ByDeok/studio"
+$repo = "ByDeok/AS-Digt-HC-Dev-FE"
 
 if (Test-Path $gitConfigPath) {
     $gitConfigContent = Get-Content -Path $gitConfigPath -Raw
