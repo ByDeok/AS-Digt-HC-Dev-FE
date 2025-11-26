@@ -1,7 +1,8 @@
 # 함수 호출 구조 (Function Call Hierarchy)
 
 ## 개요
-본 문서는 **AS-Digt-HC-Dev-FE** 애플리케이션의 주요 실행 흐름과 데이터 전달 과정을 시각화합니다. 
+
+본 문서는 **AS-Digt-HC-Dev-FE** 애플리케이션의 주요 실행 흐름과 데이터 전달 과정을 시각화합니다.
 주로 라우팅 진입부터 데이터 페칭, UI 렌더링까지의 흐름을 다룹니다.
 
 ---
@@ -23,7 +24,7 @@ sequenceDiagram
     App->>Router: Initialize BrowserRouter
     Router->>Layout: Render <Layout />
     Layout->>Router: Resolve Current Route
-    
+
     Note right of Layout: 전역 프로바이더 설정 (Toaster 등)
 ```
 
@@ -69,9 +70,9 @@ sequenceDiagram
     Store->>API: request Data (User, Missions)
     API-->>Store: Response Data
     deactivate Store
-    
+
     Store-->>Page: Update State
-    
+
     Page->>UI: Render <MissionCard />
     Page->>UI: Render <Confetti /> (if all missions cleared)
 ```
@@ -117,10 +118,10 @@ sequenceDiagram
 
     Component->>Hook: call generateAdvice(userData)
     Hook->>Service: runFlow(analyzeHealthFlow, userData)
-    
+
     Service->>Firebase: RPC Call (Genkit)
     Firebase-->>Service: AI Response (Text/JSON)
-    
+
     Service-->>Hook: Return Result
     Hook-->>Component: Update UI with Advice
 ```
@@ -129,14 +130,13 @@ sequenceDiagram
 
 ## 6. 파일 간 참조 관계 요약
 
-*   **`src/main.tsx`**
-    *   Imports: `App.tsx`, `globals.css`
-*   **`src/App.tsx`**
-    *   Imports: `react-router-dom`, `pages/**`, `components/ui/toaster`
-*   **`src/app/dashboard/page.tsx`**
-    *   Imports: `components/common/PageHeader`, `components/ui/card`, `lib/mockData`
-*   **`src/components/ui/*`**
-    *   Imports: `@radix-ui/*`, `lib/utils (cn)`
+- **`src/main.tsx`**
+  - Imports: `App.tsx`, `globals.css`
+- **`src/App.tsx`**
+  - Imports: `react-router-dom`, `pages/**`, `components/ui/toaster`
+- **`src/app/dashboard/page.tsx`**
+  - Imports: `components/common/PageHeader`, `components/ui/card`, `lib/mockData`
+- **`src/components/ui/*`**
+  - Imports: `@radix-ui/*`, `lib/utils (cn)`
 
 이 계층 구조를 이해하면 디버깅 시 데이터가 어디서 끊겼는지, 혹은 스타일이 어디서 상속되는지 추적하기 쉽습니다.
-

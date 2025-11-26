@@ -1,7 +1,7 @@
 // src/app/(main)/dashboard/page.tsx
 /**
  * 스크립트 용도: 사용자 대시보드 페이지
- * 
+ *
  * 함수 호출 구조:
  * DashboardPage
  * ├── Confetti (Mission Completion Effect)
@@ -33,7 +33,10 @@ export default function DashboardPage() {
   const [missions, setMissions] = useState<Mission[]>(mockMissions);
   const [completedMissionId, setCompletedMissionId] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [windowSize, setWindowSize] = useState<{ width: number; height: number; }>({ width: 0, height: 0 });
+  const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
+    width: 0,
+    height: 0,
+  });
 
   const { toast } = useToast();
 
@@ -47,23 +50,20 @@ export default function DashboardPage() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
-  const remainingMissions = missions.filter(m => !m.isCompleted).length;
+  const remainingMissions = missions.filter((m) => !m.isCompleted).length;
 
   const handleMissionToggle = (missionId: string) => {
-    const mission = missions.find(m => m.id === missionId);
+    const mission = missions.find((m) => m.id === missionId);
     if (!mission || mission.isCompleted) return;
 
-    setMissions(prevMissions =>
-      prevMissions.map(m =>
-        m.id === missionId ? { ...m, isCompleted: true } : m
-      )
+    setMissions((prevMissions) =>
+      prevMissions.map((m) => (m.id === missionId ? { ...m, isCompleted: true } : m)),
     );
-    
+
     setCompletedMissionId(missionId);
     setShowConfetti(true);
     toast({
-      title: "참 잘했어요!",
+      title: '참 잘했어요!',
       description: `'${mission.title}' 미션을 완료했어요.`,
     });
 
@@ -75,22 +75,29 @@ export default function DashboardPage() {
 
   const handleNotificationClick = () => {
     toast({
-      title: "알림",
-      description: "지금 혈압 잴 시간입니다.",
+      title: '알림',
+      description: '지금 혈압 잴 시간입니다.',
     });
   };
 
   const handleRefresh = () => {
     setMissions(mockMissions);
     toast({
-      title: "새로고침 완료",
-      description: "미션 목록이 업데이트되었습니다.",
+      title: '새로고침 완료',
+      description: '미션 목록이 업데이트되었습니다.',
     });
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-20">
-      {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={200} />}
+      {showConfetti && (
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          recycle={false}
+          numberOfPieces={200}
+        />
+      )}
       <PageHeader
         title={`안녕하세요, ${mockUser.name}님!`}
         leftContent={
@@ -110,24 +117,32 @@ export default function DashboardPage() {
           </div>
         }
       />
-      
+
       <main className="flex-1 p-4 space-y-6 max-w-3xl mx-auto w-full">
-        <Section title={`오늘 할 일 ${remainingMissions > 0 ? `${remainingMissions}개 남았어요` : '모두 완료!'}`}>
+        <Section
+          title={`오늘 할 일 ${remainingMissions > 0 ? `${remainingMissions}개 남았어요` : '모두 완료!'}`}
+        >
           <div className="space-y-3">
-            {missions.map(mission => (
+            {missions.map((mission) => (
               <ListItem
                 key={mission.id}
                 onClick={() => handleMissionToggle(mission.id)}
                 className={cn(
-                  "shadow-sm",
-                  mission.isCompleted ? "bg-secondary/50 text-muted-foreground border-transparent" : "bg-card border-border hover:border-primary/50",
-                  completedMissionId === mission.id && "bg-primary/10 border-primary ring-1 ring-primary/20"
+                  'shadow-sm',
+                  mission.isCompleted
+                    ? 'bg-secondary/50 text-muted-foreground border-transparent'
+                    : 'bg-card border-border hover:border-primary/50',
+                  completedMissionId === mission.id &&
+                    'bg-primary/10 border-primary ring-1 ring-primary/20',
                 )}
                 middle={
-                  <span className={cn(
-                    "font-medium transition-all",
-                    mission.isCompleted && "line-through text-muted-foreground decoration-slate-400"
-                  )}>
+                  <span
+                    className={cn(
+                      'font-medium transition-all',
+                      mission.isCompleted &&
+                        'line-through text-muted-foreground decoration-slate-400',
+                    )}
+                  >
                     {mission.title}
                   </span>
                 }
