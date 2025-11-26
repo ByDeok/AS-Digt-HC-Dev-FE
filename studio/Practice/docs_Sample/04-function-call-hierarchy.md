@@ -400,7 +400,7 @@ set({ report: newReport })
    stepNumber === 4
      └─> FinancialSimulation
          └─> 재무 계산 실행
-   
+
    stepNumber === 5
      └─> PMFSurvey
          └─> PMF 진단 실행
@@ -491,13 +491,16 @@ export const QuestionForm: React.FC<Props> = ({ questions, stepId }) => {
     updateStepData(stepId, id, value);
   };
   // ...
-}
+};
 
 // After
 export const QuestionForm = React.memo<Props>(({ questions, stepId }) => {
-  const handleChange = useCallback((id: string, value: any) => {
-    updateStepData(stepId, id, value);
-  }, [stepId, updateStepData]);
+  const handleChange = useCallback(
+    (id: string, value: any) => {
+      updateStepData(stepId, id, value);
+    },
+    [stepId, updateStepData],
+  );
   // ...
 });
 ```
@@ -514,4 +517,3 @@ export const QuestionForm = React.memo<Props>(({ questions, stepId }) => {
 4. ✅ **신규 개발자 온보딩**: 전체 구조 빠른 이해
 
 코드 변경 시 이 문서를 함께 업데이트하여 최신 상태를 유지하세요.
-

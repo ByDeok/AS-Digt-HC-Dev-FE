@@ -1,6 +1,7 @@
 # 컴포넌트 구조 분석
 
 ## 목차
+
 1. [컴포넌트 트리 (Mermaid)](#컴포넌트-트리)
 2. [아키텍처 개요](#아키텍처-개요)
 3. [컴포넌트 분류](#컴포넌트-분류)
@@ -15,38 +16,38 @@
 graph TD
     App[App.tsx<br/>라우팅 설정] --> ProjectCreate[ProjectCreate<br/>프로젝트 생성]
     App --> Layout[Layout<br/>메인 레이아웃]
-    
+
     Layout --> SaveIndicator[SaveIndicator<br/>저장 상태]
     Layout --> WizardStep[WizardStep<br/>Wizard 단계]
     Layout --> BusinessPlanViewer[BusinessPlanViewer<br/>사업계획서 뷰어]
-    
+
     WizardStep --> QuestionForm[QuestionForm<br/>질문 폼]
     WizardStep --> FinancialSimulation[FinancialSimulation<br/>재무 시뮬레이션]
     WizardStep --> PMFSurvey[PMFSurvey<br/>PMF 진단]
-    
+
     ProjectCreate --> UI_Button[Button]
     ProjectCreate --> UI_Input[Input]
     ProjectCreate --> UI_Card[Card]
-    
+
     QuestionForm --> UI_Input
     QuestionForm --> UI_Textarea[Textarea]
-    
+
     FinancialSimulation --> UI_Input
     FinancialSimulation --> UI_Badge[Badge]
     FinancialSimulation --> Recharts[Recharts<br/>차트 라이브러리]
-    
+
     PMFSurvey --> UI_Card
     PMFSurvey --> UI_Badge
     PMFSurvey --> UI_Progress[Progress]
     PMFSurvey --> UI_Button
-    
+
     BusinessPlanViewer --> UI_Button
     BusinessPlanViewer --> UI_Badge
     BusinessPlanViewer --> UI_Spinner[Spinner]
     BusinessPlanViewer --> ReactMarkdown[ReactMarkdown<br/>마크다운 렌더러]
-    
+
     Layout --> UI_Progress
-    
+
     style App fill:#e1f5ff
     style Layout fill:#fff4e1
     style ProjectCreate fill:#e8f5e9
@@ -70,12 +71,12 @@ graph LR
         FinancialStore[useFinancialStore<br/>재무 상태]
         PMFStore[usePMFStore<br/>PMF 진단 상태]
     end
-    
+
     subgraph Hooks
         AutoSave[useAutoSave<br/>자동 저장]
         FinancialCalc[useFinancialCalc<br/>재무 계산]
     end
-    
+
     subgraph Components
         ProjectCreate_C[ProjectCreate]
         WizardStep_C[WizardStep]
@@ -84,20 +85,20 @@ graph LR
         PMFSurvey_C[PMFSurvey]
         Layout_C[Layout]
     end
-    
+
     ProjectStore --> ProjectCreate_C
     ProjectStore --> Layout_C
-    
+
     WizardStore --> WizardStep_C
     WizardStore --> QuestionForm_C
     WizardStore --> Layout_C
-    
+
     FinancialStore --> FinancialSimulation_C
     PMFStore --> PMFSurvey_C
-    
+
     AutoSave --> QuestionForm_C
     FinancialCalc --> FinancialSimulation_C
-    
+
     style ProjectStore fill:#bbdefb
     style WizardStore fill:#bbdefb
     style FinancialStore fill:#bbdefb
@@ -163,17 +164,18 @@ User Input → Component → Store (Zustand) → LocalStorage (Persist)
 
 **특징**: 재사용 가능, 상태 없음, props 기반
 
-| 컴포넌트 | 역할 | 재사용성 |
-|---------|------|---------|
-| `Button` | 버튼 UI | ⭐⭐⭐⭐⭐ |
-| `Card` | 카드 레이아웃 | ⭐⭐⭐⭐⭐ |
-| `Input` | 텍스트 입력 | ⭐⭐⭐⭐⭐ |
+| 컴포넌트   | 역할           | 재사용성   |
+| ---------- | -------------- | ---------- |
+| `Button`   | 버튼 UI        | ⭐⭐⭐⭐⭐ |
+| `Card`     | 카드 레이아웃  | ⭐⭐⭐⭐⭐ |
+| `Input`    | 텍스트 입력    | ⭐⭐⭐⭐⭐ |
 | `Textarea` | 긴 텍스트 입력 | ⭐⭐⭐⭐⭐ |
-| `Badge` | 뱃지 표시 | ⭐⭐⭐⭐⭐ |
-| `Progress` | 진행률 바 | ⭐⭐⭐⭐ |
-| `Spinner` | 로딩 표시 | ⭐⭐⭐⭐ |
+| `Badge`    | 뱃지 표시      | ⭐⭐⭐⭐⭐ |
+| `Progress` | 진행률 바      | ⭐⭐⭐⭐   |
+| `Spinner`  | 로딩 표시      | ⭐⭐⭐⭐   |
 
 **장점**:
+
 - ✅ 높은 재사용성
 - ✅ 테스트 용이
 - ✅ variant, size 등 props로 다양한 스타일 지원
@@ -183,21 +185,21 @@ User Input → Component → Store (Zustand) → LocalStorage (Persist)
 
 **특징**: 상태 관리, 데이터 페칭, 비즈니스 로직
 
-| 컴포넌트 | 역할 | 복잡도 |
-|---------|------|--------|
-| `ProjectCreate` | 프로젝트 생성 흐름 | ⭐⭐ |
-| `WizardStep` | Wizard 단계 제어 | ⭐⭐⭐ |
-| `QuestionForm` | 동적 폼 렌더링 | ⭐⭐⭐ |
-| `FinancialSimulation` | 재무 계산 및 차트 | ⭐⭐⭐⭐ |
-| `PMFSurvey` | 설문 및 리포트 | ⭐⭐⭐⭐ |
-| `BusinessPlanViewer` | 문서 생성 및 표시 | ⭐⭐⭐ |
+| 컴포넌트              | 역할               | 복잡도   |
+| --------------------- | ------------------ | -------- |
+| `ProjectCreate`       | 프로젝트 생성 흐름 | ⭐⭐     |
+| `WizardStep`          | Wizard 단계 제어   | ⭐⭐⭐   |
+| `QuestionForm`        | 동적 폼 렌더링     | ⭐⭐⭐   |
+| `FinancialSimulation` | 재무 계산 및 차트  | ⭐⭐⭐⭐ |
+| `PMFSurvey`           | 설문 및 리포트     | ⭐⭐⭐⭐ |
+| `BusinessPlanViewer`  | 문서 생성 및 표시  | ⭐⭐⭐   |
 
 ### C. Layout Components
 
-| 컴포넌트 | 역할 |
-|---------|------|
-| `Layout` | 헤더 + 사이드바 + 메인 콘텐츠 |
-| `SaveIndicator` | 저장 상태 피드백 |
+| 컴포넌트        | 역할                          |
+| --------------- | ----------------------------- |
+| `Layout`        | 헤더 + 사이드바 + 메인 콘텐츠 |
+| `SaveIndicator` | 저장 상태 피드백              |
 
 ---
 
@@ -254,21 +256,26 @@ User Input → Component → Store (Zustand) → LocalStorage (Persist)
 #### 1. 성능 최적화
 
 **Before:**
+
 ```typescript
 export const QuestionForm: React.FC<QuestionFormProps> = ({ questions, stepId }) => {
   const handleChange = (questionId: string, value: any) => {
     updateStepData(stepId, questionId, value);
   };
   // ...
-}
+};
 ```
 
 **After (React.memo + useCallback):**
+
 ```typescript
 export const QuestionForm: React.FC<QuestionFormProps> = React.memo(({ questions, stepId }) => {
-  const handleChange = useCallback((questionId: string, value: any) => {
-    updateStepData(stepId, questionId, value);
-  }, [stepId, updateStepData]);
+  const handleChange = useCallback(
+    (questionId: string, value: any) => {
+      updateStepData(stepId, questionId, value);
+    },
+    [stepId, updateStepData],
+  );
   // ...
 });
 ```
@@ -282,6 +289,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = React.memo(({ questions
 **현재 문제**: `FinancialSimulation`이 너무 많은 책임을 가짐 (300+ 줄)
 
 **개선안**:
+
 ```
 FinancialSimulation/
 ├─ index.tsx              # 메인 컴포넌트
@@ -292,6 +300,7 @@ FinancialSimulation/
 ```
 
 **예상 효과**:
+
 - 가독성 30% 향상
 - 개별 차트 재사용 가능
 - 테스트 용이
@@ -301,6 +310,7 @@ FinancialSimulation/
 #### 3. Custom Hook 추가
 
 **제안**:
+
 ```typescript
 // useFormValidation.ts
 export const useFormValidation = (schema: ZodSchema) => {
@@ -308,7 +318,7 @@ export const useFormValidation = (schema: ZodSchema) => {
 };
 
 // useDebounce.ts
-export const useDebounce = <T,>(value: T, delay: number) => {
+export const useDebounce = <T>(value: T, delay: number) => {
   // Debounce 로직 재사용
 };
 
@@ -323,6 +333,7 @@ export const useChartData = (input: FinancialInput) => {
 #### 4. Error Boundary 추가
 
 **추가 필요**:
+
 ```typescript
 // components/ErrorBoundary.tsx
 class ErrorBoundary extends React.Component {
@@ -344,6 +355,7 @@ class ErrorBoundary extends React.Component {
 #### 1. 상태 관리 최적화
 
 **Zustand Selector 패턴 적용**:
+
 ```typescript
 // Before
 const { steps, currentStep, wizardData } = useWizardStore();
@@ -384,16 +396,16 @@ describe('QuestionForm', () => {
 
 ### 📊 개선 우선순위 매트릭스
 
-| 개선사항 | 영향도 | 난이도 | 우선순위 |
-|---------|-------|-------|---------|
-| React.memo 적용 | 높음 | 낮음 | 🔥 1순위 |
-| Custom Hook 추가 | 중간 | 낮음 | 🔥 1순위 |
-| 컴포넌트 분리 | 높음 | 중간 | ⭐ 2순위 |
-| Error Boundary | 중간 | 낮음 | ⭐ 2순위 |
-| Zustand Selector | 중간 | 낮음 | ⭐ 2순위 |
-| Code Splitting | 높음 | 중간 | ⭐⭐ 3순위 |
-| 테스트 코드 | 높음 | 높음 | ⭐⭐ 3순위 |
-| 접근성 개선 | 중간 | 중간 | ⭐⭐⭐ 4순위 |
+| 개선사항         | 영향도 | 난이도 | 우선순위     |
+| ---------------- | ------ | ------ | ------------ |
+| React.memo 적용  | 높음   | 낮음   | 🔥 1순위     |
+| Custom Hook 추가 | 중간   | 낮음   | 🔥 1순위     |
+| 컴포넌트 분리    | 높음   | 중간   | ⭐ 2순위     |
+| Error Boundary   | 중간   | 낮음   | ⭐ 2순위     |
+| Zustand Selector | 중간   | 낮음   | ⭐ 2순위     |
+| Code Splitting   | 높음   | 중간   | ⭐⭐ 3순위   |
+| 테스트 코드      | 높음   | 높음   | ⭐⭐ 3순위   |
+| 접근성 개선      | 중간   | 중간   | ⭐⭐⭐ 4순위 |
 
 ---
 
@@ -402,12 +414,14 @@ describe('QuestionForm', () => {
 ### 현재 상태 평가: **B+ (85/100)**
 
 **강점**:
+
 - ✅ 명확한 아키텍처 구조
 - ✅ 높은 재사용성의 UI 컴포넌트
 - ✅ 타입 안전성
 - ✅ 효율적인 상태 관리
 
 **개선 영역**:
+
 - ⚠️ 성능 최적화 부족
 - ⚠️ 에러 처리 미흡
 - ⚠️ 테스트 코드 부재
@@ -419,4 +433,3 @@ describe('QuestionForm', () => {
 3. **장기 (2-3개월)**: 테스트 코드 작성 및 접근성 개선
 
 현재 MVP 단계에서는 **충분히 효율적이고 확장 가능한 구조**를 갖추고 있습니다.
-

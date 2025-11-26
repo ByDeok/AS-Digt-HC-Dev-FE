@@ -37,20 +37,20 @@
 ```typescript
 /**
  * 파일명: ComponentName.tsx
- * 
+ *
  * 파일 용도:
  * 컴포넌트/모듈의 역할 간단 설명
  * - 주요 기능 1
  * - 주요 기능 2
- * 
+ *
  * 호출 구조:
  * 이 파일이 호출하는 주요 함수/컴포넌트
  *   ├─> 의존성 1
  *   └─> 의존성 2
- * 
+ *
  * 데이터 흐름:
  * 데이터가 어떻게 흐르는지 설명
- * 
+ *
  * 사용하는 Store/Hook:
  * - useXXXStore: 설명
  */
@@ -61,14 +61,14 @@
 ```typescript
 /**
  * 함수/컴포넌트 이름
- * 
+ *
  * 역할:
  * - 이 함수가 하는 일
- * 
+ *
  * 주요 기능:
  * 1. 기능 1
  * 2. 기능 2
- * 
+ *
  * @param {Type} paramName - 파라미터 설명
  * @returns {Type} 반환값 설명
  */
@@ -98,10 +98,10 @@ const breakEvenPoint = Math.ceil(fixedCosts / contributionMargin);
 ```typescript
 /**
  * 파일명: QuestionForm.tsx
- * 
+ *
  * 파일 용도:
  * 마법사 단계별 질문 폼 렌더링 컴포넌트
- * 
+ *
  * 호출 구조:
  * QuestionForm (이 컴포넌트)
  *   ├─> useWizardStore
@@ -112,14 +112,14 @@ const breakEvenPoint = Math.ceil(fixedCosts / contributionMargin);
 
 /**
  * QuestionForm 컴포넌트
- * 
+ *
  * @param {Question[]} questions - 질문 목록
  * @param {number} stepId - 현재 단계 ID
  * @returns {JSX.Element} 질문 폼
  */
 export const QuestionForm: React.FC<Props> = ({ questions, stepId }) => {
   // ...
-}
+};
 ```
 
 ### Store 파일 (.ts)
@@ -127,16 +127,16 @@ export const QuestionForm: React.FC<Props> = ({ questions, stepId }) => {
 ```typescript
 /**
  * 파일명: useWizardStore.ts
- * 
+ *
  * 파일 용도:
  * 마법사 진행 상태 및 데이터 관리를 위한 Zustand Store
- * 
+ *
  * 호출 구조:
  * useWizardStore
  *   ├─> WizardStep 페이지
  *   ├─> QuestionForm 컴포넌트
  *   └─> Layout 컴포넌트
- * 
+ *
  * 영속화:
  * - localStorage 키: 'wizard-storage'
  */
@@ -150,7 +150,7 @@ export const useWizardStore = create<WizardState>()(
     setCurrentStep: (step: number) => {
       set({ currentStep: step });
     },
-  }))
+  })),
 );
 ```
 
@@ -159,28 +159,28 @@ export const useWizardStore = create<WizardState>()(
 ```typescript
 /**
  * 파일명: useAutoSave.ts
- * 
+ *
  * 파일 용도:
  * 자동 저장 기능을 제공하는 Custom Hook
- * 
+ *
  * 호출 구조:
  * useAutoSave
  *   └─> useProjectStore.setSaveStatus()
  *       └─> SaveIndicator에서 표시
- * 
+ *
  * 최적화:
  * - Debounce로 연속 입력 시 저장 요청 방지
  */
 
 /**
  * useAutoSave Hook
- * 
+ *
  * @param {any} data - 저장할 데이터
  * @param {number} delay - Debounce 지연 시간 (기본 1000ms)
  */
 export const useAutoSave = (data: any, delay: number = 1000) => {
   // ...
-}
+};
 ```
 
 ---
@@ -262,11 +262,13 @@ SaveIndicator 컴포넌트 업데이트
 ### AI 프롬프팅 예시
 
 #### ❌ 비효율적 프롬프트
+
 ```
 "QuestionForm 컴포넌트의 버그를 수정해줘"
 ```
 
 #### ✅ 효율적 프롬프트
+
 ```
 "QuestionForm 컴포넌트에서 답변이 저장되지 않는 문제를 수정해줘.
 
@@ -301,8 +303,8 @@ export const useWizardStore = create<WizardState>()(
   persist((set, get) => ({
     updateStepData: (stepId, questionId, value) => {
       // 이 함수만 집중적으로 분석
-    }
-  }))
+    },
+  })),
 );
 ```
 
@@ -347,10 +349,10 @@ export const useAutoSave = (data: any, delay: number = 1000) => {
   useEffect(() => {
     const currentData = JSON.stringify(data);
     if (previousDataRef.current === currentData) return;
-    
+
     previousDataRef.current = currentData;
     setSaveStatus('saving');
-    
+
     const debouncedSave = debounce(() => {
       setTimeout(() => {
         setSaveStatus('saved');
@@ -368,17 +370,17 @@ export const useAutoSave = (data: any, delay: number = 1000) => {
 ```typescript
 /**
  * 파일명: useAutoSave.ts
- * 
+ *
  * 파일 용도:
  * 자동 저장 기능을 제공하는 Custom Hook
  * - 데이터 변경 감지 및 자동 저장
  * - Debounce를 통한 저장 요청 최적화
- * 
+ *
  * 호출 구조:
  * useAutoSave
  *   └─> useProjectStore.setSaveStatus()
  *       └─> SaveIndicator 컴포넌트에서 표시
- * 
+ *
  * 동작 과정:
  * 1. data 변경 감지 (useEffect)
  * 2. 변경되지 않았으면 스킵
@@ -390,11 +392,11 @@ export const useAutoSave = (data: any, delay: number = 1000) => {
 
 /**
  * useAutoSave Hook
- * 
+ *
  * 역할:
  * - 데이터 변경 시 자동으로 저장
  * - 불필요한 저장 요청 방지 (Debounce)
- * 
+ *
  * @param {any} data - 저장할 데이터
  * @param {number} delay - Debounce 지연 시간 (기본 1000ms)
  */
@@ -405,22 +407,22 @@ export const useAutoSave = (data: any, delay: number = 1000) => {
   useEffect(() => {
     // 현재 데이터를 JSON 문자열로 변환하여 비교
     const currentData = JSON.stringify(data);
-    
+
     // 데이터가 변경되지 않았으면 저장하지 않음
     if (previousDataRef.current === currentData) return;
-    
+
     // 이전 데이터 업데이트
     previousDataRef.current = currentData;
-    
+
     // 저장 중 상태로 변경
     setSaveStatus('saving');
-    
+
     // Debounce를 적용한 저장 시뮬레이션
     const debouncedSave = debounce(() => {
       // 실제로는 API 호출
       setTimeout(() => {
         setSaveStatus('saved');
-        
+
         // 2초 후 idle 상태로 복귀
         setTimeout(() => setSaveStatus('idle'), 2000);
       }, 500);
@@ -443,4 +445,3 @@ export const useAutoSave = (data: any, delay: number = 1000) => {
 4. ✅ **온보딩 시간 단축**: 신규 개발자 빠른 적응
 
 이 가이드를 따라 일관된 주석을 작성하면, 사람과 AI 모두에게 친화적인 코드베이스를 유지할 수 있습니다.
-

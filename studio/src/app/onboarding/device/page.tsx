@@ -1,7 +1,7 @@
 // src/app/onboarding/device/page.tsx
 /**
  * 스크립트 용도: 온보딩 - 기기 연결 설정 페이지
- * 
+ *
  * 함수 호출 구조:
  * OnboardingDevicePage
  * └── Card (Device Selection)
@@ -9,19 +9,19 @@
  *     └── Button (Next/Skip)
  */
 
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, HeartPulse, Loader2, Watch } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CheckCircle2, HeartPulse, Loader2, Watch } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-type DeviceStatus = "idle" | "connecting" | "connected";
+type DeviceStatus = 'idle' | 'connecting' | 'connected';
 const devices = [
-  { id: "watch", name: "스마트 워치", icon: Watch },
-  { id: "bp", name: "스마트 혈압계", icon: HeartPulse },
+  { id: 'watch', name: '스마트 워치', icon: Watch },
+  { id: 'bp', name: '스마트 혈압계', icon: HeartPulse },
 ];
 
 /**
@@ -36,14 +36,14 @@ export default function OnboardingDevicePage() {
   const navigate = useNavigate();
 
   const handleConnect = (deviceId: string) => {
-    setDeviceStatuses(prev => ({ ...prev, [deviceId]: "connecting" }));
+    setDeviceStatuses((prev) => ({ ...prev, [deviceId]: 'connecting' }));
     setTimeout(() => {
-      setDeviceStatuses(prev => ({ ...prev, [deviceId]: "connected" }));
+      setDeviceStatuses((prev) => ({ ...prev, [deviceId]: 'connected' }));
     }, 2000);
   };
 
   const handleNext = () => {
-    navigate("/onboarding/complete");
+    navigate('/onboarding/complete');
   };
 
   return (
@@ -57,26 +57,30 @@ export default function OnboardingDevicePage() {
       <CardContent>
         <div className="grid grid-cols-2 gap-4 mb-8">
           {devices.map((device) => {
-            const status = deviceStatuses[device.id] || "idle";
+            const status = deviceStatuses[device.id] || 'idle';
             const Icon = device.icon;
             return (
               <button
                 key={device.id}
                 onClick={() => handleConnect(device.id)}
-                disabled={status !== "idle"}
+                disabled={status !== 'idle'}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-3 p-4 border rounded-lg aspect-square text-center transition-colors",
-                  "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                  status === "idle" && "hover:bg-accent",
-                  status === "connected" && "bg-primary/10 border-primary text-primary",
-                  status === "connecting" && "cursor-wait"
+                  'flex flex-col items-center justify-center gap-3 p-4 border rounded-lg aspect-square text-center transition-colors',
+                  'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+                  status === 'idle' && 'hover:bg-accent',
+                  status === 'connected' && 'bg-primary/10 border-primary text-primary',
+                  status === 'connecting' && 'cursor-wait',
                 )}
               >
-                {status === "connecting" && <Loader2 className="w-10 h-10 animate-spin text-primary" />}
-                {status === "connected" && <CheckCircle2 className="w-10 h-10 text-primary" />}
-                {status === "idle" && <Icon className="w-10 h-10 text-muted-foreground" />}
+                {status === 'connecting' && (
+                  <Loader2 className="w-10 h-10 animate-spin text-primary" />
+                )}
+                {status === 'connected' && <CheckCircle2 className="w-10 h-10 text-primary" />}
+                {status === 'idle' && <Icon className="w-10 h-10 text-muted-foreground" />}
                 <span className="font-semibold text-base">{device.name}</span>
-                {status === "connecting" && <span className="text-sm text-muted-foreground">연동 중...</span>}
+                {status === 'connecting' && (
+                  <span className="text-sm text-muted-foreground">연동 중...</span>
+                )}
               </button>
             );
           })}

@@ -1,0 +1,34 @@
+# API Documentation Rules (OpenAPI/Swagger)
+Description: Standards for documenting REST APIs using SpringDoc and Swagger UI.
+
+## Configuration
+- **Library**: `springdoc-openapi-starter-webmvc-ui` (v2.x for Boot 3).
+- **Path**: Swagger UI at `/swagger-ui.html`, Docs at `/v3/api-docs`.
+
+## Annotation Standards
+- **Controller Level**: Use `@Tag` to group endpoints by domain (e.g., `Onboarding`, `Report`).
+- **Method Level**:
+  - `@Operation`: Summary and Description required.
+  - `@ApiResponse`: Define response codes (200, 400, 404, 500).
+- **DTO Level**:
+  - `@Schema`: Describe fields, examples, and validation constraints.
+
+## Example
+```java
+@Tag(name = "Onboarding", description = "User onboarding flow APIs")
+@RestController
+public class OnboardingController {
+
+    @Operation(summary = "Start Onboarding", description = "Creates a new session")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Session created"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    @PostMapping("/start")
+    public ResponseEntity<SessionResponse> start(@RequestBody @Valid StartRequest request) { ... }
+}
+```
+
+## Enforcement
+- All public APIs MUST have Swagger documentation.
+- Do not expose internal/admin APIs without proper security grouping.

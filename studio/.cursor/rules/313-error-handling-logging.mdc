@@ -1,0 +1,34 @@
+# Error Handling and Logging Rules
+Description: Standardized error handling and logging for observability and debugging.
+
+## Exception Handling
+- **Standard**: Use RFC 7807 (Problem Details).
+- **Global Handler**: Use `@RestControllerAdvice`.
+- **Hierarchy**:
+  - `BusinessException` (Base runtime exception).
+  - `EntityNotFoundException`, `InvalidStateException`, `AccessDeniedException`.
+
+```java
+@ExceptionHandler(BusinessException.class)
+public ProblemDetail handleBusinessException(BusinessException e) {
+    ProblemDetail problem = ProblemDetail.forStatusAndDetail(e.getStatus(), e.getMessage());
+    problem.setProperty("code", e.getErrorCode());
+    return problem;
+}
+```
+
+## Logging (SLF4J + Logback)
+- **Levels**:
+  - `ERROR`: System failures, unrecoverable errors (triggers alert).
+  - `WARN`: Recoverable business errors, deprecations.
+  - `INFO`: Key lifecycle events (Startup, Scheduler job finish).
+  - `DEBUG`: Detailed flow info (Dev/Test only).
+- **Format**: Use JSON format (Logstash/ECS) in Production for easier parsing.
+- **Context**: Include `traceId` and `spanId` (MDC) in all logs for distributed tracing.
+
+## Monitoring Integration (REQ-NF-010)
+- **Metrics**: Expose `/actuator/prometheus` for scraping.
+- **Health Checks**: Implement custom `HealthIndicator` for external dependencies (Portal API, Device SDKs).
+
+## See also
+- [300-java-spring-cursor-rules.mdc](300-java-spring-cursor-rules.mdc)

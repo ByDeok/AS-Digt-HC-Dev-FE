@@ -1,12 +1,6 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 
 interface WizardLayoutProps {
   /** 현재 단계 제목 */
@@ -23,7 +17,7 @@ interface WizardLayoutProps {
 
 /**
  * 프로그램 단위 용도: 위자드/단계별 프로세스 레이아웃 컴포넌트
- * 
+ *
  * 로직 및 데이터 흐름:
  * - 진행 상태(Progress Bar)를 상단에 표시하여 사용자의 현재 위치를 알려줍니다.
  * - Card 컴포넌트 내부에 제목, 설명, 콘텐츠, 하단 버튼을 배치합니다.
@@ -50,4 +44,3 @@ export function WizardLayout({
     </Card>
   );
 }
-
