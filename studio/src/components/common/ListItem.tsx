@@ -21,7 +21,7 @@ interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
  * - 클릭 가능한 상태일 경우 hover/active 스타일을 적용합니다.
  */
 export function ListItem({ start, middle, end, className, onClick, ...props }: ListItemProps) {
-  const Component = onClick ? 'button' : 'div';
+  const Component = (onClick ? 'button' : 'div') as React.ElementType;
 
   return (
     <Component
