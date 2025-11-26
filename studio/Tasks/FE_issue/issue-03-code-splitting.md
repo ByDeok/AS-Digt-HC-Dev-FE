@@ -7,15 +7,15 @@
 
 ## 2. 작업 상세
 
-- [ ] **React.lazy 적용**
+- [x] **React.lazy 적용**
   - `App.tsx`의 상단 import 문을 동적 import로 변경
   ```typescript
   const DashboardPage = lazy(() => import('./app/(main)/dashboard/page'));
   ```
-- [ ] **Suspense 적용**
+- [x] **Suspense 적용**
   - 라우트 전체 또는 주요 섹션을 `<Suspense fallback={<LoadingSpinner />}>`로 감싸기
   - 로딩 중 보여줄 적절한 `LoadingSpinner` 또는 스켈레톤 UI 구현
-- [ ] **청크 분리 확인**
+- [x] **청크 분리 확인**
   - `npm run build` 실행 후 `dist/assets` 폴더에 페이지별로 JS 파일이 분리되었는지 확인
 
 ## 3. 기대 효과
