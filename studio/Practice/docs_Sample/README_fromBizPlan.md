@@ -70,6 +70,7 @@
 ```
 
 **예시**:
+
 ```typescript
 // 모든 컴포넌트가 동일한 구조
 // 1. Imports
@@ -83,12 +84,14 @@
 ### 2. 우수한 재사용성 (92/100)
 
 **UI 컴포넌트 라이브러리**:
+
 - ✅ Button (5 variants, 3 sizes)
 - ✅ Card (Compound Component 패턴)
 - ✅ Input/Textarea (forwardRef 지원)
 - ✅ Badge, Progress, Spinner
 
 **재사용 가능한 패턴**:
+
 ```typescript
 <Button variant="primary" size="lg" isLoading={true}>
   Submit
@@ -107,14 +110,16 @@
 ### 3. 높은 가독성 (90/100)
 
 **명확한 네이밍**:
+
 ```typescript
 // ✅ 의도가 명확함
-const completedSteps = steps.filter(step => isStepCompleted(step.id)).length;
+const completedSteps = steps.filter((step) => isStepCompleted(step.id)).length;
 const progressPercentage = (completedSteps / steps.length) * 100;
 const isWizardPage = location.pathname.startsWith('/wizard');
 ```
 
 **논리적 구조**:
+
 - Early Return 패턴
 - 주석으로 섹션 구분
 - 일관된 들여쓰기
@@ -124,6 +129,7 @@ const isWizardPage = location.pathname.startsWith('/wizard');
 ### 4. 효율적인 상태 관리 (85/100)
 
 **Zustand 활용**:
+
 ```typescript
 // ✅ 경량 (8KB)
 // ✅ TypeScript 친화적
@@ -135,10 +141,12 @@ export const useWizardStore = create<WizardState>()(
     (set, get) => ({
       currentStep: 1,
       wizardData: {},
-      updateStepData: (stepId, questionId, value) => { /* ... */ },
+      updateStepData: (stepId, questionId, value) => {
+        /* ... */
+      },
     }),
-    { name: 'wizard-storage' }
-  )
+    { name: 'wizard-storage' },
+  ),
 );
 ```
 
@@ -149,6 +157,7 @@ export const useWizardStore = create<WizardState>()(
 ### 1. 성능 최적화 부족 (70/100)
 
 **문제점**:
+
 ```typescript
 ❌ React.memo 미사용 → 불필요한 리렌더링
 ❌ useCallback 미사용 → 매 렌더링마다 함수 재생성
@@ -157,6 +166,7 @@ export const useWizardStore = create<WizardState>()(
 ```
 
 **영향**:
+
 - 불필요한 리렌더링 발생
 - 메모리 낭비
 - UX 저하 가능성
@@ -166,6 +176,7 @@ export const useWizardStore = create<WizardState>()(
 ### 2. 테스트 코드 부재 (0/100)
 
 **현재 상태**:
+
 ```bash
 ✅ 378 파일
 ❌ 0 테스트 파일
@@ -173,6 +184,7 @@ export const useWizardStore = create<WizardState>()(
 ```
 
 **리스크**:
+
 - 리팩토링 시 버그 발생 위험
 - 회귀 테스트 불가
 - 신규 개발자 온보딩 어려움
@@ -182,6 +194,7 @@ export const useWizardStore = create<WizardState>()(
 ### 3. 에러 처리 부족
 
 **문제**:
+
 ```typescript
 // ❌ try-catch 없음
 const handleSubmit = (e: React.FormEvent) => {
@@ -199,14 +212,15 @@ const handleSubmit = (e: React.FormEvent) => {
 
 ### Phase 1: 즉시 적용 (1-2일)
 
-| 작업 | 예상 시간 | 효과 | 우선순위 |
-|-----|----------|------|---------|
-| React.memo 추가 | 4시간 | ⭐⭐⭐⭐⭐ | 🔥 최우선 |
-| useCallback 추가 | 4시간 | ⭐⭐⭐⭐ | 🔥 최우선 |
-| useMemo 추가 | 2시간 | ⭐⭐⭐ | 🔥 최우선 |
-| 매직 넘버 제거 | 2시간 | ⭐⭐⭐ | 높음 |
+| 작업             | 예상 시간 | 효과       | 우선순위  |
+| ---------------- | --------- | ---------- | --------- |
+| React.memo 추가  | 4시간     | ⭐⭐⭐⭐⭐ | 🔥 최우선 |
+| useCallback 추가 | 4시간     | ⭐⭐⭐⭐   | 🔥 최우선 |
+| useMemo 추가     | 2시간     | ⭐⭐⭐     | 🔥 최우선 |
+| 매직 넘버 제거   | 2시간     | ⭐⭐⭐     | 높음      |
 
 **구현 예시**:
+
 ```typescript
 // Before
 export const QuestionForm: React.FC<Props> = ({ questions, stepId }) => {
@@ -221,7 +235,7 @@ export const QuestionForm = React.memo<Props>(({ questions, stepId }) => {
   const handleChange = useCallback((id: string, value: any) => {
     updateStepData(stepId, id, value);
   }, [stepId, updateStepData]);
-  
+
   return <div>{/* ... */}</div>;
 });
 ```
@@ -230,20 +244,21 @@ export const QuestionForm = React.memo<Props>(({ questions, stepId }) => {
 
 ### Phase 2: 단기 개선 (1-2주)
 
-| 작업 | 예상 시간 | 효과 | 우선순위 |
-|-----|----------|------|---------|
-| 중복 코드 제거 | 2일 | ⭐⭐⭐⭐ | 높음 |
-| Error Boundary 추가 | 1일 | ⭐⭐⭐⭐ | 높음 |
-| Custom Hook 추가 | 2일 | ⭐⭐⭐⭐ | 높음 |
-| 복잡 컴포넌트 분리 | 2일 | ⭐⭐⭐ | 중간 |
+| 작업                | 예상 시간 | 효과     | 우선순위 |
+| ------------------- | --------- | -------- | -------- |
+| 중복 코드 제거      | 2일       | ⭐⭐⭐⭐ | 높음     |
+| Error Boundary 추가 | 1일       | ⭐⭐⭐⭐ | 높음     |
+| Custom Hook 추가    | 2일       | ⭐⭐⭐⭐ | 높음     |
+| 복잡 컴포넌트 분리  | 2일       | ⭐⭐⭐   | 중간     |
 
 **Custom Hook 예시**:
+
 ```typescript
 // hooks/useAsyncAction.ts
-export const useAsyncAction = <T,>(action: () => Promise<T>) => {
+export const useAsyncAction = <T>(action: () => Promise<T>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const execute = async () => {
     setIsLoading(true);
     setError(null);
@@ -256,7 +271,7 @@ export const useAsyncAction = <T,>(action: () => Promise<T>) => {
       setIsLoading(false);
     }
   };
-  
+
   return { execute, isLoading, error };
 };
 ```
@@ -265,12 +280,12 @@ export const useAsyncAction = <T,>(action: () => Promise<T>) => {
 
 ### Phase 3: 중기 개선 (1개월)
 
-| 작업 | 예상 시간 | 효과 | 우선순위 |
-|-----|----------|------|---------|
-| 테스트 코드 추가 | 1주 | ⭐⭐⭐⭐⭐ | 최고 |
-| Code Splitting | 2일 | ⭐⭐⭐⭐ | 높음 |
-| Bundle 최적화 | 2일 | ⭐⭐⭐ | 중간 |
-| 접근성 개선 | 3일 | ⭐⭐⭐ | 중간 |
+| 작업             | 예상 시간 | 효과       | 우선순위 |
+| ---------------- | --------- | ---------- | -------- |
+| 테스트 코드 추가 | 1주       | ⭐⭐⭐⭐⭐ | 최고     |
+| Code Splitting   | 2일       | ⭐⭐⭐⭐   | 높음     |
+| Bundle 최적화    | 2일       | ⭐⭐⭐     | 중간     |
+| 접근성 개선      | 3일       | ⭐⭐⭐     | 중간     |
 
 ---
 
@@ -287,30 +302,33 @@ export const useAsyncAction = <T,>(action: () => Promise<T>) => {
 
 ### Before → After 비교
 
-| 지표 | 현재 | 목표 | 개선율 |
-|-----|------|------|-------|
-| 종합 점수 | 86/100 (B+) | 93/100 (A) | +8% |
-| 성능 점수 | 70/100 | 88/100 | +26% |
-| 불필요한 리렌더링 | 많음 | 60% 감소 | -60% |
-| 초기 로딩 시간 | 기준 | 40% 감소 | -40% |
-| 번들 크기 | 기준 | 30% 감소 | -30% |
-| 코드 커버리지 | 0% | 80% | +80% |
+| 지표              | 현재        | 목표       | 개선율 |
+| ----------------- | ----------- | ---------- | ------ |
+| 종합 점수         | 86/100 (B+) | 93/100 (A) | +8%    |
+| 성능 점수         | 70/100      | 88/100     | +26%   |
+| 불필요한 리렌더링 | 많음        | 60% 감소   | -60%   |
+| 초기 로딩 시간    | 기준        | 40% 감소   | -40%   |
+| 번들 크기         | 기준        | 30% 감소   | -30%   |
+| 코드 커버리지     | 0%          | 80%        | +80%   |
 
 ---
 
 ## 🎓 학습 리소스
 
 ### 성능 최적화
+
 - [React Profiler 사용법](https://react.dev/reference/react/Profiler)
 - [useMemo vs useCallback](https://kentcdodds.com/blog/usememo-and-usecallback)
 - [React.memo 완벽 가이드](https://react.dev/reference/react/memo)
 
 ### 테스팅
+
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [Jest 공식 문서](https://jestjs.io/)
 - [Testing Best Practices](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 
 ### 코드 품질
+
 - [Clean Code React](https://github.com/ryanmcdermott/clean-code-javascript)
 - [Airbnb React Style Guide](https://github.com/airbnb/javascript/tree/master/react)
 
@@ -340,10 +358,7 @@ export const useAsyncAction = <T,>(action: () => Promise<T>) => {
 ```javascript
 // .eslintrc.js
 module.exports = {
-  extends: [
-    'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended',
-  ],
+  extends: ['plugin:react-hooks/recommended', 'plugin:jsx-a11y/recommended'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
@@ -360,12 +375,14 @@ module.exports = {
 **StartupPlan** 프로젝트는 **견고한 아키텍처**와 **높은 코드 품질**을 바탕으로 **즉시 배포 가능한 상태**입니다.
 
 **핵심 성과**:
+
 - ✅ 95점의 뛰어난 코드 일관성
 - ✅ 92점의 우수한 컴포넌트 재사용성
 - ✅ 명확한 타입 시스템
 - ✅ 효율적인 상태 관리
 
 **개선 방향**:
+
 1. 🔥 **단기 (1-2일)**: 성능 최적화 → **즉각적인 UX 개선**
 2. ⭐ **중기 (1-2주)**: 에러 처리 및 코드 분리 → **안정성 향상**
 3. 📊 **장기 (1개월)**: 테스트 코드 및 번들 최적화 → **유지보수성 강화**
@@ -381,4 +398,3 @@ module.exports = {
 **생성일**: 2025년 11월 21일  
 **버전**: 1.0.0  
 **분석 대상**: StartupPlan MVP (proto-test2-claude4.5)
-
