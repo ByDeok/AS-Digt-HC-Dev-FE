@@ -25,11 +25,22 @@ alwaysApply: false
    - Verify field IDs via `gh project field-list` before editing.
    - Retry auth refresh if scopes (`project`, `read:project`) are missing.
 
+4. **Issue Closure & State Management**:
+   - **Automatic**: Ensure PR description includes `Closes #NNN` to auto-close issues on merge.
+   - **Manual**: If auto-close fails, use `gh issue close <issue-number>` immediately after merge.
+   - **Comment**: When manually closing, add a comment referencing the PR: `--comment "Closed via PR #<pr-number>"`.
+   - **Verify**: Always check issue status (`gh issue view <issue-number>`) after work is done.
+
 ## Examples
 <example>
 # Create issue and set roadmap dates
 gh issue create -t "[#001] Refactor" -F tasks/001.md -l "priority-1"
 gh project item-edit --id <ItemID> --field-id <StartFieldID> --date 2025-11-22
+</example>
+
+<example>
+# Manually close an issue after PR merge
+gh issue close 123 --comment "Closed via merged PR #124"
 </example>
 
 <bad-example>
