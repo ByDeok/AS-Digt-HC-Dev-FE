@@ -7,15 +7,15 @@
 
 ## 2. 작업 상세
 
-- [ ] **라이브러리 설치**
+- [x] **라이브러리 설치**
   - `react-error-boundary`
-- [ ] **Fallback UI 컴포넌트 구현**
+- [x] **Fallback UI 컴포넌트 구현**
   - `src/components/error/ErrorFallback.tsx` 생성
   - "문제가 발생했습니다" 메시지와 "다시 시도" 버튼 제공
-- [ ] **Global Error Boundary 적용**
+- [x] **Global Error Boundary 적용**
   - `App.tsx` 또는 `main.tsx`의 최상위를 `ErrorBoundary`로 감싸기
   - `onReset` prop에 라우트 이동이나 상태 초기화 로직 연결
-- [ ] **(Optional) 로깅 연동**
+- [x] **(Optional) 로깅 연동**
   - 에러 발생 시 콘솔 로깅 또는 외부 로깅 서비스(Sentry 등) 연동 포인트 마련
 
 ## 3. 기대 효과
