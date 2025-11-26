@@ -9,7 +9,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ErrorBoundary } from 'react-error-boundary';
 import App from './App';
+import { ErrorFallback } from './components/error/ErrorFallback';
 import './app/globals.css';
 
 /**
@@ -17,6 +19,18 @@ import './app/globals.css';
  */
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        // 에러 발생 시 리셋 로직 (예: 홈으로 이동)
+        window.location.href = '/';
+      }}
+      onError={(error, info) => {
+        console.error('Global Error:', error);
+        console.error('Component Stack:', info.componentStack);
+      }}
+    >
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>,
 );
