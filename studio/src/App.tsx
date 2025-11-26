@@ -17,6 +17,9 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { queryClient } from '@/lib/react-query';
 
 // Layouts
 import MainLayout from './app/(main)/layout';
@@ -38,10 +41,11 @@ const CompletePage = lazy(() => import('./app/onboarding/complete/page'));
  */
 function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
 
           <Route
             path="/onboarding"
@@ -106,6 +110,8 @@ function App() {
       </Suspense>
       <Toaster />
     </BrowserRouter>
+    <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
