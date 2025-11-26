@@ -14,13 +14,16 @@ import { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Bell, Check, Circle, RefreshCw } from 'lucide-react';
-import { mockUser, mockMissions, Mission } from '@/lib/mockData';
+import { mockUser } from '@/lib/mockData';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import Confetti from 'react-confetti';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Section } from '@/components/common/Section';
 import { ListItem } from '@/components/common/ListItem';
+import { useMissions, useCompleteMission, missionKeys } from '@/hooks/queries/useMissions';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { useQueryClient } from '@tanstack/react-query';
 
 /**
  * 프로그램 단위 용도: 사용자의 오늘의 미션을 관리하고, 알림을 확인하는 메인 화면
@@ -30,7 +33,10 @@ import { ListItem } from '@/components/common/ListItem';
  * - 사용자 정보 및 알림 버튼 표시
  */
 export default function DashboardPage() {
-  const [missions, setMissions] = useState<Mission[]>(mockMissions);
+  const { data: missions = [], isLoading, isError } = useMissions();
+  const completeMissionMutation = useCompleteMission();
+  const queryClient = useQueryClient();
+
   const [completedMissionId, setCompletedMissionId] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [windowSize, setWindowSize] = useState<{ width: number; height: number }>({
@@ -56,21 +62,21 @@ export default function DashboardPage() {
     const mission = missions.find((m) => m.id === missionId);
     if (!mission || mission.isCompleted) return;
 
-    setMissions((prevMissions) =>
-      prevMissions.map((m) => (m.id === missionId ? { ...m, isCompleted: true } : m)),
-    );
+    completeMissionMutation.mutate(missionId, {
+      onSuccess: () => {
+        setCompletedMissionId(missionId);
+        setShowConfetti(true);
+        toast({
+          title: '참 잘했어요!',
+          description: `'${mission.title}' 미션을 완료했어요.`,
+        });
 
-    setCompletedMissionId(missionId);
-    setShowConfetti(true);
-    toast({
-      title: '참 잘했어요!',
-      description: `'${mission.title}' 미션을 완료했어요.`,
+        setTimeout(() => {
+          setShowConfetti(false);
+          setCompletedMissionId(null);
+        }, 4000);
+      },
     });
-
-    setTimeout(() => {
-      setShowConfetti(false);
-      setCompletedMissionId(null);
-    }, 4000);
   };
 
   const handleNotificationClick = () => {
@@ -81,12 +87,28 @@ export default function DashboardPage() {
   };
 
   const handleRefresh = () => {
-    setMissions(mockMissions);
+    queryClient.invalidateQueries({ queryKey: missionKeys.all });
     toast({
       title: '새로고침 완료',
       description: '미션 목록이 업데이트되었습니다.',
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <p className="text-red-500">데이터를 불러오는 중 오류가 발생했습니다.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 pb-20">
