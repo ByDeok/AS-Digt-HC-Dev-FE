@@ -40,6 +40,8 @@ out/
 # ⚠️ 민감 정보가 포함된 환경변수 파일은 절대 커밋하지 않음
 .env
 .env.local
+.env.*
+!.env.example
 .env.development.local
 .env.test.local
 .env.production.local
