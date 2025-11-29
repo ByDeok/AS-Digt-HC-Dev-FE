@@ -27,6 +27,11 @@ spring:
     # JPA Auditing 설정
     show-sql: false  # 프로필별로 오버라이드 가능
 
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
 # =================================================================
 # 로깅 설정
 # =================================================================
@@ -48,3 +53,10 @@ server:
       charset: UTF-8
       force-response: true
 
+# =================================================================
+# JWT 설정
+# =================================================================
+jwt:
+  secret: ${JWT_SECRET:vibe-digthc-as-digt-hc-dev-be-jwt-secret-key-must-be-long-enough-256-bits}
+  access-token-validity-in-seconds: 3600 # 1 hour
+  refresh-token-validity-in-seconds: 1209600 # 14 days
