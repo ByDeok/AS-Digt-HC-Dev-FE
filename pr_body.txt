@@ -1,0 +1,36 @@
+## 개요
+이슈 #14에 따라 Spring Boot 프로젝트 초기 설정 및 환경 구축을 완료했습니다.
+
+## 주요 변경사항
+
+### 1. 프로젝트 초기화
+- Spring Boot 3.4.1, Java 17로 업그레이드
+- 필수 의존성 확인 및 설정 (Web, JPA, Security, Validation, Lombok, MySQL Driver, H2)
+
+### 2. 데이터베이스 설정
+- 프로필별 application.yml 분리 (local, dev)
+- MySQL 9.x 연동 설정 (UTF-8mb4 지원)
+- H2 데이터베이스 설정 (로컬 개발용)
+- JPA Hibernate 설정 (프로필별 ddl-auto 설정)
+
+### 3. 아키텍처 구조
+- Layered Architecture 기반 패키지 구조화
+  - `domain`: 도메인 엔티티 및 리포지토리
+  - `application`: 서비스 레이어 (향후 확장)
+  - `infrastructure`: 설정 및 외부 연동 (WebConfig)
+  - `interfaces`: 컨트롤러 및 공통 응답 클래스
+
+### 4. 공통 기능 구현
+- `ApiResponse`: 공통 API 응답 포맷 클래스
+- `ErrorResponse`: 에러 응답 포맷 클래스
+- `GlobalExceptionHandler`: 전역 예외 처리 핸들러
+- JPA Auditing 활성화 (`@EnableJpaAuditing`)
+- CORS 설정 (WebConfig)
+- Health Check 엔드포인트 (HealthController)
+
+## 테스트
+- Health Check: `GET /api/health` 엔드포인트로 서버 상태 확인 가능
+
+## 관련 이슈
+Closes #14
+
