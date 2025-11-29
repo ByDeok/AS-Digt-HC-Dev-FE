@@ -1,16 +1,38 @@
 # [BE] Issue-08: 외부 연동 (Device & Portal) 및 동의 관리
 
+## 📋 요약 (Summary)
+
+| 항목 | 내용 |
+|------|------|
+| **SRS Story** | Story 4: 3분 온보딩 완료 |
+| **SRS Requirements** | REQ-FUNC-003, REQ-FUNC-004, REQ-FUNC-019 |
+| **SRS Non-Functional** | REQ-NF-003, REQ-NF-005, REQ-NF-006, REQ-NF-010 |
+| **Test Cases** | TC-S4-01 ~ TC-S4-08 (8개) |
+| **Acceptance Criteria** | AC1, AC4 |
+| **SRS Data Models** | 6.2.6 ConsentRecord, 6.2.8 DeviceLink, 6.2.9 PortalConnection |
+| **SRS API Mapping** | `/api/onboarding/devices`, `/api/onboarding/portal` |
+
+---
+
 ## 1. 개요
 **SRS REQ-FUNC-003, 004** 및 **동의(Consent)** 관리를 위해 외부 시스템과의 인터페이스 및 데이터 연동 구조를 구현합니다. MVP 단계에서는 Mocking 또는 인터페이스 위주로 구현합니다.
 
+**SRS Traceability**:
+- **Story 4**: As a New user, I want to complete onboarding in under 3 minutes so that I can reach first value on day one.
+- **Requirements**: REQ-FUNC-003 (디바이스 연동), REQ-FUNC-004 (병원 포털 연동), REQ-FUNC-019 (온보딩 예외 처리)
+- **Test Cases**: TC-S4-01 ~ TC-S4-08 (SRS 5. Traceability Matrix 참조)
+- **Acceptance Criteria**: AC1 (p50 ≤ 180초, 성공률 ≥ 65%), AC4 (미지원 지역 대체 경로)
+
 ## 2. 작업 워크플로우 (설계 및 구현)
 
-| 단계 | 입력(Input) | 도구(Tool) | 출력(Output) |
-| --- | --- | --- | --- |
-| **Plan** | REQ-FUNC-003, 004 | Cursor | 외부 시스템 인터페이스 정의 |
-| **Data Schema Design** | DeviceLink, PortalConn | Mermaid.js | 연동 테이블 설계 |
-| **Interaction Design** | OAuth/Mock | Cursor | **Integration Service** |
-| **Review** | Integration Test | JUnit | Mock 데이터 연동 확인 |
+| 단계 | 입력(Input) | 도구(Tool) | 출력(Output) | SRS 참조 |
+| --- | --- | --- | --- | --- |
+| **Plan** | REQ-FUNC-003, 004 | Cursor | 외부 시스템 인터페이스 정의 | SRS 4.1.1, Story 4 |
+| **Data Schema Design** | DeviceLink, PortalConn | Mermaid.js | 연동 테이블 설계 | SRS 6.2.8, 6.2.9 |
+| **Interaction Design** | OAuth/Mock | Cursor | **Integration Service** | SRS 3.4.3 |
+| **Implementation** | Entity/Service/Controller | Spring Boot | 통합 구현 | REQ-FUNC-003, 004 |
+| **Test** | TC-S4-01 ~ TC-S4-08 | JUnit | 테스트 케이스 검증 | SRS 5. Traceability Matrix |
+| **Review** | Integration Test | JUnit | Mock 데이터 연동 확인 | AC1, AC4 |
 
 ## 3. 상세 요구사항 (To-Do)
 
@@ -849,6 +871,10 @@ import java.util.UUID;
 /**
  * 디바이스 연동 Entity
  * - 워치, 혈압계 등 외부 디바이스 OAuth 연동 정보
+ * 
+ * @see SRS REQ-FUNC-003: 디바이스 연동(워치/혈압계 최소 2종)
+ * @see SRS 6.2.8 DeviceLink 데이터 모델
+ * @see TC-S4-01, TC-S4-02, TC-S4-03, TC-S4-04 테스트 케이스
  */
 @Entity
 @Table(name = "device_links",
@@ -1050,6 +1076,11 @@ import java.util.UUID;
 /**
  * 동의 기록 Entity
  * - 데이터 수집/공유 동의 관리
+ * 
+ * @see SRS REQ-FUNC-003, 004: 디바이스/포털 연동 시 동의 관리
+ * @see SRS REQ-NF-006: 동의/위임/감사 로그 전 항목 기록
+ * @see SRS 6.2.6 ConsentRecord 데이터 모델
+ * @see TC-S4-02, TC-S4-07 테스트 케이스
  */
 @Entity
 @Table(name = "consent_records",
@@ -1587,6 +1618,11 @@ import java.util.List;
 
 /**
  * 데이터 동기화 스케줄러
+ * 
+ * @see SRS REQ-FUNC-003: 디바이스 연동 및 데이터 동기화
+ * @see SRS REQ-NF-005: 동기화 지연 p95 ≤ 60초
+ * @see SRS 3.4.3 병원 포털/디바이스 연동 상태 동기화
+ * @see TC-S4-04 테스트 케이스
  */
 @Slf4j
 @Component
@@ -1720,46 +1756,92 @@ src/main/java/com/pollosseum/
 
 ## 9. API 명세 요약
 
-| Method | Endpoint | 설명 | Auth |
-|--------|----------|------|------|
-| `GET` | `/api/v1/integration/devices` | 연동 디바이스 목록 | ○ |
-| `POST` | `/api/v1/integration/devices` | 디바이스 연동 | ○ |
-| `DELETE` | `/api/v1/integration/devices/{id}` | 디바이스 연동 해제 | ○ |
-| `POST` | `/api/v1/integration/devices/{id}/sync` | 수동 동기화 | ○ |
-| `GET` | `/api/v1/integration/portals` | 연동 포털 목록 | ○ |
-| `POST` | `/api/v1/integration/portals` | 포털 연동 | ○ |
-| `POST` | `/api/v1/integration/portals/upload` | 파일 업로드 | ○ |
-| `GET` | `/api/v1/integration/consents` | 동의 목록 | ○ |
-| `DELETE` | `/api/v1/integration/consents/{id}` | 동의 철회 | ○ |
+> **SRS 참조**: 본 API는 SRS 6.1 API Endpoint List의 `/api/onboarding/devices`, `/api/onboarding/portal`과 연계됩니다.
+
+| Method | Endpoint | 설명 | Auth | REQ-FUNC | TC ID |
+|--------|----------|------|------|----------|-------|
+| `GET` | `/api/v1/integration/devices` | 연동 디바이스 목록 | ○ | REQ-FUNC-003 | TC-S4-01 |
+| `POST` | `/api/v1/integration/devices` | 디바이스 연동 | ○ | REQ-FUNC-003 | TC-S4-01, TC-S4-02 |
+| `DELETE` | `/api/v1/integration/devices/{id}` | 디바이스 연동 해제 | ○ | REQ-FUNC-003 | TC-S4-07 |
+| `POST` | `/api/v1/integration/devices/{id}/sync` | 수동 동기화 | ○ | REQ-FUNC-003 | TC-S4-03 |
+| `GET` | `/api/v1/integration/portals` | 연동 포털 목록 | ○ | REQ-FUNC-004 | TC-S4-05 |
+| `POST` | `/api/v1/integration/portals` | 포털 연동 | ○ | REQ-FUNC-004, 019 | TC-S4-05, TC-S4-06 |
+| `POST` | `/api/v1/integration/portals/upload` | 파일 업로드 | ○ | REQ-FUNC-004, 019 | TC-S4-06 |
+| `GET` | `/api/v1/integration/consents` | 동의 목록 | ○ | REQ-FUNC-003, 004 | TC-S4-02 |
+| `DELETE` | `/api/v1/integration/consents/{id}` | 동의 철회 | ○ | REQ-FUNC-003, 004 | TC-S4-07 |
+
+**SRS API 매핑**:
+- `/api/v1/integration/devices` ↔ SRS `/api/onboarding/devices` (REQ-FUNC-003)
+- `/api/v1/integration/portals` ↔ SRS `/api/onboarding/portal` (REQ-FUNC-004, 019)
 
 ---
 
 ## 10. 구현 체크포인트
 
+> **SRS 추적**: 각 체크포인트는 SRS 요구사항과 테스트 케이스에 매핑됩니다.
+
 ### 10.1 Entity 체크리스트
 
 - [ ] DeviceLink - OAuth 토큰 관리, 상태 머신
+  - **SRS**: REQ-FUNC-003, SRS 6.2.8 DeviceLink 데이터 모델
+  - **TC**: TC-S4-01, TC-S4-02, TC-S4-03, TC-S4-04
 - [ ] PortalConnection - 포털 인증 정보, 상태 관리
+  - **SRS**: REQ-FUNC-004, SRS 6.2.9 PortalConnection 데이터 모델
+  - **TC**: TC-S4-05, TC-S4-06
 - [ ] ConsentRecord - 동의 범위, 철회 처리
+  - **SRS**: REQ-FUNC-003, 004, REQ-NF-006, SRS 6.2.6 ConsentRecord 데이터 모델
+  - **TC**: TC-S4-02, TC-S4-07
 
 ### 10.2 Provider Interface 체크리스트
 
 - [ ] DeviceDataProvider 인터페이스 정의
+  - **SRS**: REQ-FUNC-003
+  - **TC**: TC-S4-01, TC-S4-03
 - [ ] PortalDataProvider 인터페이스 정의
+  - **SRS**: REQ-FUNC-004
+  - **TC**: TC-S4-05
 - [ ] MockDeviceProvider 구현 (테스트용)
+  - **SRS**: REQ-FUNC-003 (MVP Mock 허용)
+  - **TC**: TC-S4-01 ~ TC-S4-04
 - [ ] MockPortalProvider 구현 (테스트용)
+  - **SRS**: REQ-FUNC-004 (MVP Mock 허용)
+  - **TC**: TC-S4-05, TC-S4-06
 
 ### 10.3 Scheduler 체크리스트
 
 - [ ] 주기적 데이터 동기화 (매 시간)
+  - **SRS**: REQ-FUNC-003, REQ-NF-005 (p95 ≤ 60초)
+  - **TC**: TC-S4-03, TC-S4-04
 - [ ] 토큰 갱신 체크 (30분마다)
+  - **SRS**: REQ-FUNC-003, REQ-NF-005
+  - **TC**: TC-S4-04
 - [ ] 연동 오류 모니터링
+  - **SRS**: REQ-NF-010 (모니터링 및 알림)
+  - **TC**: TC-S4-04
 
 ### 10.4 보안 체크리스트
 
 - [ ] 토큰 암호화 저장 (AES-256)
+  - **SRS**: REQ-NF-006 (AES-256 암호화)
+  - **TC**: TC-S4-01, TC-S4-02
 - [ ] 동의 기록 감사 로그
+  - **SRS**: REQ-NF-006 (감사 로그 전 항목 기록)
+  - **TC**: TC-S4-02, TC-S4-07
 - [ ] 토큰 갱신 실패 시 알림
+  - **SRS**: REQ-NF-010 (5분 내 온콜 알림)
+  - **TC**: TC-S4-04
+
+### 10.5 성능 체크리스트
+
+- [ ] 온보딩 완료 시간 측정 (p50 ≤ 180초)
+  - **SRS**: REQ-NF-003, AC1
+  - **TC**: TC-S4-08
+- [ ] 동기화 지연 측정 (p95 ≤ 60초)
+  - **SRS**: REQ-NF-005
+  - **TC**: TC-S4-04
+- [ ] 성공률 측정 (≥ 65%)
+  - **SRS**: REQ-NF-003, AC1
+  - **TC**: TC-S4-08
 
 ---
 
@@ -1767,4 +1849,534 @@ src/main/java/com/pollosseum/
 
 - SRS 6.2.6 ~ 6.2.9 (Consent, DeviceLink, PortalConnection)
 - SRS 3.4.3 병원 포털/디바이스 연동 상태 동기화
+- `studio/Tasks/BE_issue/issue-01-be-setup.md`
+
+---
+
+## 12. 테스트 케이스 명세 (SRS Traceability)
+
+> **SRS Traceability Matrix**: Story 4 → REQ-FUNC-003, 004 → TC-S4-01 ~ TC-S4-08  
+> 본 섹션은 SRS 5. Traceability Matrix 및 4.1.2 Acceptance Criteria에 따라 작성되었으며, 각 테스트 케이스는 REQ-FUNC/REQ-NF와 양방향 추적 가능하도록 매핑됩니다.
+
+### 12.1 테스트 케이스 매핑 매트릭스
+
+| TC ID | Test Case | REQ-FUNC | REQ-NF | Story | AC | 우선순위 |
+|-------|-----------|----------|--------|-------|----|---------|
+| TC-S4-01 | 디바이스 OAuth 연동 성공 | REQ-FUNC-003 | - | Story 4 | AC1 | Must |
+| TC-S4-02 | 디바이스 연동 시 동의 기록 생성 | REQ-FUNC-003 | REQ-NF-006 | Story 4 | - | Must |
+| TC-S4-03 | 디바이스 초기 데이터 동기화 검증 | REQ-FUNC-003 | - | Story 4 | AC1 | Must |
+| TC-S4-04 | 토큰 만료 시 자동 갱신 | REQ-FUNC-003 | REQ-NF-005 | Story 4 | - | Must |
+| TC-S4-05 | 병원 포털 연동 성공 및 데이터 조회 | REQ-FUNC-004 | - | Story 4 | AC1 | Must |
+| TC-S4-06 | 미지원 지역 파일 업로드 대체 경로 | REQ-FUNC-004, 019 | - | Story 4 | AC4 | Must |
+| TC-S4-07 | 동의 철회 시 연동 해제 처리 | REQ-FUNC-003, 004 | REQ-NF-006 | Story 4 | - | Must |
+| TC-S4-08 | 온보딩 완료 시간 성능 검증 | REQ-FUNC-003, 004 | REQ-NF-003 | Story 4 | AC1 | Must |
+
+### 12.2 상세 테스트 케이스 명세
+
+#### TC-S4-01: 디바이스 OAuth 연동 성공
+
+**요구사항**: REQ-FUNC-003  
+**목적**: 사용자가 디바이스(워치/혈압계)를 OAuth 기반으로 연동할 수 있는지 검증
+
+**Given (전제 조건)**:
+- 사용자가 온보딩 프로세스 진행 중 (인증 완료, 프로필 생성 완료)
+- 디바이스 벤더 SDK에서 유효한 OAuth 인증 코드 발급
+- 사용자가 디바이스 연동 동의를 제공함
+
+**When (실행)**:
+```
+POST /api/v1/integration/devices
+{
+  "vendor": "samsung",
+  "deviceType": "watch",
+  "authCode": "valid_oauth_code",
+  "consentScope": {
+    "dataTypes": ["steps", "heartRate", "sleep"],
+    "frequency": "realtime"
+  }
+}
+```
+
+**Then (기대 결과)**:
+1. HTTP 201 Created 응답
+2. `DeviceLink` 엔티티 생성 (status = ACTIVE)
+3. `ConsentRecord` 엔티티 생성 (status = ACTIVE, subjectType = DEVICE)
+4. `accessToken`, `refreshToken`이 암호화되어 저장됨 (REQ-NF-006)
+5. 초기 데이터 동기화 수행 (최근 7일 건강 데이터)
+6. `integration_audit_logs`에 CONNECT 액션 기록
+
+**Acceptance Criteria**: AC1 (p50 온보딩 완료 시간 ≤ 180초, 성공률 ≥ 65%)  
+**테스트 데이터**: MockDeviceProvider 사용
+
+---
+
+#### TC-S4-02: 디바이스 연동 시 동의 기록 생성
+
+**요구사항**: REQ-FUNC-003, REQ-NF-006  
+**목적**: 디바이스 연동 시 동의 범위가 올바르게 기록되고 감사 로그에 반영되는지 검증
+
+**Given (전제 조건)**:
+- 사용자가 디바이스 연동 요청을 보냄
+- `consentScope`에 데이터 타입, 빈도, 보유 기간 포함
+
+**When (실행)**:
+```
+POST /api/v1/integration/devices
+{
+  "vendor": "apple",
+  "deviceType": "watch",
+  "authCode": "valid_code",
+  "consentScope": {
+    "dataTypes": ["steps", "heartRate"],
+    "frequency": "hourly",
+    "retentionPeriod": "2years",
+    "sharingAllowed": {
+      "familyBoard": true,
+      "healthReport": true
+    }
+  }
+}
+```
+
+**Then (기대 결과)**:
+1. `ConsentRecord` 생성:
+   - `subjectType` = DEVICE
+   - `subjectId` = 생성된 DeviceLink ID
+   - `consentType` = DATA_COLLECTION
+   - `consentScope` JSON이 정확히 저장됨
+   - `consentVersion` = "1.0"
+2. `integration_audit_logs`에 동의 기록:
+   - `action_type` = CONNECT
+   - `result` = SUCCESS
+   - `details`에 consent_scope 포함
+
+**Acceptance Criteria**: REQ-NF-006 (동의/위임/감사 로그 전 항목 기록)  
+**테스트 데이터**: MockDeviceProvider 사용
+
+---
+
+#### TC-S4-03: 디바이스 초기 데이터 동기화 검증
+
+**요구사항**: REQ-FUNC-003  
+**목적**: 첫 온보딩 시 기본 데이터 동기화가 수행되는지 검증
+
+**Given (전제 조건)**:
+- 디바이스 연동 성공 (TC-S4-01 완료)
+- 디바이스 벤더에서 최근 7일 데이터 존재
+
+**When (실행)**:
+```
+POST /api/v1/integration/devices/{deviceId}/sync
+```
+
+**Then (기대 결과)**:
+1. HTTP 200 OK 응답
+2. `SyncResultRes` 반환:
+   - `recordsSynced` > 0
+   - `status` = SUCCESS
+3. `device_sync_logs` 테이블에 동기화 로그 기록:
+   - `sync_type` = INITIAL
+   - `status` = SUCCESS
+   - `records_synced` = 7 (7일치 데이터)
+4. `HealthDataDaily` 엔티티에 데이터 저장됨 (걸음수, 심박, 수면)
+
+**Acceptance Criteria**: AC1 (온보딩 완료 시 첫 가치 도달)  
+**테스트 데이터**: MockDeviceProvider가 7일치 랜덤 데이터 반환
+
+---
+
+#### TC-S4-04: 토큰 만료 시 자동 갱신
+
+**요구사항**: REQ-FUNC-003, REQ-NF-005  
+**목적**: 토큰 만료 전 자동 갱신이 수행되는지 검증
+
+**Given (전제 조건)**:
+- `DeviceLink` 엔티티 존재 (status = ACTIVE)
+- `token_expires_at`이 현재 시각 + 1시간 이내
+
+**When (실행)**:
+- `SyncScheduler.refreshExpiredTokens()` 메서드 실행 (30분마다 스케줄)
+
+**Then (기대 결과)**:
+1. `refreshToken`을 사용하여 새 토큰 발급 성공
+2. `DeviceLink` 엔티티 업데이트:
+   - `accessToken` 갱신됨
+   - `token_expires_at` 갱신됨
+   - `status` = ACTIVE 유지
+3. `integration_audit_logs`에 TOKEN_REFRESH 기록:
+   - `action_type` = TOKEN_REFRESH
+   - `result` = SUCCESS
+
+**Acceptance Criteria**: REQ-NF-005 (동기화 지연 p95 ≤ 60초)  
+**테스트 데이터**: 만료 임박 토큰을 가진 DeviceLink 생성
+
+---
+
+#### TC-S4-05: 병원 포털 연동 성공 및 데이터 조회
+
+**요구사항**: REQ-FUNC-004  
+**목적**: 병원 포털 연동 후 최근 6개월 검사 결과 조회 검증
+
+**Given (전제 조건)**:
+- 사용자가 온보딩 프로세스 진행 중
+- 지원되는 병원 포털 존재 (예: NHIS, 특정 병원 포털)
+- 사용자가 포털 인증 정보 제공 (인증서/공동인증서)
+
+**When (실행)**:
+```
+POST /api/v1/integration/portals
+{
+  "portalType": "NHIS",
+  "portalId": "user_portal_id",
+  "credentials": {
+    "certificate": "encrypted_cert_data"
+  }
+}
+```
+
+**Then (기대 결과)**:
+1. HTTP 201 Created 응답
+2. `PortalConnection` 엔티티 생성 (status = ACTIVE)
+3. `ConsentRecord` 엔티티 생성 (subjectType = PORTAL)
+4. 최근 6개월 검사 결과 조회 성공:
+   - `getCheckupRecords()` 호출
+   - `getMedicalRecords()` 호출
+5. `last_sync_at` 타임스탬프 기록
+6. `integration_audit_logs`에 CONNECT 액션 기록
+
+**Acceptance Criteria**: AC1 (p50 온보딩 완료 시간 ≤ 180초, 성공률 ≥ 65%)  
+**테스트 데이터**: MockPortalProvider 사용
+
+---
+
+#### TC-S4-06: 미지원 지역 파일 업로드 대체 경로
+
+**요구사항**: REQ-FUNC-004, 019  
+**목적**: 병원 포털 미지원 지역에서 파일 업로드 대체 경로 제공 검증
+
+**Given (전제 조건)**:
+- 사용자가 온보딩 프로세스 진행 중
+- 사용자 지역이 포털 미지원 지역
+- 사용자가 검사 결과 파일(PDF/이미지/CSV) 보유
+
+**When (실행)**:
+```
+POST /api/v1/integration/portals
+{
+  "portalType": "UNSUPPORTED",
+  "region": "unsupported_region"
+}
+```
+
+**Then (기대 결과)**:
+1. HTTP 200 OK 응답 (에러 아님)
+2. `PortalConnection` 엔티티 생성 (status = UNSUPPORTED)
+3. 파일 업로드 UI/가이드 제공:
+   - `POST /api/v1/integration/portals/upload` 엔드포인트 안내
+   - 파일 형식 안내 (PDF, 이미지, CSV)
+4. CS 티켓 생성 옵션 제공 (2클릭 이내)
+5. `integration_audit_logs`에 UNSUPPORTED 상태 기록
+
+**Acceptance Criteria**: AC4 (미지원 지역 대체 경로 및 CS 티켓 2클릭 이내 제공)  
+**테스트 데이터**: 미지원 지역 시나리오
+
+---
+
+#### TC-S4-07: 동의 철회 시 연동 해제 처리
+
+**요구사항**: REQ-FUNC-003, 004, REQ-NF-006  
+**목적**: 동의 철회 시 관련 연동이 자동 해제되는지 검증
+
+**Given (전제 조건)**:
+- 디바이스 또는 포털 연동 완료 (TC-S4-01 또는 TC-S4-05 완료)
+- `ConsentRecord` 존재 (status = ACTIVE)
+
+**When (실행)**:
+```
+DELETE /api/v1/integration/consents/{consentId}
+{
+  "revokeReason": "사용자 요청"
+}
+```
+
+**Then (기대 결과)**:
+1. HTTP 204 No Content 응답
+2. `ConsentRecord` 업데이트:
+   - `status` = REVOKED
+   - `revoked_at` 타임스탬프 기록
+   - `revoke_reason` 저장됨
+3. 관련 연동 해제:
+   - 디바이스 동의인 경우: `DeviceLink.status` = REVOKED
+   - 포털 동의인 경우: `PortalConnection.status` = REVOKED
+4. `integration_audit_logs`에 CONNECT_REVOKED 기록:
+   - `action_type` = DISCONNECT
+   - `result` = SUCCESS
+   - `details`에 revoke_reason 포함
+
+**Acceptance Criteria**: REQ-NF-006 (동의/위임/감사 로그 전 항목 기록)  
+**테스트 데이터**: 기존 연동 및 동의 데이터
+
+---
+
+#### TC-S4-08: 온보딩 완료 시간 성능 검증
+
+**요구사항**: REQ-FUNC-003, 004, REQ-NF-003  
+**목적**: 디바이스 및 포털 연동이 온보딩 완료 시간 목표(180초)를 만족하는지 검증
+
+**Given (전제 조건)**:
+- 사용자가 온보딩 시작
+- 인증 및 프로필 생성 완료
+
+**When (실행)**:
+- 디바이스 연동 시작부터 포털 연동 완료까지 시간 측정
+- 100회 반복 실행하여 p50, p95 계산
+
+**Then (기대 결과)**:
+1. p50 온보딩 완료 시간 ≤ 180초
+2. 전체 성공률 ≥ 65%
+3. 단계별 이탈률 ≤ 15%
+
+**Acceptance Criteria**: AC1 (p50 온보딩 완료 시간 ≤ 180초, 전체 성공률 ≥ 65%)  
+**테스트 데이터**: 성능 테스트 시나리오 (100회 반복)
+
+---
+
+### 12.5 테스트 코드 예제
+
+#### TC-S4-01 구현 예제
+
+```java
+/**
+ * TC-S4-01: 디바이스 OAuth 연동 성공 성공
+ * 
+ * @see SRS REQ-FUNC-003: 디바이스 연동(워치/혈압계 최소 2종)
+ * @see SRS AC1: p50 온보딩 완료 시간 ≤ 180초, 성공률 ≥ 65%
+ */
+@SpringBootTest
+@Transactional
+class DeviceIntegrationTest {
+    
+    @Autowired
+    private DeviceLinkService deviceService;
+    
+    @Autowired
+    private DeviceLinkRepository deviceRepository;
+    
+    @Autowired
+    private ConsentRecordRepository consentRepository;
+    
+    @Test
+    @DisplayName("TC-S4-01: 디바이스 OAuth 연동 성공")
+    void testDeviceOAuthConnectionSuccess() {
+        // Given
+        UUID userId = UUID.randomUUID();
+        DeviceConnectReq req = DeviceConnectReq.builder()
+            .vendor("samsung")
+            .deviceType("watch")
+            .authCode("valid_oauth_code")
+            .consentScope(ConsentScopeDto.builder()
+                .dataTypes(List.of("steps", "heartRate", "sleep"))
+                .frequency("realtime")
+                .build())
+            .build();
+        
+        // When
+        DeviceLinkRes response = deviceService.connectDevice(userId, req);
+        
+        // Then
+        assertThat(response.getStatus()).isEqualTo(DeviceStatus.ACTIVE);
+        assertThat(response.getVendor()).isEqualTo("samsung");
+        
+        // DeviceLink 엔티티 검증
+        DeviceLink deviceLink = deviceRepository.findById(response.getDeviceId())
+            .orElseThrow();
+        assertThat(deviceLink.getStatus()).isEqualTo(DeviceStatus.ACTIVE);
+        assertThat(deviceLink.getAccessToken()).isNotNull();
+        assertThat(deviceLink.getRefreshToken()).isNotNull();
+        
+        // ConsentRecord 엔티티 검증
+        ConsentRecord consent = consentRepository
+            .findByUserIdAndSubjectTypeAndSubjectId(
+                userId, 
+                ConsentSubjectType.DEVICE, 
+                response.getDeviceId())
+            .orElseThrow();
+        assertThat(consent.getStatus()).isEqualTo(ConsentStatus.ACTIVE);
+        assertThat(consent.getConsentScope()).isNotNull();
+        
+        // 감사 로그 검증
+        // integration_audit_logs 테이블 확인
+    }
+}
+```
+
+#### TC-S4-05 구현 예제
+
+```java
+/**
+ * TC-S4-05: 병원 포털 연동 성공 및 데이터 조회
+ * 
+ * @see SRS REQ-FUNC-004: 병원 포털 연동(최소 1곳)
+ * @see SRS AC1: p50 온보딩 완료 시간 ≤ 180초
+ */
+@Test
+@DisplayName("TC-S4-05: 병원 포털 연동 성공 및 데이터 조회")
+void testPortalConnectionSuccess() {
+    // Given
+    UUID userId = UUID.randomUUID();
+    PortalConnectReq req = PortalConnectReq.builder()
+        .portalType("NHIS")
+        .portalId("user_portal_id")
+        .credentials(Map.of("certificate", "encrypted_cert_data"))
+        .build();
+    
+    // When
+    PortalConnectionRes response = portalService.connectPortal(userId, req);
+    
+    // Then
+    assertThat(response.getStatus()).isEqualTo(PortalStatus.ACTIVE);
+    
+    // 최근 6개월 데이터 조회 검증
+    List<CheckupRecordDto> records = portalService.getCheckupRecords(
+        userId, 
+        response.getPortalId(),
+        LocalDate.now().minusMonths(6),
+        LocalDate.now()
+    );
+    assertThat(records).isNotEmpty();
+    assertThat(records.size()).isGreaterThanOrEqualTo(1);
+}
+```
+
+#### TC-S4-08 구현 예제
+
+```java
+/**
+ * TC-S4-08: 온보딩 완료 시간 성능 검증
+ * 
+ * @see SRS REQ-NF-003: 온보딩 End-to-End p50 완료 시간 ≤ 180초
+ * @see SRS AC1: p50 온보딩 완료 시간 ≤ 180초, 전체 성공률 ≥ 65%
+ */
+@Test
+@DisplayName("TC-S4-08: 온보딩 완료 시간 성능 검증")
+void testOnboardingPerformance() {
+    List<Long> completionTimes = new ArrayList<>();
+    int successCount = 0;
+    int totalAttempts = 100;
+    
+    for (int i = 0; i < totalAttempts; i++) {
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            // 디바이스 연동
+            deviceService.connectDevice(userId, deviceReq);
+            
+            // 포털 연동
+            portalService.connectPortal(userId, portalReq);
+            
+            long completionTime = System.currentTimeMillis() - startTime;
+            completionTimes.add(completionTime);
+            successCount++;
+        } catch (Exception e) {
+            // 실패 케이스 기록
+        }
+    }
+    
+    // p50 계산
+    Collections.sort(completionTimes);
+    long p50 = completionTimes.get(completionTimes.size() / 2);
+    long p95 = completionTimes.get((int) (completionTimes.size() * 0.95));
+    
+    // 검증
+    assertThat(p50).isLessThanOrEqualTo(180_000); // 180초 = 180,000ms
+    assertThat((double) successCount / totalAttempts).isGreaterThanOrEqualTo(0.65);
+    
+    // 리포트 생성
+    System.out.println("p50: " + p50 + "ms");
+    System.out.println("p95: " + p95 + "ms");
+    System.out.println("성공률: " + (successCount * 100.0 / totalAttempts) + "%");
+}
+```
+
+---
+
+### 12.3 테스트 실행 계획
+
+#### 12.3.1 단위 테스트 (Unit Test)
+
+| 테스트 클래스 | 대상 | REQ-FUNC | 우선순위 |
+|------------|------|----------|---------|
+| `DeviceLinkServiceTest` | 디바이스 연동 로직 | REQ-FUNC-003 | Must |
+| `PortalConnectionServiceTest` | 포털 연동 로직 | REQ-FUNC-004 | Must |
+| `ConsentServiceTest` | 동의 관리 로직 | REQ-FUNC-003, 004 | Must |
+| `MockDeviceProviderTest` | Mock Provider 검증 | REQ-FUNC-003 | Must |
+
+#### 12.3.2 통합 테스트 (Integration Test)
+
+| 테스트 클래스 | 대상 | TC ID | 우선순위 |
+|------------|------|-------|---------|
+| `DeviceIntegrationTest` | 디바이스 연동 E2E | TC-S4-01, TC-S4-02, TC-S4-03, TC-S4-04 | Must |
+| `PortalIntegrationTest` | 포털 연동 E2E | TC-S4-05, TC-S4-06 | Must |
+| `ConsentIntegrationTest` | 동의 관리 E2E | TC-S4-02, TC-S4-07 | Must |
+| `OnboardingPerformanceTest` | 온보딩 성능 검증 | TC-S4-08 | Must |
+
+#### 12.3.3 비기능 테스트 (Non-Functional Test)
+
+| 테스트 항목 | REQ-NF | TC ID | 우선순위 |
+|----------|--------|-------|---------|
+| 토큰 암호화 검증 | REQ-NF-006 | TC-S4-01, TC-S4-02 | Must |
+| 동기화 지연 측정 | REQ-NF-005 | TC-S4-04 | Must |
+| 감사 로그 기록 검증 | REQ-NF-006 | TC-S4-01, TC-S4-02, TC-S4-07 | Must |
+
+---
+
+### 12.4 테스트 데이터 및 Mock 설정
+
+#### 12.4.1 Mock Provider 설정
+
+```java
+@Profile({"test", "local"})
+@Component
+public class MockDeviceProvider implements DeviceDataProvider {
+    // TC-S4-01, TC-S4-02, TC-S4-03, TC-S4-04에서 사용
+}
+
+@Profile({"test", "local"})
+@Component
+public class MockPortalProvider implements PortalDataProvider {
+    // TC-S4-05, TC-S4-06에서 사용
+}
+```
+
+#### 12.4.2 테스트 데이터 시나리오
+
+| 시나리오 ID | 설명 | 사용 TC |
+|----------|------|---------|
+| SC-001 | 정상 디바이스 연동 (Samsung) | TC-S4-01 |
+| SC-002 | 정상 디바이스 연동 (Apple) | TC-S4-01 |
+| SC-003 | 토큰 만료 시나리오 | TC-S4-04 |
+| SC-004 | 정상 포털 연동 (NHIS) | TC-S4-05 |
+| SC-005 | 미지원 지역 시나리오 | TC-S4-06 |
+| SC-006 | 동의 철회 시나리오 | TC-S4-07 |
+
+---
+
+### 12.5 테스트 실행 결과 추적
+
+각 테스트 케이스 실행 시 다음 정보를 기록:
+
+- 테스트 케이스 ID (TC-S4-XX)
+- REQ-FUNC/REQ-NF 매핑
+- 실행 결과 (Pass/Fail)
+- 성능 지표 (해당 시)
+- 오류 로그 (실패 시)
+
+---
+
+## 13. 참고 자료
+
+- SRS 6.2.6 ~ 6.2.9 (Consent, DeviceLink, PortalConnection)
+- SRS 3.4.3 병원 포털/디바이스 연동 상태 동기화
+- SRS 5. Traceability Matrix (Story 4 → TC-S4-01 ~ TC-S4-08)
+- SRS 4.1.2 Acceptance Criteria (Story 4 AC1~AC4)
 - `studio/Tasks/BE_issue/issue-01-be-setup.md`
