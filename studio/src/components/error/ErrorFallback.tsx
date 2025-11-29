@@ -20,7 +20,7 @@ export function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
             예기치 못한 오류가 발생하여 페이지를 표시할 수 없습니다.
           </p>
           <div className="rounded-md bg-muted p-4 mt-4 text-left overflow-auto max-h-40 text-xs font-mono text-muted-foreground">
-            {error.message}
+            {error?.message || (typeof error === 'string' ? error : '알 수 없는 오류가 발생했습니다.')}
           </div>
         </CardContent>
         <CardFooter className="flex justify-center pb-6">
