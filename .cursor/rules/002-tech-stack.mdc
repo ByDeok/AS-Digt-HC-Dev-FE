@@ -1,0 +1,25 @@
+# Technical Stack (Backend Focused)
+Referenced in: [001-project-overview.mdc](001-project-overview.mdc)
+
+## Core Backend
+- **Language**: Java 17 LTS
+- **Framework**: Spring Boot 3.4+
+- **Build Tool**: Gradle (Groovy DSL)
+- **ORM**: Spring Data JPA (Hibernate 6.x), QueryDSL 5.x
+
+## Database & Storage
+- **RDBMS**: MySQL 9.x (InnoDB, utf8mb4)
+- **Cache/Session**: Redis (Lettuce Client)
+- **Messaging**: Apache Kafka (Event-Driven Architecture)
+
+## Architecture Components
+- **API Pattern**: RESTful API (OpenAPI 3.x), gRPC (Internal, Future)
+- **Security**: Spring Security 6.x, OAuth2/OIDC (Google, Kakao)
+- **Logging/Monitoring**: SLF4J, Logback, Micrometer
+
+## External Services Integration
+- **AI/ML**: OpenAI API (via RestClient), LangChain (Python Service Integration)
+- **Devices**: Vendor OAuth2 APIs (Samsung Health, etc.)
+
+## See also
+- [300-java-spring-cursor-rules.mdc](300-java-spring-cursor-rules.mdc) for implementation details
