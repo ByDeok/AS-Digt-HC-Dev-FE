@@ -35,3 +35,45 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Environment Variables ###
+# ⚠️ 민감 정보가 포함된 환경변수 파일은 절대 커밋하지 않음
+.env
+.env.local
+.env.*
+!.env.example
+.env.development.local
+.env.test.local
+.env.production.local
+*.local.yml
+*.local.properties
+
+# Spring Profile 설정 파일 (민감정보 포함)
+src/main/resources/application-local.yml
+src/main/resources/application-dev.yml
+src/main/resources/application-prod.yml
+application-*.yml
+!application.yml
+
+# 프론트엔드 환경변수
+studio/.env
+studio/.env.local
+studio/.env.*.local
+
+### Secrets & Keys ###
+*.pem
+*.key
+*.p12
+*.jks
+secrets/
+credentials/
+
+### Logs ###
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Node Modules (Frontend) ###
+studio/node_modules/
