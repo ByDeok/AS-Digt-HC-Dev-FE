@@ -14,16 +14,16 @@
 
 ## 3. 상세 요구사항 (To-Do)
 
-- [ ] **Domain: HealthReport**
-    - `HealthReport` Entity 구현
-    - `metrics` (JSON) 구조 정의: 활동, 심박, 혈압, 체중 표준 포맷
-    - `context` (JSON) 구조 정의: 측정 기기, 결측 여부 메타데이터
-- [ ] **Aggregation Service**
-    - (Mock) Device/Portal 데이터 수집 및 집계 로직
-    - 리포트 생성 로직 (최근 3~6개월 데이터 기준)
-- [ ] **Report API**
-    - `/api/reports/generate`: 리포트 생성 요청
-    - `/api/reports/{id}`: 리포트 상세 조회
+- [x] **Domain: HealthReport**
+    - [x] `HealthReport` Entity 구현
+    - [x] `metrics` (JSON) 구조 정의: 활동, 심박, 혈압, 체중 표준 포맷
+    - [x] `context` (JSON) 구조 정의: 측정 기기, 결측 여부 메타데이터
+- [x] **Aggregation Service**
+    - [x] (Mock) Device/Portal 데이터 수집 및 집계 로직
+    - [x] 리포트 생성 로직 (최근 3~6개월 데이터 기준)
+- [x] **Report API**
+    - [x] `/api/reports/generate`: 리포트 생성 요청
+    - [x] `/api/reports/{id}`: 리포트 상세 조회
 - [ ] **Output Support**
     - PDF 생성 라이브러리(IText, Thymeleaf 등) 연동 검토 및 구현 (Optional for MVP start)
 
