@@ -3,13 +3,14 @@ package vibe.digthc.as_digt_hc_dev_fe.interfaces.common;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import vibe.digthc.as_digt_hc_dev_fe.domain.onboarding.exception.UnsupportedRegionException;
 
 /**
  * 전역 예외 처리 핸들러
@@ -18,6 +19,26 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     
+    /**
+     * UnsupportedRegionException 처리
+     */
+    @ExceptionHandler(UnsupportedRegionException.class)
+    public ResponseEntity<ErrorResponse> handleUnsupportedRegionException(
+            UnsupportedRegionException ex) {
+        
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("UNSUPPORTED_REGION")
+                .message(ex.getMessage())
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+        
+        log.warn("Unsupported region: {}", ex.getMessage());
+        
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorResponse);
+    }
+
     /**
      * 필드 검증 예외 처리 (@Valid 실패)
      */

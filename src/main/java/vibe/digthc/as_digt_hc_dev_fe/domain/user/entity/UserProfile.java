@@ -65,4 +65,19 @@ public class UserProfile extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
         this.bio = bio;
     }
+
+    public void updateBasicInfo(String name, String phoneNumber, LocalDate birthDate, Gender gender) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        if (birthDate != null) {
+            this.age = java.time.Period.between(birthDate, java.time.LocalDate.now()).getYears();
+        }
+    }
+
+    public void updateDetails(String primaryConditions, String accessibilityPrefs) {
+        this.primaryConditions = primaryConditions;
+        this.accessibilityPrefs = accessibilityPrefs;
+    }
 }

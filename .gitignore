@@ -75,5 +75,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-### Node Modules (Frontend) ###
-studio/node_modules/
+### Node Modules ###
+**/node_modules/
