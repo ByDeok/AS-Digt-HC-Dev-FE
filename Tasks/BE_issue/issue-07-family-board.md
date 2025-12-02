@@ -1551,8 +1551,57 @@ src/main/java/com/pollosseum/
 
 ---
 
+## 10. Traceability (요구사항 추적성)
+
+### 10.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-015**: 가족 보드 생성 및 공유
+  - 시니어 계정 기준으로 가족 보드 생성 및 다수 보호자 초대
+- **REQ-FUNC-016**: 초대→동의→역할부여 3단계 대리 접근 플로우
+  - 초대 발송, 초대 수락(동의), 역할(Viewer/Editor/Admin) 부여의 3단계 플로우
+- **REQ-FUNC-017**: 가족 보드 일정/약/위험 알림 동기화
+  - 모든 구성원에게 60초 이내로 동기화
+- **REQ-FUNC-018**: 위험 기반 추가 인증
+  - 민감정보 접근 또는 비정상 위치/시간 접근 탐지 시 OTP/바이오 등 추가 인증
+
+#### Non-Functional Requirements (직접 연결)
+- **REQ-NF-005** (동기화): 가족 보드 및 알림 관련 데이터 동기화 지연 p95 ≤ 60초
+  - 보드 변경 사항이 모든 구성원에게 60초 이내 동기화
+- **REQ-NF-006** (보안): 동의/위임/감사 로그 전 항목 기록
+  - 초대, 동의, 역할 변경 등 모든 행위를 감사 로그에 기록
+- **REQ-NF-007** (인증 보안): 위험 기반 2FA
+  - 민감 행위 시 2FA 요구 및 실패 시 접근 차단
+- **REQ-NF-013** (KPI - Usage): 가족 대리접근 설정률 20% → 50%+
+  - 가족 보드 초대 및 역할 설정 통계 수집 필요
+
+#### Non-Functional Requirements (간접 연결)
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초
+  - 가족 보드 조회 API 응답 시간 최적화 필요
+- **REQ-NF-008** (접근성): 스크린리더 라벨 누락 0건, 포커스 트랩 0건
+  - 가족 보드 UI의 접근성 고려 필요
+
+#### Story Mapping
+- **Story 3**: As a Caregiver, I want a shared family board with delegated roles so that we can coordinate schedules, meds, risks
+  - REQ-FUNC-015~018이 Story 3의 핵심 요구사항
+  - REQ-NF-005, 006, 007, 013이 Story 3의 성능, 보안, KPI 요구사항
+
+### 10.2 Test Cases (예상)
+
+- **TC-S3-01**: 가족 보드 생성 및 시니어를 ADMIN으로 자동 등록 확인
+- **TC-S3-02**: 초대 코드 생성 및 발송 확인
+- **TC-S3-03**: 초대 수락 후 역할 부여 확인
+- **TC-S3-04**: 보드 변경 사항이 60초 이내 동기화 확인
+- **TC-S3-05**: 민감 행위 시 2FA 요구 및 실패 시 접근 차단 확인
+- **TC-S3-06**: 초대 링크 만료 시 재요청 1클릭 확인
+
+---
+
 ## 11. 참고 자료
 
+- SRS 3.4.1 핵심 온보딩 플로우 (가족 보드 연관)
+- SRS 4.1.1 Functional Requirements (REQ-FUNC-015~018)
+- SRS 4.2 Non-Functional Requirements (REQ-NF-005, 006, 007, 013)
+- SRS 5. Traceability Matrix (Story 3)
 - SRS 6.2.5 FamilyBoard & AccessRole
-- SRS 3.4.1 (연관 흐름)
 - `studio/Tasks/BE_issue/issue-01-be-setup.md`

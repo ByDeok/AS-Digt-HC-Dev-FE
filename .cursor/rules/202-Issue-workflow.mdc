@@ -1,6 +1,7 @@
 ---
 description: Defines the standard workflow for task-based issue creation, development, and PR automation using gh CLI.
 globs: studio/Tasks/*.md, create_issues.ps1
+alwaysApply: false
 ---
 
 # Issue Workflow Standard
@@ -42,16 +43,19 @@ This rule defines the standard operating procedure for the AI agent and develope
 ## 3. Pull Request Automation
 
 ### Commit Strategy
-- Follow Conventional Commits: `[Type] Description`.
-- Stage only relevant files using `git add`.
+- Follow Conventional Commits format (see [200-git-commit-push-pr.mdc](200-git-commit-push-pr.mdc))
+- Stage only relevant files using `git add`
 
 ### PR Creation
-- Use `gh pr create` to generate the Pull Request.
+- Use `gh pr create` to generate the Pull Request
 - **Required Options**:
-  - `--title`: "[Type] Description"
-  - `--body`: Must include "Closes #IssueNumber" to link and auto-close the issue.
-  - `--reviewer`: Assign the appropriate reviewer (e.g., `ByDeok`).
+  - `--title`: Conventional Commits format: `<type>(<scope>): <subject>`
+  - `--body`: Must include "Closes #IssueNumber" to link and auto-close the issue
+  - `--reviewer`: Assign the appropriate reviewer (e.g., `ByDeok`)
+- **PR Description Requirements** (see [200-git-commit-push-pr.mdc](200-git-commit-push-pr.mdc) for details):
+  - Summary of changes analyzing semantic meaning
+  - Link to related issues
 - **Example**:
   ```bash
-  gh pr create --title "[Fix] Header responsive bug" --body "Closes #5" --reviewer ByDeok
+  gh pr create --title "fix(header): resolve responsive layout bug" --body "Closes #5" --reviewer ByDeok
   ```

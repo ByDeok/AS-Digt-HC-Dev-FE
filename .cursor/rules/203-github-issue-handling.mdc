@@ -12,9 +12,9 @@ alwaysApply: false
 
 ## Rules
 1. **Issue Creation**:
-   - Source tasks from `tasks/priority-N/` markdown files.
-   - Use `gh issue create` with title `[#NNN] Title`, body from file, and appropriate labels.
-   - Labels must include priority (`priority-N`) and type (`refactoring`, `feature`, etc).
+   - Source tasks from `tasks/priority-N/` markdown files (or `studio/Tasks/` per [202-Issue-workflow.mdc](202-Issue-workflow.mdc))
+   - Use `gh issue create` with title `[#NNN] Title`, body from file, and appropriate labels
+   - Labels must include priority (`priority-N`) and type (`refactoring`, `feature`, etc)
 
 2. **Project & Roadmap**:
    - Use Project V2 Node IDs for item manipulation (not integer IDs).
@@ -26,10 +26,10 @@ alwaysApply: false
    - Retry auth refresh if scopes (`project`, `read:project`) are missing.
 
 4. **Issue Closure & State Management**:
-   - **Automatic**: Ensure PR description includes `Closes #NNN` to auto-close issues on merge.
-   - **Manual**: If auto-close fails, use `gh issue close <issue-number>` immediately after merge.
-   - **Comment**: When manually closing, add a comment referencing the PR: `--comment "Closed via PR #<pr-number>"`.
-   - **Verify**: Always check issue status (`gh issue view <issue-number>`) after work is done.
+   - **Automatic**: PR description must include `Closes #NNN` (see [200-git-commit-push-pr.mdc](200-git-commit-push-pr.mdc)) to auto-close issues on merge
+   - **Manual**: If auto-close fails, use `gh issue close <issue-number>` immediately after merge
+   - **Comment**: When manually closing, add a comment referencing the PR: `--comment "Closed via PR #<pr-number>"`
+   - **Verify**: Always check issue status (`gh issue view <issue-number>`) after work is done
 
 ## Examples
 <example>

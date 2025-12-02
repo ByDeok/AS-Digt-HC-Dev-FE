@@ -31,3 +31,6 @@ public interface FamilyBoardRepository extends JpaRepository<FamilyBoard, UUID> 
     boolean existsBySeniorId(UUID seniorId);
 }
 
+
+
+

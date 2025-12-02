@@ -1,41 +1,39 @@
 ---
-description: Project overview template - customize for your specific project
+description: Project overview - AS-Digt-HC Backend
 globs: 
 alwaysApply: true
 ---
-# PROJECT OVERVIEW: [PROJECT NAME]
+# PROJECT OVERVIEW: AS-Digt-HC Backend
 
 ## Vision
-[Describe your project's overarching vision and purpose. What problem does it solve? What impact do you want to make?]
+AI 기반 시니어 웰니스 및 가족 건강 관리 플랫폼의 백엔드 API 서버로, 사용자 인증, 건강 데이터 관리, AI 코칭 기능을 제공하여 시니어와 가족의 건강한 삶을 지원합니다.
 
 ## Core Features
-[List the main features and capabilities of your project]
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
+- **사용자 인증 및 회원 관리**: OAuth2/OIDC 기반 소셜 로그인 (Google, Kakao)
+- **건강 리포트**: 1장 요약 리포트(Health Report) 생성 및 관리
+- **행동 카드 및 AI 코칭**: 개인화된 건강 행동 추천 및 코칭
+- **가족 보드**: 가족 구성원 간 건강 정보 공유 및 권한 관리
+- **외부 연동**: 디바이스(Samsung Health 등) 및 포털 연동, 동의 관리
 
 ## Target Audience
-[Define who will use this project]
-- Primary users: [Description]
-- Secondary users: [Description]
+- **Primary users**: 시니어 (60세 이상)
+- **Secondary users**: 시니어의 가족 구성원 (건강 관리자)
 
 ## Project Goals
-[Specific, measurable objectives]
-- Goal 1: [Description]
-- Goal 2: [Description]
-- Goal 3: [Description]
+- 시니어의 건강 데이터를 통합 관리하고 AI 기반 인사이트 제공
+- 가족 구성원 간 건강 정보 공유를 통한 협력적 건강 관리
+- 외부 디바이스 및 서비스와의 원활한 연동
 
 ## Success Metrics
-[How will you measure success?]
-- Metric 1: [Description]
-- Metric 2: [Description]
+- 사용자 활성도 및 리포트 생성 빈도
+- AI 코칭 추천의 사용자 만족도
+- 외부 연동 성공률 및 데이터 동기화 정확도
 
 ## Project Philosophy
-[Your development principles and values]
-- Emphasis on high maintainability and scalable architecture
-- Senior engineering practices and standards
-- Comprehensive documentation
-- [Add your specific principles here]
+- 고수준의 유지보수성과 확장 가능한 아키텍처 강조
+- 시니어 엔지니어링 관행과 표준 준수
+- 포괄적인 문서화 및 명확한 코드 주석
+- 보안 우선 접근 방식
 
 ## See also:
 - [002-tech-stack.mdc](002-tech-stack.mdc) for implementation details

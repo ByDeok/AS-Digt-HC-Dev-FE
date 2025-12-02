@@ -18,3 +18,6 @@ public interface FamilyBoardService {
     FamilyBoardRes updateBoardSettings(UUID userId, SettingsUpdateReq req);
 }
 
+
+
+

@@ -1088,8 +1088,57 @@ src/main/java/com/pollosseum/
 
 ---
 
-## 10. 참고 자료
+## 10. Traceability (요구사항 추적성)
+
+### 10.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-001~019**: 모든 기능 요구사항의 데이터 모델 기반
+  - 데이터 모델 설계는 모든 REQ-FUNC의 전제 조건
+  - 각 도메인별 Entity 설계가 해당 기능의 데이터 구조를 정의
+
+#### Non-Functional Requirements (직접 연결)
+- **REQ-NF-004** (가용성): 월 가용성 ≥ 99.5%, 백엔드 오류율 < 0.5%
+  - 데이터베이스 스키마 설계 및 인덱스 최적화가 가용성에 직접 영향
+- **REQ-NF-017** (확장성): 10만 MAU까지 수평 확장 가능
+  - 데이터 모델의 정규화 및 파티셔닝 전략이 확장성의 기반
+- **REQ-NF-018** (유지보수성): 모듈 단위 독립 배포 가능
+  - 도메인별 Entity 분리가 모듈화의 기반
+
+#### Non-Functional Requirements (간접 연결)
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초
+  - 인덱스 설계 및 쿼리 최적화가 성능에 간접 영향
+- **REQ-NF-002** (리포트 성능): 리포트 생성 p95 ≤ 3초
+  - HealthDataDaily 테이블 구조 및 집계 쿼리 최적화가 리포트 성능의 기반
+- **REQ-NF-005** (동기화): 가족 보드 동기화 지연 p95 ≤ 60초
+  - FamilyBoard 관련 테이블 구조가 동기화 성능의 기반
+- **REQ-NF-006** (보안): 감사 로그 100% 기록
+  - AuditLog Entity 설계가 보안 요구사항의 기반
+- **REQ-NF-009** (비용): 사용자당 월 인프라 비용 ≤ $0.25
+  - 데이터 모델 최적화가 스토리지 비용에 간접 영향
+
+#### Story Mapping
+- **모든 Story (Story 1~4)**: 데이터 모델 설계는 모든 Story의 기반
+  - Story 1 (리포트): HealthReport, HealthDataDaily Entity
+  - Story 2 (행동 카드): ActionCard Entity
+  - Story 3 (가족 보드): FamilyBoard, AccessRole Entity
+  - Story 4 (온보딩): OnboardingSession, DeviceLink, PortalConnection Entity
+
+### 10.2 Test Cases (예상)
+
+- **TC-DB-01**: 모든 Entity의 기본 CRUD 동작 확인
+- **TC-DB-02**: 관계(1:1, 1:N, N:M) 매핑 정확성 검증
+- **TC-DB-03**: 인덱스가 쿼리 성능에 미치는 영향 측정
+- **TC-DB-04**: JSON 컬럼(metrics, context, metadata) 저장/조회 확인
+- **TC-DB-05**: BaseTimeEntity의 자동 타임스탬프 기록 확인
+- **TC-DB-06**: 데이터 정규화 위배 사항 점검
+
+---
+
+## 11. 참고 자료
 
 - SRS 6.2 Entity & Data Model
+- SRS 4.2 Non-Functional Requirements (REQ-NF-004, 017, 018)
+- SRS 5. Traceability Matrix (모든 Story)
 - `studio/docs/SRS/SRS_V0.3.md`
 - `studio/Tasks/BE_issue/issue-01-be-setup.md` (패키지 구조 참조)

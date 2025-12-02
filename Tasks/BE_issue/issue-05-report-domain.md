@@ -1471,8 +1471,57 @@ src/main/java/com/pollosseum/
 
 ---
 
+## 10. Traceability (요구사항 추적성)
+
+### 10.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-007**: 1장 의사용 요약 리포트 생성
+  - 최근 3~6개월 데이터 집계하여 1장 리포트 생성
+- **REQ-FUNC-008**: 리포트 메타데이터(맥락/기기/기간/결측) 표기
+  - context JSON에 기기, 완결성, 결측 구간 정보 포함
+- **REQ-FUNC-009**: 리포트 PDF/인쇄/EMR 첨부
+  - PDF 생성 및 다운로드 API 제공
+- **REQ-FUNC-010**: 접근성 모드 리포트 뷰
+  - 대글자/고대비/스크린리더 라벨 완비된 리포트 제공
+
+#### Non-Functional Requirements (직접 연결)
+- **REQ-NF-002** (리포트 성능): 1장 리포트 생성 p95 ≤ 3초, PDF 렌더링 p95 ≤ 2초
+  - 리포트 생성 로직 최적화 및 PDF 생성 비동기 처리 필요
+- **REQ-NF-008** (접근성): 스크린리더 라벨 누락 0건, 포커스 트랩 0건, 오류 힌트 노출율 100%
+  - 리포트 뷰의 접근성 모드 지원 필요
+- **REQ-NF-011** (KPI - Clinic): 외래 현장 '의사용 1장' 리포트 채택률 10% → 40%+
+  - 리포트 생성 및 사용 통계 수집 필요
+- **REQ-NF-016** (KPI - Decision Time): 재내원 계획/추가 검사 의사결정 시간 -20% 단축
+  - 리포트의 유용성 측정 및 개선 필요
+
+#### Non-Functional Requirements (간접 연결)
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초
+  - 리포트 조회 API 응답 시간 최적화 필요
+- **REQ-NF-004** (가용성): 월 가용성 ≥ 99.5%, 백엔드 오류율 < 0.5%
+  - 리포트 생성 실패 시 재시도 로직 및 오류 처리 필요
+
+#### Story Mapping
+- **Story 1**: As a Senior, I want a one-page doctor summary so that I can present trustworthy, concise health information in clinic
+  - REQ-FUNC-007~010이 Story 1의 핵심 요구사항
+  - REQ-NF-002, 008, 011, 016이 Story 1의 성능 및 KPI 요구사항
+
+### 10.2 Test Cases (예상)
+
+- **TC-S1-01**: 리포트 생성 요청 시 최근 3~6개월 데이터 집계 확인
+- **TC-S1-02**: 리포트 생성 p95 ≤ 3초 성능 측정
+- **TC-S1-03**: 리포트에 메타데이터(기기, 완결성, 결측) 포함 확인
+- **TC-S1-04**: PDF 다운로드 시 p95 ≤ 2초 성능 측정
+- **TC-S1-05**: 접근성 모드에서 리포트 뷰의 스크린리더 라벨 확인
+- **TC-S1-06**: 리포트 생성 실패 시 재시도 로직 검증
+
+---
+
 ## 11. 참고 자료
 
 - SRS 3.4.2 진료 전 1장 리포트 생성 및 사용
+- SRS 4.1.1 Functional Requirements (REQ-FUNC-007~010)
+- SRS 4.2 Non-Functional Requirements (REQ-NF-002, 008, 011, 016)
+- SRS 5. Traceability Matrix (Story 1)
 - SRS 6.2.3 HealthReport
 - `studio/Tasks/BE_issue/issue-01-be-setup.md`

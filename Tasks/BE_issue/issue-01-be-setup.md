@@ -1294,9 +1294,61 @@ src/main/java/com/pollosseum/
 
 ---
 
-## 10. 참고 자료
+## 10. Traceability (요구사항 추적성)
+
+### 10.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-001~019**: 모든 기능 요구사항의 기반 인프라 제공
+  - 프로젝트 초기 설정 및 환경 구축은 모든 REQ-FUNC의 전제 조건
+
+#### Non-Functional Requirements
+- **REQ-NF-004** (가용성): 월 가용성 ≥ 99.5%, 백엔드 오류율 < 0.5%
+  - Spring Boot 프로젝트 구조 및 모니터링 설정이 가용성 요구사항의 기반
+- **REQ-NF-010** (모니터링): 실시간 대시보드 및 온콜 알림
+  - 로깅, 모니터링 인프라 구축이 모니터링 요구사항의 기반
+- **REQ-NF-017** (확장성): 10만 MAU까지 수평 확장 가능
+  - 프로젝트 아키텍처 설계가 확장성 요구사항의 기반
+- **REQ-NF-018** (유지보수성): 모듈 단위 독립 배포 가능
+  - 패키지 구조 및 계층 분리가 유지보수성 요구사항의 기반
+
+#### Constraints
+- **C-TEC-002**: JVM 기반 (Java 17 + Spring Boot 3.x)
+- **C-TEC-003**: MySQL 9.x InnoDB 엔진, UTF-8mb4 인코딩
+
+### 10.2 간접적 연결성
+
+#### 성능 요구사항 간접 지원
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초
+  - Spring Boot 최적화 설정, Connection Pool 설정이 성능에 간접 영향
+- **REQ-NF-002** (리포트 성능): 리포트 생성 p95 ≤ 3초
+  - JPA 설정, 쿼리 최적화 인프라가 리포트 성능의 기반
+
+#### 보안 요구사항 간접 지원
+- **REQ-NF-006** (보안): TLS1.2+, AES-256 암호화
+  - Spring Security 기본 설정이 보안 요구사항의 기반
+- **REQ-NF-007** (인증 보안): 위험 기반 2FA
+  - 인증 인프라 구축이 2FA 구현의 기반
+
+#### 접근성 요구사항 간접 지원
+- **REQ-NF-008** (접근성): 스크린리더 라벨, 포커스 트랩 방지
+  - API 응답 구조 및 에러 처리 방식이 접근성 요구사항의 기반
+
+### 10.3 Test Cases (예상)
+
+이 이슈는 모든 기능의 기반이므로, 각 기능별 테스트 케이스의 전제 조건을 만족해야 합니다.
+
+- **TC-INFRA-01**: Spring Boot 애플리케이션 정상 부트스트랩
+- **TC-INFRA-02**: 데이터베이스 연결 및 JPA 동작 확인
+- **TC-INFRA-03**: 프로파일별 설정 분리 동작 확인
+- **TC-INFRA-04**: 공통 예외 처리 및 응답 포맷 검증
+
+---
+
+## 11. 참고 자료
 
 - SRS 1.5 Assumptions & Constraints
+- SRS 4.2 Non-Functional Requirements (REQ-NF-004, 010, 017, 018)
 - `studio/300-java-spring-cursor-rules.mdc`
 - `studio/Tasks/github-issue/issue-03-api-plan-Entity.md`
 - `studio/Tasks/github-issue/issue-03-api-plan-CLD.md`

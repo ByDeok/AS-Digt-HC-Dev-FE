@@ -1570,9 +1570,50 @@ src/main/java/com/pollosseum/
 
 ---
 
+## 10. Traceability (요구사항 추적성)
+
+### 10.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-001**: 계정 생성 및 기본 프로필 등록
+  - User, UserProfile Entity 구현으로 요구사항 충족
+- **REQ-FUNC-002**: 온보딩 인증 단계
+  - 소셜 로그인, 휴대폰 본인인증, JWT 토큰 발급으로 요구사항 충족
+
+#### Non-Functional Requirements (직접 연결)
+- **REQ-NF-006** (보안): TLS1.2+, AES-256 암호화, 감사 로그 100%
+  - Spring Security 설정, PasswordEncoder(BCrypt), AuditLog Entity로 요구사항 충족
+- **REQ-NF-007** (인증 보안): 위험 기반 2FA
+  - JWT 토큰 기반 인증 인프라 구축, 향후 2FA 확장 가능한 구조
+
+#### Non-Functional Requirements (간접 연결)
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초
+  - JWT Stateless 인증으로 세션 부하 감소, 성능 향상에 기여
+- **REQ-NF-003** (온보딩 성능): 온보딩 p50 ≤ 180초
+  - 인증 단계의 빠른 처리로 온보딩 시간 단축에 기여
+- **REQ-NF-008** (접근성): 스크린리더 라벨, 포커스 트랩 방지
+  - API 응답 구조 및 에러 메시지가 접근성 요구사항의 기반
+
+#### Story Mapping
+- **Story 4**: As a New user, I want to complete onboarding in under 3 minutes
+  - 인증 단계(REQ-FUNC-002)는 Story 4의 핵심 구성 요소
+
+### 10.2 Test Cases (예상)
+
+- **TC-S4-01**: 소셜 로그인(Google/Kakao) 성공 시 JWT 토큰 발급 확인
+- **TC-S4-02**: 이메일 가입 시 비밀번호 BCrypt 암호화 확인
+- **TC-S4-03**: 중복 이메일 가입 시도 시 예외 처리 확인
+- **TC-S4-04**: JWT 토큰 검증 실패 시 401 응답 확인
+- **TC-AUTH-01**: Refresh Token 갱신 로직 검증
+- **TC-AUTH-02**: 로그아웃 시 모든 Refresh Token 폐기 확인
+
+---
+
 ## 11. 참고 자료
 
 - SRS 4.1.1 (REQ-FUNC-001, 002)
+- SRS 4.2 Non-Functional Requirements (REQ-NF-001, 003, 006, 007, 008)
+- SRS 5. Traceability Matrix (Story 4)
 - SRS 6.2.1 User & Profile
 - `studio/300-java-spring-cursor-rules.mdc`
 - `studio/Tasks/BE_issue/issue-01-be-setup.md`

@@ -35,3 +35,6 @@ public interface BoardInvitationRepository extends JpaRepository<BoardInvitation
     int expireOldInvitations(@Param("now") LocalDateTime now);
 }
 
+
+
+

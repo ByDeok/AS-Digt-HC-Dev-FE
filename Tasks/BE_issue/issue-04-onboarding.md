@@ -1,7 +1,7 @@
 # [BE] Issue-04: 3분 온보딩 프로세스 구현
 
 ## 1. 개요
-**SRS 3.4.1 핵심 온보딩 플로우** 및 **REQ-FUNC-005, 006**에 따라 단계별 온보딩 상태 관리 및 완료 처리를 구현합니다.
+**SRS 3.4.1 핵심 온보딩 플로우** 및 **REQ-FUNC-001~006, 019**에 따라 단계별 온보딩 상태 관리 및 완료 처리를 구현합니다.
 
 ## 2. 작업 워크플로우 (설계 및 구현)
 
@@ -1422,9 +1422,65 @@ src/main/java/com/pollosseum/
 
 ---
 
+## 10. Traceability (요구사항 추적성)
+
+### 10.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-001**: 계정 생성 및 기본 프로필 등록
+  - 온보딩 Step 1에서 프로필 정보 수집 및 User/UserProfile 생성
+- **REQ-FUNC-002**: 온보딩 인증 단계
+  - 온보딩 Step 2에서 소셜 로그인/휴대폰 본인인증 처리
+- **REQ-FUNC-003**: 디바이스 연동(워치/혈압계 최소 2종)
+  - 온보딩 Step 3에서 디바이스 OAuth 연동 및 초기 데이터 동기화
+- **REQ-FUNC-004**: 병원 포털 연동(최소 1곳)
+  - 온보딩 Step 4에서 병원 포털 연동 또는 대체 경로 제공
+- **REQ-FUNC-005**: 온보딩 진행률 표시 및 중간 저장
+  - OnboardingSession Entity의 step_index, eta_seconds, step_data로 구현
+- **REQ-FUNC-006**: 온보딩 완료 조건 평가
+  - 필수 단계 완료 시 완료 판정 및 첫 가치(리포트/행동 카드) 라우팅
+- **REQ-FUNC-019**: 온보딩 예외 처리(병원 포털 미지원 지역)
+  - 파일 업로드 대체 경로 및 CS 티켓 생성 기능
+
+#### Non-Functional Requirements (직접 연결)
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초, 전환 p95 ≤ 800ms
+  - 온보딩 단계별 API 응답 시간 최적화 필요
+- **REQ-NF-003** (온보딩 성능): 온보딩 End-to-End p50 완료 시간 ≤ 180초, 성공률 ≥ 65%
+  - 각 단계별 시간 측정 및 최적화, 이탈률 감소 전략 필요
+- **REQ-NF-008** (접근성): 스크린리더 라벨 누락 0건, 포커스 트랩 0건, 오류 힌트 노출율 100%
+  - 온보딩 단계별 오류 메시지 및 접근성 고려
+- **REQ-NF-012** (KPI - Onboarding): 온보딩 완료율 35% → 65%+
+  - 온보딩 완료율 측정 및 개선을 위한 로깅 필요
+
+#### Non-Functional Requirements (간접 연결)
+- **REQ-NF-006** (보안): 동의/위임/감사 로그 전 항목 기록
+  - 온보딩 과정에서의 동의 기록이 감사 로그의 기반
+- **REQ-NF-017** (확장성): 10만 MAU까지 수평 확장 가능
+  - 온보딩 세션 관리 구조가 확장성 요구사항의 기반
+
+#### Story Mapping
+- **Story 4**: As a New user, I want to complete onboarding in under 3 minutes so that I can reach first value on day one
+  - REQ-FUNC-001~006, 019가 Story 4의 핵심 요구사항
+  - REQ-NF-001, 003, 008, 012가 Story 4의 성능 및 접근성 요구사항
+
+### 10.2 Test Cases (예상)
+
+- **TC-S4-01**: 온보딩 시작 시 세션 생성 및 Step 1 표시 확인
+- **TC-S4-02**: 프로필 입력 완료 시 Step 2로 진행 확인
+- **TC-S4-03**: 소셜 로그인 완료 시 Step 3로 진행 확인
+- **TC-S4-04**: 디바이스 연동 완료 시 Step 4로 진행 확인
+- **TC-S4-05**: 모든 필수 단계 완료 시 온보딩 완료 처리 확인
+- **TC-S4-06**: 온보딩 p50 완료 시간 ≤ 180초 측정
+- **TC-S4-07**: 병원 포털 미지원 지역에서 파일 업로드 대체 경로 제공 확인
+- **TC-S4-08**: 온보딩 중간 이탈 후 재진입 시 마지막 단계 복원 확인
+
+---
+
 ## 11. 참고 자료
 
 - SRS 3.4.1 핵심 온보딩 플로우
+- SRS 4.1.1 Functional Requirements (REQ-FUNC-001~006, 019)
+- SRS 4.2 Non-Functional Requirements (REQ-NF-001, 003, 008, 012)
+- SRS 5. Traceability Matrix (Story 4)
 - SRS 6.2.2 OnboardingSession
-- REQ-NF-003 (p50 시간 측정용 로그 적재 고려)
 - `studio/Tasks/BE_issue/issue-01-be-setup.md`

@@ -2373,10 +2373,60 @@ public class MockPortalProvider implements PortalDataProvider {
 
 ---
 
+## 12. Traceability (요구사항 추적성)
+
+### 12.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-003**: 디바이스 연동(워치/혈압계 최소 2종)
+  - OAuth 기반 연동 및 첫 온보딩 시 기본 데이터 동기화
+- **REQ-FUNC-004**: 병원 포털 연동(최소 1곳)
+  - 최근 6개월 검사 결과 조회 및 사용자 계정 연계
+- **REQ-FUNC-019**: 온보딩 예외 처리(병원 포털 미지원 지역)
+  - 파일 업로드 대체 경로 및 CS 티켓 생성 기능
+
+#### Non-Functional Requirements (직접 연결)
+- **REQ-NF-003** (온보딩 성능): 온보딩 End-to-End p50 완료 시간 ≤ 180초
+  - 디바이스/포털 연동 단계의 빠른 처리로 온보딩 시간 단축에 기여
+- **REQ-NF-005** (동기화): 가족 보드 및 알림 관련 데이터 동기화 지연 p95 ≤ 60초
+  - 외부 데이터 동기화가 가족 보드 데이터의 기반
+- **REQ-NF-006** (보안): 동의/위임/감사 로그 전 항목 기록
+  - ConsentRecord Entity로 디바이스/포털 연동 동의 이력 관리
+- **REQ-NF-010** (모니터링): 지연, 오류, 가용성 지표 실시간 모니터링
+  - 외부 연동 상태 모니터링 및 오류 알림 필요
+
+#### Non-Functional Requirements (간접 연결)
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초
+  - 외부 연동 상태 조회 API 응답 시간 최적화 필요
+- **REQ-NF-002** (리포트 성능): 리포트 생성 p95 ≤ 3초
+  - 외부 데이터 수집 속도가 리포트 생성 성능에 간접 영향
+- **REQ-NF-012** (KPI - Onboarding): 온보딩 완료율 35% → 65%+
+  - 외부 연동 단계의 성공률이 온보딩 완료율에 기여
+
+#### Story Mapping
+- **Story 4**: As a New user, I want to complete onboarding in under 3 minutes so that I can reach first value on day one
+  - REQ-FUNC-003, 004, 019가 Story 4의 핵심 구성 요소
+  - REQ-NF-003, 005, 006, 010이 Story 4의 성능, 보안, 모니터링 요구사항
+
+### 12.2 Test Cases (예상)
+
+- **TC-S4-01**: 디바이스 OAuth 연동 성공 시 DeviceLink 생성 확인
+- **TC-S4-02**: 병원 포털 연동 성공 시 PortalConnection 생성 확인
+- **TC-S4-03**: 디바이스 연동 시 초기 데이터 동기화 확인
+- **TC-S4-04**: 병원 포털 미지원 지역에서 파일 업로드 대체 경로 제공 확인
+- **TC-S4-05**: 연동 동의 시 ConsentRecord 생성 확인
+- **TC-S4-06**: 연동 상태 조회 API 응답 시간 측정
+- **TC-S4-07**: 연동 실패 시 오류 로그 기록 확인
+- **TC-S4-08**: 온보딩 완료 시 연동 상태 확인
+
+---
+
 ## 13. 참고 자료
 
-- SRS 6.2.6 ~ 6.2.9 (Consent, DeviceLink, PortalConnection)
 - SRS 3.4.3 병원 포털/디바이스 연동 상태 동기화
-- SRS 5. Traceability Matrix (Story 4 → TC-S4-01 ~ TC-S4-08)
+- SRS 4.1.1 Functional Requirements (REQ-FUNC-003, 004, 019)
+- SRS 4.2 Non-Functional Requirements (REQ-NF-003, 005, 006, 010)
+- SRS 5. Traceability Matrix (Story 4)
 - SRS 4.1.2 Acceptance Criteria (Story 4 AC1~AC4)
+- SRS 6.2.6 ~ 6.2.9 (ConsentRecord, DeviceLink, PortalConnection)
 - `studio/Tasks/BE_issue/issue-01-be-setup.md`

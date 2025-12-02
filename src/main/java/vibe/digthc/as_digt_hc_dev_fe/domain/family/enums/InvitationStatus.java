@@ -7,3 +7,6 @@ public enum InvitationStatus {
     DECLINED   // 거절됨
 }
 
+
+
+

@@ -6,3 +6,6 @@ public enum BoardRole {
     ADMIN     // 관리자 (모든 권한)
 }
 
+
+
+

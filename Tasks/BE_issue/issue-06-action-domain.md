@@ -1408,8 +1408,57 @@ src/main/java/com/pollosseum/
 
 ---
 
+## 10. Traceability (요구사항 추적성)
+
+### 10.1 관련 요구사항 매핑
+
+#### Functional Requirements
+- **REQ-FUNC-011**: 일일 행동 카드 생성
+  - 사용자의 최근 상태에 따라 하루 1~3개의 행동 카드 생성
+- **REQ-FUNC-012**: 행동 카드 알림 및 야간 자동 침묵
+  - 알림 전송 및 야간(22~07시) 자동 침묵 모드 적용
+- **REQ-FUNC-013**: 행동 카드 완료 추적
+  - 수락/완료 여부 기록 및 D1/W1 기준 완료율 산출
+- **REQ-FUNC-014**: 행동 카드 오류/실패 처리
+  - 네트워크 오류 시 재시도 및 오프라인 큐잉으로 데이터 유실 방지
+
+#### Non-Functional Requirements (직접 연결)
+- **REQ-NF-001** (성능): 앱 초기 로드 p95 ≤ 1.5초, 전환 p95 ≤ 800ms
+  - 행동 카드 조회 API 응답 시간 최적화 필요
+- **REQ-NF-005** (동기화): 가족 보드 및 알림 관련 데이터 동기화 지연 p95 ≤ 60초
+  - 행동 카드 완료 상태가 가족 보드에 동기화되는 구조
+- **REQ-NF-012** (KPI - Onboarding): 온보딩 완료율 35% → 65%+
+  - 행동 카드가 온보딩 후 첫 가치로 제공되어 완료율에 기여
+- **REQ-NF-015** (KPI - Adherence): 복약 순응도 기준선 대비 +15%p 향상
+  - 행동 카드의 복약 관련 카드가 순응도 향상에 기여
+
+#### Non-Functional Requirements (간접 연결)
+- **REQ-NF-003** (온보딩 성능): 온보딩 p50 ≤ 180초
+  - 온보딩 완료 후 첫 행동 카드 제공이 첫 가치 도달에 기여
+- **REQ-NF-008** (접근성): 스크린리더 라벨 누락 0건, 포커스 트랩 0건
+  - 행동 카드 UI의 접근성 고려 필요
+
+#### Story Mapping
+- **Story 2**: As a Senior, I want only 1–3 actionable nudges per day so that I can reduce fatigue and build consistent habits
+  - REQ-FUNC-011~014가 Story 2의 핵심 요구사항
+  - REQ-NF-001, 005, 012, 015가 Story 2의 성능 및 KPI 요구사항
+
+### 10.2 Test Cases (예상)
+
+- **TC-S2-01**: 일일 배치로 1~3개 행동 카드 생성 확인
+- **TC-S2-02**: 야간 시간(22~07시) 알림 자동 침묵 확인
+- **TC-S2-03**: 행동 카드 완료 시 D1/W1 완료율 계산 확인
+- **TC-S2-04**: 행동 카드 조회 p95 ≤ 800ms 성능 측정
+- **TC-S2-05**: 네트워크 오류 시 오프라인 큐잉 및 재시도 확인
+- **TC-S2-06**: 행동 카드 완료율 통계 수집 확인
+
+---
+
 ## 11. 참고 자료
 
+- SRS 3.4.2 행동 카드 생성 및 완료 플로우
+- SRS 4.1.1 Functional Requirements (REQ-FUNC-011~014)
+- SRS 4.2 Non-Functional Requirements (REQ-NF-001, 005, 012, 015)
+- SRS 5. Traceability Matrix (Story 2)
 - SRS 6.2.4 ActionCard
-- SRS 3.4.2 (유사 흐름 참고)
 - `studio/Tasks/BE_issue/issue-01-be-setup.md`

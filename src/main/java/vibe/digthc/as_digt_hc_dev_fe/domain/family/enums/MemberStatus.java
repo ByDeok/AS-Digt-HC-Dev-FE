@@ -7,3 +7,6 @@ public enum MemberStatus {
     REMOVED    // 제거됨
 }
 
+
+
+

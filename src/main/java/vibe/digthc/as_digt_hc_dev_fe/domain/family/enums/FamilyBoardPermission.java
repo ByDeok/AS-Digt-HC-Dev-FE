@@ -6,3 +6,6 @@ public enum FamilyBoardPermission {
     VIEW_BOARD      // 보드 조회
 }
 
+
+
+

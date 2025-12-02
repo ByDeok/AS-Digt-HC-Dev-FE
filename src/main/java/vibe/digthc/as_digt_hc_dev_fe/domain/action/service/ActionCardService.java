@@ -8,6 +8,7 @@ import vibe.digthc.as_digt_hc_dev_fe.domain.action.dto.ActionStatsResponse;
 import vibe.digthc.as_digt_hc_dev_fe.domain.action.entity.ActionCard;
 import vibe.digthc.as_digt_hc_dev_fe.domain.action.enums.ActionStatus;
 import vibe.digthc.as_digt_hc_dev_fe.domain.action.repository.ActionCardRepository;
+import vibe.digthc.as_digt_hc_dev_fe.domain.family.repository.FamilyBoardRepository;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.entity.User;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.repository.UserRepository;
 
@@ -24,6 +25,7 @@ public class ActionCardService {
 
     private final ActionCardRepository actionCardRepository;
     private final UserRepository userRepository;
+    private final FamilyBoardRepository familyBoardRepository;
 
     public List<ActionCardResponse> getTodayActions(UUID userId) {
         User user = getUser(userId);
@@ -44,6 +46,10 @@ public class ActionCardService {
         }
 
         actionCard.updateStatus(ActionStatus.COMPLETED);
+        
+        // 가족 보드 활동 시간 갱신 (Polling 대응)
+        updateFamilyBoardActivity(userId);
+        
         return ActionCardResponse.from(actionCard);
     }
 
@@ -96,6 +102,9 @@ public class ActionCardService {
 
         // Save all
         actionCardRepository.saveAll(cards);
+        
+        // 가족 보드 활동 시간 갱신 (Polling 대응)
+        updateFamilyBoardActivity(user.getId());
     }
 
     public ActionStatsResponse getStatistics(UUID userId) {
@@ -122,6 +131,18 @@ public class ActionCardService {
     private User getUser(UUID userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    /**
+     * 가족 보드 활동 시간 갱신
+     * - 보드 내 데이터 변경 시 Polling 대응을 위한 타임스탬프 관리
+     */
+    private void updateFamilyBoardActivity(UUID userId) {
+        familyBoardRepository.findBySeniorId(userId)
+                .ifPresent(board -> {
+                    board.updateLastActivity();
+                    familyBoardRepository.save(board);
+                });
     }
 }
 

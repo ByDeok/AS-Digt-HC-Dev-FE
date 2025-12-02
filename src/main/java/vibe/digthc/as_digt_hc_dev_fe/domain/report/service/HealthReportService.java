@@ -3,6 +3,7 @@ package vibe.digthc.as_digt_hc_dev_fe.domain.report.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vibe.digthc.as_digt_hc_dev_fe.domain.family.repository.FamilyBoardRepository;
 import vibe.digthc.as_digt_hc_dev_fe.domain.report.dto.ReportContext;
 import vibe.digthc.as_digt_hc_dev_fe.domain.report.dto.ReportMetrics;
 import vibe.digthc.as_digt_hc_dev_fe.domain.report.entity.HealthReport;
@@ -22,6 +23,7 @@ public class HealthReportService {
 
     private final HealthReportRepository healthReportRepository;
     private final UserRepository userRepository;
+    private final FamilyBoardRepository familyBoardRepository;
 
     @Transactional
     public HealthReport generateReport(UUID userId) {
@@ -43,7 +45,12 @@ public class HealthReportService {
                 .endDate(endDate)
                 .build();
 
-        return healthReportRepository.save(report);
+        HealthReport savedReport = healthReportRepository.save(report);
+        
+        // 가족 보드 활동 시간 갱신 (Polling 대응)
+        updateFamilyBoardActivity(userId);
+        
+        return savedReport;
     }
 
     public HealthReport getReport(UUID reportId) {
@@ -89,6 +96,18 @@ public class HealthReportService {
                 .missingDataFields(List.of())
                 .metadata("Mocked data for MVP")
                 .build();
+    }
+
+    /**
+     * 가족 보드 활동 시간 갱신
+     * - 보드 내 데이터 변경 시 Polling 대응을 위한 타임스탬프 관리
+     */
+    private void updateFamilyBoardActivity(UUID userId) {
+        familyBoardRepository.findBySeniorId(userId)
+                .ifPresent(board -> {
+                    board.updateLastActivity();
+                    familyBoardRepository.save(board);
+                });
     }
 }
 

@@ -43,3 +43,6 @@ public interface FamilyBoardMemberRepository extends JpaRepository<FamilyBoardMe
     boolean existsByBoardIdAndMemberIdAndMemberStatus(UUID boardId, UUID memberId, MemberStatus status);
 }
 
+
+
+
