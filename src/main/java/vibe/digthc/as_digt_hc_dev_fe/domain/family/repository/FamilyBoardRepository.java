@@ -34,3 +34,5 @@ public interface FamilyBoardRepository extends JpaRepository<FamilyBoard, UUID> 
 
 
 
+
+
