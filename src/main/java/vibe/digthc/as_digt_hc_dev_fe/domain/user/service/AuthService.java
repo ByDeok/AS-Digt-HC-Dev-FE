@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.dto.*;
+import vibe.digthc.as_digt_hc_dev_fe.domain.user.entity.UserProfile;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.entity.*;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.repository.UserAgreementRepository;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.repository.UserProfileRepository;
@@ -40,6 +41,9 @@ public class AuthService {
 
     @Value("${jwt.access-token-validity-in-seconds}")
     private long accessTokenValidityInSeconds;
+
+    @Value("${redis.refresh-token-prefix:RT:}")
+    private String refreshTokenPrefix;
 
     @Transactional
     public UserResponse signup(SignupRequest request) {
@@ -90,7 +94,7 @@ public class AuthService {
         }
 
         UUID userId = jwtTokenProvider.getUserIdFromToken(refreshToken);
-        String storedToken = redisTemplate.opsForValue().get("RT:" + userId);
+        String storedToken = redisTemplate.opsForValue().get(refreshTokenPrefix + userId);
 
         if (storedToken == null || !storedToken.equals(refreshToken)) {
             throw new IllegalArgumentException("Refresh token not found or mismatched");
@@ -109,7 +113,7 @@ public class AuthService {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         redisTemplate.opsForValue().set(
-                "RT:" + userPrincipal.getId(),
+                refreshTokenPrefix + userPrincipal.getId(),
                 refreshToken,
                 refreshTokenValidityInSeconds,
                 TimeUnit.SECONDS
@@ -124,6 +128,66 @@ public class AuthService {
         );
 
         return new TokenResponse(accessToken, refreshToken, "Bearer", accessTokenValidityInSeconds, userResponse);
+    }
+
+    /**
+     * 사용자 프로필 조회
+     */
+    public ProfileResponse getProfile(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        
+        UserProfile profile = userProfileRepository.findByUser(user)
+                .orElse(null);
+        
+        return ProfileResponse.from(user, profile);
+    }
+
+    /**
+     * 사용자 프로필 수정
+     */
+    @Transactional
+    public ProfileResponse updateProfile(UUID userId, ProfileUpdateRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        
+        UserProfile profile = userProfileRepository.findByUser(user)
+                .orElseGet(() -> {
+                    UserProfile newProfile = UserProfile.builder()
+                            .user(user)
+                            .name(request.name() != null ? request.name() : "User")
+                            .build();
+                    return userProfileRepository.save(newProfile);
+                });
+        
+        // 프로필 정보 업데이트
+        if (request.name() != null || request.phoneNumber() != null || request.bio() != null) {
+            profile.updateProfile(
+                request.name() != null ? request.name() : profile.getName(),
+                request.phoneNumber() != null ? request.phoneNumber() : profile.getPhoneNumber(),
+                request.bio() != null ? request.bio() : profile.getBio()
+            );
+        }
+        
+        if (request.birthDate() != null || request.gender() != null) {
+            profile.updateBasicInfo(
+                request.name() != null ? request.name() : profile.getName(),
+                request.phoneNumber() != null ? request.phoneNumber() : profile.getPhoneNumber(),
+                request.birthDate() != null ? request.birthDate() : profile.getBirthDate(),
+                request.gender() != null ? request.gender() : profile.getGender()
+            );
+        }
+        
+        if (request.primaryConditions() != null || request.accessibilityPrefs() != null) {
+            profile.updateDetails(
+                request.primaryConditions() != null ? request.primaryConditions() : profile.getPrimaryConditions(),
+                request.accessibilityPrefs() != null ? request.accessibilityPrefs() : profile.getAccessibilityPrefs()
+            );
+        }
+        
+        userProfileRepository.save(profile);
+        
+        return ProfileResponse.from(user, profile);
     }
 }
 

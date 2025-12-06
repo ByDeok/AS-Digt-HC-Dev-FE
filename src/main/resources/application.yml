@@ -33,6 +33,12 @@ spring:
       port: ${REDIS_PORT:6379}
 
 # =================================================================
+# Redis 설정
+# =================================================================
+redis:
+  refresh-token-prefix: ${REDIS_REFRESH_TOKEN_PREFIX:RT:}  # Refresh Token 저장 시 사용할 Redis 키 prefix
+
+# =================================================================
 # 로깅 설정
 # =================================================================
 logging:
@@ -57,6 +63,13 @@ server:
 # JWT 설정
 # =================================================================
 jwt:
-  secret: ${JWT_SECRET:vibe-digthc-as-digt-hc-dev-be-jwt-secret-key-must-be-long-enough-256-bits}
-  access-token-validity-in-seconds: 3600 # 1 hour
-  refresh-token-validity-in-seconds: 1209600 # 14 days
+  secret: ${JWT_SECRET}  # 필수: 환경변수로 설정 필요 (최소 256비트 이상)
+  access-token-validity-in-seconds: ${JWT_ACCESS_TOKEN_VALIDITY:3600} # 1 hour (기본값)
+  refresh-token-validity-in-seconds: ${JWT_REFRESH_TOKEN_VALIDITY:1209600} # 14 days (기본값)
+
+# =================================================================
+# OAuth 설정
+# =================================================================
+oauth:
+  callback:
+    url: ${OAUTH_CALLBACK_URL:http://localhost:8080/oauth/callback}  # OAuth callback URL

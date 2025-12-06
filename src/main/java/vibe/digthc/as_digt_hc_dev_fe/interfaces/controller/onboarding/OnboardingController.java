@@ -34,5 +34,13 @@ public class OnboardingController {
         onboardingService.completeSession(userId);
         return ApiResponse.success("Onboarding completed successfully");
     }
+
+    /**
+     * 온보딩 세션 조회
+     */
+    @GetMapping
+    public ApiResponse<OnboardingStepResponse> getSession(@CurrentUserId UUID userId) {
+        return ApiResponse.success(onboardingService.getSession(userId));
+    }
 }
 

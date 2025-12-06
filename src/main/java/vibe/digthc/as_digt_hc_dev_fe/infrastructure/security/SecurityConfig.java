@@ -29,10 +29,20 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // 공개 엔드포인트
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/users/me").authenticated()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // 인증 필요 엔드포인트
+                        .requestMatchers("/api/v1/users/**").authenticated()
+                        .requestMatchers("/api/onboarding/**").authenticated()
+                        .requestMatchers("/api/reports/**").authenticated()
+                        .requestMatchers("/api/actions/**").authenticated()
+                        .requestMatchers("/api/v1/family-board/**").authenticated()
+                        .requestMatchers("/api/v1/integration/**").authenticated()
+                        // 관리자 전용 엔드포인트 (추후 확장 가능)
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        // 나머지 모든 요청은 인증 필요
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

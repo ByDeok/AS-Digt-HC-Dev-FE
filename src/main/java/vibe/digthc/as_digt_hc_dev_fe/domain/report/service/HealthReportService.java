@@ -64,6 +64,25 @@ public class HealthReportService {
         return healthReportRepository.findByUserOrderByCreatedAtDesc(user);
     }
 
+    /**
+     * 리포트 삭제
+     */
+    @Transactional
+    public void deleteReport(UUID userId, UUID reportId) {
+        HealthReport report = healthReportRepository.findById(reportId)
+                .orElseThrow(() -> new IllegalArgumentException("Report not found"));
+        
+        // 소유자 확인
+        if (!report.getUser().getId().equals(userId)) {
+            throw new SecurityException("You do not have permission to delete this report");
+        }
+        
+        healthReportRepository.delete(report);
+        
+        // 가족 보드 활동 시간 갱신
+        updateFamilyBoardActivity(userId);
+    }
+
     private ReportMetrics mockAggregation(LocalDate start, LocalDate end) {
         Random random = new Random();
         return ReportMetrics.builder()

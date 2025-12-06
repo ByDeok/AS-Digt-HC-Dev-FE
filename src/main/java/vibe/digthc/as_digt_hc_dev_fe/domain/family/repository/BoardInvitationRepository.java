@@ -40,3 +40,13 @@ public interface BoardInvitationRepository extends JpaRepository<BoardInvitation
 
 
 
+
+
+
+
+
+
+
+
+
+

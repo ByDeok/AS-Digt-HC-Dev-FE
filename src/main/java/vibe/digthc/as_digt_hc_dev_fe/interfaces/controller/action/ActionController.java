@@ -30,6 +30,16 @@ public class ActionController {
         return ApiResponse.success(actionCardService.completeAction(id, userId));
     }
 
+    /**
+     * 행동 카드 스킵
+     */
+    @PostMapping("/{id}/skip")
+    public ApiResponse<ActionCardResponse> skipAction(
+            @CurrentUserId UUID userId,
+            @PathVariable Long id) {
+        return ApiResponse.success(actionCardService.skipAction(id, userId));
+    }
+
     @GetMapping("/stats")
     public ApiResponse<ActionStatsResponse> getStatistics(@CurrentUserId UUID userId) {
         return ApiResponse.success(actionCardService.getStatistics(userId));

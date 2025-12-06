@@ -34,5 +34,16 @@ public class ReportController {
         List<HealthReport> reports = healthReportService.getReportsByUser(userId);
         return ApiResponse.success("Health reports retrieved successfully", reports);
     }
+
+    /**
+     * 리포트 삭제
+     */
+    @DeleteMapping("/{id}")
+    public ApiResponse<Void> deleteReport(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID id) {
+        healthReportService.deleteReport(userId, id);
+        return ApiResponse.success("Health report deleted successfully");
+    }
 }
 

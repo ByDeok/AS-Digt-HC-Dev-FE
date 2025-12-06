@@ -16,6 +16,7 @@ import vibe.digthc.as_digt_hc_dev_fe.infrastructure.integration.DeviceProviderFa
 import vibe.digthc.as_digt_hc_dev_fe.infrastructure.integration.HealthDataDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,9 @@ public class DeviceLinkServiceImpl implements DeviceLinkService {
     private final UserRepository userRepository;
     private final DeviceProviderFactory providerFactory;
     private final ConsentService consentService;
+
+    @Value("${oauth.callback.url:http://localhost:8080/oauth/callback}")
+    private String oauthCallbackUrl;
 
     @Override
     public List<DeviceLinkRes> getDeviceLinks(UUID userId) {
@@ -63,7 +67,7 @@ public class DeviceLinkServiceImpl implements DeviceLinkService {
 
         // Provider를 통한 OAuth 토큰 교환
         DeviceDataProvider provider = providerFactory.getProvider(req.vendor());
-        var tokenResponse = provider.authorize(req.authCode(), "http://localhost:8080/oauth/callback");
+        var tokenResponse = provider.authorize(req.authCode(), oauthCallbackUrl);
 
         // DeviceLink 생성
         DeviceLink deviceLink = DeviceLink.create(user, req.vendor(), req.deviceType());

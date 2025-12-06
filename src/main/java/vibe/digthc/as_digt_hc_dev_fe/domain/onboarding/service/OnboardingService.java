@@ -63,6 +63,8 @@ public class OnboardingService {
             }
 
             session.updateStep(request.nextStep());
+            // REQ-FUNC-005: 중간 저장 기능 - 세션 상태 변경 후 저장
+            sessionRepository.save(session);
         }
 
         return createResponse(session);
@@ -78,6 +80,25 @@ public class OnboardingService {
         
         // Explicitly save if not managed (Transactional handles it usually, but explicit save is safe)
         userRepository.save(user); 
+    }
+
+    /**
+     * 온보딩 세션 조회
+     */
+    public OnboardingStepResponse getSession(UUID userId) {
+        User user = getUser(userId);
+        OnboardingSession session = sessionRepository.findByUser(user)
+                .orElseGet(() -> {
+                    // 세션이 없으면 새로 생성
+                    OnboardingSession newSession = OnboardingSession.builder()
+                            .user(user)
+                            .status(OnboardingStatus.IN_PROGRESS)
+                            .currentStep(OnboardingStep.TERMS_AGREEMENT)
+                            .build();
+                    return sessionRepository.save(newSession);
+                });
+        
+        return createResponse(session);
     }
     
     private User getUser(UUID userId) {

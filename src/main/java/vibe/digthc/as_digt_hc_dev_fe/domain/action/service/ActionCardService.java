@@ -53,6 +53,27 @@ public class ActionCardService {
         return ActionCardResponse.from(actionCard);
     }
 
+    /**
+     * 행동 카드 스킵
+     */
+    @Transactional
+    public ActionCardResponse skipAction(Long actionId, UUID userId) {
+        User user = getUser(userId);
+        ActionCard actionCard = actionCardRepository.findById(actionId)
+                .orElseThrow(() -> new IllegalArgumentException("Action card not found"));
+
+        if (!actionCard.getUser().getId().equals(user.getId())) {
+            throw new SecurityException("You do not have permission to access this card");
+        }
+
+        actionCard.updateStatus(ActionStatus.SKIPPED);
+        
+        // 가족 보드 활동 시간 갱신 (Polling 대응)
+        updateFamilyBoardActivity(userId);
+        
+        return ActionCardResponse.from(actionCard);
+    }
+
     @Transactional
     public void generateDailyCards() {
         // Find all active users (this might be heavy for real prod, but okay for MVP)
