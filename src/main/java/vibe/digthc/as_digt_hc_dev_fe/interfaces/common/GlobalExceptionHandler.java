@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +29,41 @@ import org.springframework.security.core.AuthenticationException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * 정적 리소스/매핑 미존재(404) 처리
+     * - 예: /h2-console 이 실제로 노출되지 않는 경우
+     * - 기존에는 최종 fallback(Exception)에서 500으로 처리되어 원인 파악이 어려웠다.
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("NOT_FOUND")
+                .message("요청한 리소스를 찾을 수 없습니다.")
+                .detail(ex.getMessage())
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+
+        log.warn("Resource not found: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    /**
+     * 파라미터 타입 변환 실패 처리 (400)
+     * - 예: UUID가 필요한 PathVariable에 '2' 같은 값이 들어오는 경우
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code("TYPE_MISMATCH")
+                .message("요청 파라미터 형식이 올바르지 않습니다.")
+                .detail(ex.getMessage())
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+
+        log.warn("Type mismatch: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
     
     /**
      * UnsupportedRegionException 처리

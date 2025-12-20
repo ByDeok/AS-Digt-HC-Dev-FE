@@ -22,16 +22,14 @@ import {
   ArrowRight,
   AlertTriangle,
   FileText,
-  HeartPulse,
-  Link2,
-  Printer,
   ShieldCheck,
   Sparkles,
   TrendingDown,
-  Users,
   Activity,
   Lock,
 } from 'lucide-react';
+import LogoWithText from '@/assets/resource/Logo_wint_name-Photoroom.png';
+import GodenWellnessVideo from '@/assets/resource/goden wellness.mp4';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -118,8 +116,15 @@ export default function LandingPage() {
             {/* 전역 BrandCornerIcon과의 간격 조정을 위해 ml-10 정도를 유지하거나, 
                 전역 아이콘 위치가 수정된다면 이 값을 줄일 수 있습니다. 
                 사용자 요청("왼쪽으로 몰아넣고")을 반영하여 기존 ml-12보다 약간 줄인 ml-10을 적용합니다. */}
-            <Link to="/" className="flex items-center gap-2 ml-10 sm:ml-12">
-               <span className="text-lg font-bold tracking-tight text-foreground/90">골든웰니스</span>
+            <Link 
+              to="/" 
+              className="flex items-center gap-2 ml-10 sm:ml-12"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+               <span className="text-lg font-bold tracking-tight text-foreground/90 absolute left-[51px]">골든웰니스</span>
             </Link>
           </div>
 
@@ -190,7 +195,7 @@ export default function LandingPage() {
       {/* Hero (추가, 최상단): “공유 = 감시” 프레임을 먼저 해소 */}
       {/* 고급스러운 그라데이션과 넉넉한 여백 적용 */}
       <section className="relative mx-auto w-full max-w-7xl px-4 pt-12 pb-8 sm:px-6 lg:px-8 lg:pt-20">
-        <div className="group relative overflow-hidden rounded-3xl border bg-gradient-to-b from-background to-muted/20 p-8 shadow-sm transition-all hover:shadow-md md:p-12 lg:p-16">
+        <div className="group relative overflow-hidden rounded-3xl border p-8 shadow-sm transition-all hover:shadow-md md:p-12 lg:p-16">
           {/* 장식용 배경 효과 */}
           <div className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-primary/5 blur-3xl transition-all duration-1000 group-hover:bg-primary/10" />
           <div className="pointer-events-none absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-blue-500/5 blur-3xl transition-all duration-1000 group-hover:bg-blue-500/10" />
@@ -201,7 +206,13 @@ export default function LandingPage() {
               <span>기본값은 최소 공유 · 범위는 직접 선택</span>
             </div>
             
-            <div className="space-y-4">
+            <div className="flex flex-col items-center gap-4 w-full">
+              <img 
+                src={LogoWithText} 
+                alt="Golden Wellness" 
+                className="w-full max-w-[500px] object-contain mb-2"
+                style={{ filter: 'drop-shadow(0 0 2px hsl(var(--background)))' }}
+              />
               <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl break-keep">
                 “감시”가 아니라<br className="sm:hidden" /> <span className="text-primary">“안심”</span>을 위한 공유
               </h1>
@@ -232,6 +243,37 @@ export default function LandingPage() {
                   공유 원칙 살펴보기
                 </Button>
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 영상 섹션: 상단 히어로(가치 제안)와 다음 히어로(결과 제시) 사이의 감정 전환용 브릿지 */}
+      <section className="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-3xl border bg-muted/10 shadow-sm">
+          <div className="px-6 pt-6 sm:px-8 sm:pt-8">
+            <p className="text-sm font-medium text-muted-foreground">소개 영상</p>
+            <p className="mt-1 text-base font-semibold text-foreground break-keep">
+              골든웰니스가 “안심 공유”를 만드는 흐름을 한 번에 확인하세요.
+            </p>
+          </div>
+
+          <div className="p-4 sm:p-6">
+            <div className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 bg-black/5">
+              <video
+                className="block h-full w-full object-cover"
+                src={GodenWellnessVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                controls
+                preload="metadata"
+                aria-label="골든웰니스 소개 영상"
+              >
+                {/* 브라우저가 video 태그를 지원하지 않을 때의 대체 문구 */}
+                동영상을 재생할 수 없는 환경입니다.
+              </video>
             </div>
           </div>
         </div>
@@ -366,7 +408,7 @@ export default function LandingPage() {
       </section>
 
       {/* 문제 → 해결 구조: 숨은 비용을 정확히 찌르기 */}
-      <section id="problem" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section id="problem" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl break-keep">기록은 있는데, 결론이 없습니다</h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto break-keep">
@@ -417,7 +459,7 @@ export default function LandingPage() {
       </section>
 
       {/* C 유형 핵심: Input-Output 다이어그램 (복잡한 과정은 숨기고 “넣으면 나온다”) */}
-      <section id="how" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 bg-muted/10">
+      <section id="how" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 bg-muted/10 scroll-mt-20">
         <div className="space-y-12">
           <div className="text-center space-y-4">
             <div className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium bg-background">
@@ -561,7 +603,7 @@ export default function LandingPage() {
       </section>
 
       {/* 신뢰/안전 — 의심(개인정보/민감정보)을 먼저 처리 */}
-      <section id="trust" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section id="trust" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
         <div className="grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-1 space-y-4">
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl break-keep">
@@ -599,7 +641,7 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ: 불안 해소 */}
-      <section id="faq" className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+      <section id="faq" className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold">자주 묻는 질문</h2>
         </div>

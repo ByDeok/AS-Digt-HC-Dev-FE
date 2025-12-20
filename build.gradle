@@ -30,6 +30,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// 일부 IDE/분석 환경에서 jakarta.servlet 타입을 해석하지 못하는 경우가 있어 명시적으로 포함
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.1.0'
 	
 	// JWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'

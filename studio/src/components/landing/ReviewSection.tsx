@@ -59,7 +59,7 @@ const REVIEWS: Review[] = [
 
 export function ReviewSection() {
   return (
-    <section id="reviews" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 bg-muted/20">
+    <section id="reviews" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 bg-muted/20 scroll-mt-20">
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl break-keep">
           이미 많은 가족들이<br className="sm:hidden" /> 안심하고 있습니다
@@ -108,7 +108,7 @@ export function ReviewSection() {
 
                   <div className="relative flex-1">
                     <Quote className="absolute -top-2 -left-2 h-6 w-6 text-muted-foreground/10 rotate-180" />
-                    <p className="text-sm text-muted-foreground leading-relaxed pl-2 break-keep">
+                    <p className="text-sm text-muted-foreground leading-relaxed pl-2 break-keep select-none">
                       {review.content}
                     </p>
                   </div>

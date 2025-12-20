@@ -13,7 +13,14 @@ import { login } from '@/services/authService';
 import { setAuthSession } from '@/lib/auth';
 
 const schema = z.object({
-  email: z.string().email('이메일 형식이 올바르지 않습니다.'),
+  // 개발/테스트 편의: 고정 관리자 계정 "admin"도 허용
+  email: z
+    .string()
+    .min(1, '아이디(이메일) 또는 admin 을 입력해주세요.')
+    .refine(
+      (val) => val === 'admin' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val),
+      '이메일 형식이 올바르지 않습니다. (또는 admin)'
+    ),
   password: z.string().min(1, '비밀번호를 입력해주세요.'),
 });
 
@@ -66,9 +73,9 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>이메일</FormLabel>
+                    <FormLabel>아이디(이메일 또는 admin)</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" autoComplete="email" {...field} />
+                      <Input placeholder="admin 또는 name@example.com" autoComplete="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

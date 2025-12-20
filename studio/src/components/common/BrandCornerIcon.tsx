@@ -6,25 +6,37 @@
  * - 사용자가 아이콘을 클릭하면 홈("/")으로 이동
  */
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import Logo from '@/assets/resource/Logo.png';
 
 /**
  * 프로그램 단위 용도: 화면 좌상단에 고정 표시되는 브랜드 아이콘
  */
 export function BrandCornerIcon() {
+  const location = useLocation();
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // 현재 페이지가 홈('/')인 경우, 기본 이동을 막고 부드럽게 최상단으로 스크롤
+    if (location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <Link
       to="/"
+      onClick={handleClick}
       aria-label="골든 웰니스 홈으로 이동"
       className="fixed left-2 top-3 z-[60] inline-flex h-10 w-10 items-center justify-center"
     >
       {/*
         public/ 아래 정적 자원으로 제공됩니다.
-        - dev: /brand-icon.png
+        - dev: /Logo.png
         - build: dist에 복사되어 동일 경로로 제공
       */}
       <img
-        src="/brand-icon.png"
+        src={Logo}
         alt="골든 웰니스"
         className="h-10 w-10 rounded-full bg-white/80 shadow-md ring-1 ring-black/10 backdrop-blur"
         loading="eager"

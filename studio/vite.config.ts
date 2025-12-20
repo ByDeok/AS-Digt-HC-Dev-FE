@@ -18,11 +18,15 @@ export default defineConfig({
      * - CORS 없이 브라우저에서 API 호출 확인 가능
      * - 예: http://localhost:9002/api/health  ->  http://localhost:8080/api/health
      *
-     * 로컬에서 BE를 8081로 띄운 경우에도 동작하도록 기본 target을 8081로 둠.
+     * 이 프로젝트는 로컬에서 BE를 8081로 띄워 쓰는 경우가 많아 기본 target을 8081로 둔다.
+     * (예: `.\gradlew bootRun --args='--spring.profiles.active=local --server.port=8081'`)
+     *
+     * 또한 환경에 따라 BE 포트를 바꾸는 경우
+     * 환경에 따라 BE 포트를 바꾸는 경우 VITE_BE_URL로 오버라이드 할 수 있게 한다.
      */
     proxy: {
       '/api': {
-        target: 'http://localhost:8081',
+        target: process.env.VITE_BE_URL || 'http://localhost:8081',
         changeOrigin: true,
         secure: false,
       },

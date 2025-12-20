@@ -151,8 +151,11 @@ public class DeviceLink extends BaseTimeEntity {
      */
     public void revoke() {
         this.status = DeviceStatus.REVOKED;
-        this.accessToken = null;
+        // accessToken 컬럼이 DB에서 NOT NULL로 관리되고 있어 null로 만들면 업데이트가 실패할 수 있다.
+        // - 보안상 토큰 무효화는 벤더 revoke API 호출(가능한 경우)과 status로 통제한다.
+        // - 토큰 문자열을 DB에서 완전히 제거하고 싶다면 스키마 변경(nullable) + 마이그레이션이 필요하다.
         this.refreshToken = null;
+        this.errorMessage = null;
     }
 
     /**

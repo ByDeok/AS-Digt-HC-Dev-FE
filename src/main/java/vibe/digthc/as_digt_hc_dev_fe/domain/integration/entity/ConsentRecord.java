@@ -144,8 +144,11 @@ public class ConsentRecord extends BaseTimeEntity {
      * 동의 철회
      */
     public void revoke(String reason) {
+        // API 관점에서 동의 철회(DELETE)는 멱등하게 동작하는 편이 테스트/운영에 유리하다.
+        // - 이미 REVOKED/EXPIRED 상태면 추가 변경 없이 성공 처리(no-op)
+        // - ACTIVE 상태인 경우에만 REVOKED로 전이한다.
         if (status != ConsentStatus.ACTIVE) {
-            throw new IllegalStateException("활성 상태의 동의만 철회할 수 있습니다.");
+            return;
         }
         this.status = ConsentStatus.REVOKED;
         this.revokedAt = LocalDateTime.now();
