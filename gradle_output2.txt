@@ -1,0 +1,1001 @@
+﻿
+> Task :compileJava
+.\gradlew.bat : C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-
+HC-Dev-FE\src\main\java\vibe\digthc\as_digt_hc_dev_fe\doma
+in\family\service\PermissionService.java:38: error: cannot
+ find symbol
+위치 줄:1 문자:1
++ .\gradlew.bat compileJava 2>&1 | Out-File -FilePath grad
+le_output2.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\ejr 
+   wl\...not find symbol:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    private boolean hasPermission(FamilyBoardMember member
+, FamilyBoardPermission permission) {
+                                  ^
+  symbol:   class FamilyBoardMember
+  location: class PermissionService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conver
+ter\ReportContextConverter.java:3: error: package com.fast
+erxml.jackson.core does not exist
+import com.fasterxml.jackson.core.JsonProcessingException;
+                                 ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conver
+ter\ReportContextConverter.java:4: error: package com.fast
+erxml.jackson.databind does not exist
+import com.fasterxml.jackson.databind.ObjectMapper;
+                                     ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conver
+ter\ReportContextConverter.java:12: error: cannot find sym
+bol
+    private static final ObjectMapper objectMapper = new O
+bjectMapper();
+                         ^
+  symbol:   class ObjectMapper
+  location: class ReportContextConverter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conver
+ter\ReportMetricsConverter.java:3: error: package com.fast
+erxml.jackson.core does not exist
+import com.fasterxml.jackson.core.JsonProcessingException;
+                                 ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conver
+ter\ReportMetricsConverter.java:4: error: package com.fast
+erxml.jackson.databind does not exist
+import com.fasterxml.jackson.databind.ObjectMapper;
+                                     ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conver
+ter\ReportMetricsConverter.java:12: error: cannot find sym
+bol
+    private static final ObjectMapper objectMapper = new O
+bjectMapper();
+                         ^
+  symbol:   class ObjectMapper
+  location: class ReportMetricsConverter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:5: error: package org.springframework.dat
+a.redis.core does not exist
+import org.springframework.data.redis.core.StringRedisTemp
+late;
+                                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:6: error: package org.springframework.sec
+urity.authentication does not exist
+import org.springframework.security.authentication.Authent
+icationManager;
+                                                  ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:7: error: package org.springframework.sec
+urity.authentication does not exist
+import org.springframework.security.authentication.Usernam
+ePasswordAuthenticationToken;
+                                                  ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:8: error: package org.springframework.sec
+urity.core does not exist
+import org.springframework.security.core.Authentication;
+                                        ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:9: error: package org.springframework.sec
+urity.core.userdetails does not exist
+import org.springframework.security.core.userdetails.UserD
+etails;
+                                                    ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:10: error: package org.springframework.se
+curity.crypto.password does not exist
+import org.springframework.security.crypto.password.Passwo
+rdEncoder;
+                                                   ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:33: error: cannot find symbol
+    private final PasswordEncoder passwordEncoder;
+                  ^
+  symbol:   class PasswordEncoder
+  location: class AuthService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:34: error: cannot find symbol
+    private final AuthenticationManager authenticationMana
+ger;
+                  ^
+  symbol:   class AuthenticationManager
+  location: class AuthService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtTokenProvider.java:4: error: package io.jsonwebtoke
+n.security does not exist
+import io.jsonwebtoken.security.Keys;
+                               ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtTokenProvider.java:7: error: package org.springfram
+ework.security.core does not exist
+import org.springframework.security.core.Authentication;
+                                        ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:36: error: cannot find symbol
+    private final StringRedisTemplate redisTemplate;
+                  ^
+  symbol:   class StringRedisTemplate
+  location: class AuthService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CustomUserDetailsService.java:4: error: package org.sp
+ringframework.security.core.userdetails does not exist
+import org.springframework.security.core.userdetails.UserD
+etails;
+                                                    ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CustomUserDetailsService.java:5: error: package org.sp
+ringframework.security.core.userdetails does not exist
+import org.springframework.security.core.userdetails.UserD
+etailsService;
+                                                    ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CustomUserDetailsService.java:6: error: package org.sp
+ringframework.security.core.userdetails does not exist
+import org.springframework.security.core.userdetails.Usern
+ameNotFoundException;
+                                                    ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CustomUserDetailsService.java:16: error: cannot find s
+ymbol
+public class CustomUserDetailsService implements UserDetai
+lsService {
+                                                 ^
+  symbol: class UserDetailsService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:110: error: cannot find symbol
+    private TokenResponse generateTokenResponse(Authentica
+tion authentication) {
+                                                ^
+  symbol:   class Authentication
+  location: class AuthService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\service\
+AuthService.java:27: error: cannot find symbol
+@RequiredArgsConstructor
+^
+  symbol:   class PasswordEncoder
+  location: class AuthService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CustomUserDetailsService.java:22: error: cannot find s
+ymbol
+    public UserDetails loadUserByUsername(String email) th
+rows UsernameNotFoundException {
+           ^
+  symbol:   class UserDetails
+  location: class CustomUserDetailsService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CustomUserDetailsService.java:22: error: cannot find s
+ymbol
+    public UserDetails loadUserByUsername(String email) th
+rows UsernameNotFoundException {
+                                                          
+     ^
+  symbol:   class UsernameNotFoundException
+  location: class CustomUserDetailsService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CustomUserDetailsService.java:30: error: cannot find s
+ymbol
+    public UserDetails loadUserById(UUID id) {
+           ^
+  symbol:   class UserDetails
+  location: class CustomUserDetailsService
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtTokenProvider.java:32: error: cannot find symbol
+    public String createAccessToken(Authentication authent
+ication) {
+                                    ^
+  symbol:   class Authentication
+  location: class JwtTokenProvider
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtTokenProvider.java:47: error: cannot find symbol
+    public String createRefreshToken(Authentication authen
+tication) {
+                                     ^
+  symbol:   class Authentication
+  location: class JwtTokenProvider
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtTokenProvider.java:3: error: package io.jsonwebtoke
+n does not exist
+import io.jsonwebtoken.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CurrentUserId.java:3: error: package org.springframewo
+rk.security.core.annotation does not exist
+import org.springframework.security.core.annotation.Authen
+ticationPrincipal;
+                                                   ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\CurrentUserId.java:9: error: cannot find symbol
+@AuthenticationPrincipal(expression = "#this == 'anonymous
+User' ? null : id")
+ ^
+  symbol: class AuthenticationPrincipal
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtAuthenticationFilter.java:8: error: package org.spr
+ingframework.security.authentication does not exist
+import org.springframework.security.authentication.Usernam
+ePasswordAuthenticationToken;
+                                                  ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtAuthenticationFilter.java:9: error: package org.spr
+ingframework.security.core.context does not exist
+import org.springframework.security.core.context.SecurityC
+ontextHolder;
+                                                ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtAuthenticationFilter.java:10: error: package org.sp
+ringframework.security.core.userdetails does not exist
+import org.springframework.security.core.userdetails.UserD
+etails;
+                                                    ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\JwtAuthenticationFilter.java:11: error: package org.sp
+ringframework.security.web.authentication does not exist
+import org.springframework.security.web.authentication.Web
+AuthenticationDetailsSource;
+                                                      ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:6: error: package org.springframew
+ork.security.authentication does not exist
+import org.springframework.security.authentication.Authent
+icationManager;
+                                                  ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:7: error: package org.springframew
+ork.security.config.annotation.authentication.configuratio
+n does not exist
+import org.springframework.security.config.annotation.auth
+entication.configuration.AuthenticationConfiguration;
+                                                          
+                        ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:8: error: package org.springframew
+ork.security.config.annotation.web.builders does not exist
+import org.springframework.security.config.annotation.web.
+builders.HttpSecurity;
+                                                          
+        ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:9: error: package org.springframew
+ork.security.config.annotation.web.configuration does not 
+exist
+import org.springframework.security.config.annotation.web.
+configuration.EnableWebSecurity;
+                                                          
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:10: error: package org.springframe
+work.security.config.annotation.web.configurers does not e
+xist
+import org.springframework.security.config.annotation.web.
+configurers.AbstractHttpConfigurer;
+                                                          
+           ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:11: error: package org.springframe
+work.security.config.http does not exist
+import org.springframework.security.config.http.SessionCre
+ationPolicy;
+                                               ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:12: error: package org.springframe
+work.security.crypto.bcrypt does not exist
+import org.springframework.security.crypto.bcrypt.BCryptPa
+sswordEncoder;
+                                                 ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:13: error: package org.springframe
+work.security.crypto.password does not exist
+import org.springframework.security.crypto.password.Passwo
+rdEncoder;
+                                                   ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:14: error: package org.springframe
+work.security.web does not exist
+import org.springframework.security.web.SecurityFilterChai
+n;
+                                       ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:15: error: package org.springframe
+work.security.web.authentication does not exist
+import org.springframework.security.web.authentication.Use
+rnamePasswordAuthenticationFilter;
+                                                      ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:18: error: cannot find symbol
+@EnableWebSecurity
+ ^
+  symbol: class EnableWebSecurity
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:25: error: cannot find symbol
+    public SecurityFilterChain filterChain(HttpSecurity ht
+tp) throws Exception {
+                                           ^
+  symbol:   class HttpSecurity
+  location: class SecurityConfig
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:25: error: cannot find symbol
+    public SecurityFilterChain filterChain(HttpSecurity ht
+tp) throws Exception {
+           ^
+  symbol:   class SecurityFilterChain
+  location: class SecurityConfig
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:54: error: cannot find symbol
+    public PasswordEncoder passwordEncoder() {
+           ^
+  symbol:   class PasswordEncoder
+  location: class SecurityConfig
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:59: error: cannot find symbol
+    public AuthenticationManager authenticationManager(Aut
+henticationConfiguration authenticationConfiguration) thro
+ws Exception {
+                                                       ^
+  symbol:   class AuthenticationConfiguration
+  location: class SecurityConfig
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\SecurityConfig.java:59: error: cannot find symbol
+    public AuthenticationManager authenticationManager(Aut
+henticationConfiguration authenticationConfiguration) thro
+ws Exception {
+           ^
+  symbol:   class AuthenticationManager
+  location: class SecurityConfig
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\UserPrincipal.java:4: error: package org.springframewo
+rk.security.core does not exist
+import org.springframework.security.core.GrantedAuthority;
+                                        ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\UserPrincipal.java:5: error: package org.springframewo
+rk.security.core.authority does not exist
+import org.springframework.security.core.authority.SimpleG
+rantedAuthority;
+                                                  ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\UserPrincipal.java:6: error: package org.springframewo
+rk.security.core.userdetails does not exist
+import org.springframework.security.core.userdetails.UserD
+etails;
+                                                    ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\UserPrincipal.java:14: error: cannot find symbol
+public class UserPrincipal implements UserDetails {
+                                      ^
+  symbol: class UserDetails
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\UserPrincipal.java:19: error: cannot find symbol
+    private final Collection<? extends GrantedAuthority> a
+uthorities;
+                                       ^
+  symbol:   class GrantedAuthority
+  location: class UserPrincipal
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\UserPrincipal.java:21: error: cannot find symbol
+    public UserPrincipal(UUID id, String email, String pas
+sword, String name, Collection<? extends GrantedAuthority>
+ authorities) {
+                                                          
+                                         ^
+  symbol:   class GrantedAuthority
+  location: class UserPrincipal
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\secur
+ity\UserPrincipal.java:19: error: cannot find symbol
+    private final Collection<? extends GrantedAuthority> a
+uthorities;
+                                                         ^
+  symbol:   class GrantedAuthority
+  location: class UserPrincipal
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\Gl
+obalExceptionHandler.java:21: error: package org.springfra
+mework.security.access does not exist
+import org.springframework.security.access.AccessDeniedExc
+eption;
+                                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\Gl
+obalExceptionHandler.java:22: error: package org.springfra
+mework.security.core does not exist
+import org.springframework.security.core.AuthenticationExc
+eption;
+                                        ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\Gl
+obalExceptionHandler.java:272: error: cannot find symbol
+    public ResponseEntity<ErrorResponse> handleAuthenticat
+ionException(AuthenticationException ex) {
+                                                          
+             ^
+  symbol:   class AuthenticationException
+  location: class GlobalExceptionHandler
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\Gl
+obalExceptionHandler.java:291: error: cannot find symbol
+    public ResponseEntity<ErrorResponse> handleAccessDenie
+dException(AccessDeniedException ex) {
+                                                          
+           ^
+  symbol:   class AccessDeniedException
+  location: class GlobalExceptionHandler
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\Gl
+obalExceptionHandler.java:271: error: cannot find symbol
+    @ExceptionHandler(AuthenticationException.class)
+                      ^
+  symbol:   class AuthenticationException
+  location: class GlobalExceptionHandler
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\Gl
+obalExceptionHandler.java:290: error: cannot find symbol
+    @ExceptionHandler(AccessDeniedException.class)
+                      ^
+  symbol:   class AccessDeniedException
+  location: class GlobalExceptionHandler
+65 errors
+
+> Task :compileJava FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/ejrwl/OneDrive/Workspace/AS-Digt-HC-Dev-FE/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\serv
+ice\PermissionService.java:38: error: cannot find symbol
+      private boolean hasPermission(FamilyBoardMember memb
+er, FamilyBoardPermission permission) {
+                                    ^
+    symbol:   class FamilyBoardMember
+    location: class PermissionService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conv
+erter\ReportContextConverter.java:12: error: cannot find s
+ymbol
+      private static final ObjectMapper objectMapper = new
+ ObjectMapper();
+                           ^
+    symbol:   class ObjectMapper
+    location: class ReportContextConverter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conv
+erter\ReportMetricsConverter.java:12: error: cannot find s
+ymbol
+      private static final ObjectMapper objectMapper = new
+ ObjectMapper();
+                           ^
+    symbol:   class ObjectMapper
+    location: class ReportMetricsConverter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:33: error: cannot find symbol
+      private final PasswordEncoder passwordEncoder;
+                    ^
+    symbol:   class PasswordEncoder
+    location: class AuthService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:34: error: cannot find symbol
+      private final AuthenticationManager authenticationMa
+nager;
+                    ^
+    symbol:   class AuthenticationManager
+    location: class AuthService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:36: error: cannot find symbol
+      private final StringRedisTemplate redisTemplate;
+                    ^
+    symbol:   class StringRedisTemplate
+    location: class AuthService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:110: error: cannot find symbol
+      private TokenResponse generateTokenResponse(Authenti
+cation authentication) {
+                                                  ^
+    symbol:   class Authentication
+    location: class AuthService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:27: error: cannot find symbol
+  @RequiredArgsConstructor
+  ^
+    symbol:   class PasswordEncoder
+    location: class AuthService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CustomUserDetailsService.java:22: error: cannot find
+ symbol
+      public UserDetails loadUserByUsername(String email) 
+throws UsernameNotFoundException {
+             ^
+    symbol:   class UserDetails
+    location: class CustomUserDetailsService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CustomUserDetailsService.java:22: error: cannot find
+ symbol
+      public UserDetails loadUserByUsername(String email) 
+throws UsernameNotFoundException {
+                                                          
+       ^
+    symbol:   class UsernameNotFoundException
+    location: class CustomUserDetailsService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CustomUserDetailsService.java:30: error: cannot find
+ symbol
+      public UserDetails loadUserById(UUID id) {
+             ^
+    symbol:   class UserDetails
+    location: class CustomUserDetailsService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtTokenProvider.java:32: error: cannot find symbol
+      public String createAccessToken(Authentication authe
+ntication) {
+                                      ^
+    symbol:   class Authentication
+    location: class JwtTokenProvider
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtTokenProvider.java:47: error: cannot find symbol
+      public String createRefreshToken(Authentication auth
+entication) {
+                                       ^
+    symbol:   class Authentication
+    location: class JwtTokenProvider
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:25: error: cannot find symbol
+      public SecurityFilterChain filterChain(HttpSecurity 
+http) throws Exception {
+                                             ^
+    symbol:   class HttpSecurity
+    location: class SecurityConfig
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:25: error: cannot find symbol
+      public SecurityFilterChain filterChain(HttpSecurity 
+http) throws Exception {
+             ^
+    symbol:   class SecurityFilterChain
+    location: class SecurityConfig
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:54: error: cannot find symbol
+      public PasswordEncoder passwordEncoder() {
+             ^
+    symbol:   class PasswordEncoder
+    location: class SecurityConfig
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:59: error: cannot find symbol
+      public AuthenticationManager authenticationManager(A
+uthenticationConfiguration authenticationConfiguration) th
+rows Exception {
+                                                         ^
+    symbol:   class AuthenticationConfiguration
+    location: class SecurityConfig
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:59: error: cannot find symbol
+      public AuthenticationManager authenticationManager(A
+uthenticationConfiguration authenticationConfiguration) th
+rows Exception {
+             ^
+    symbol:   class AuthenticationManager
+    location: class SecurityConfig
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\UserPrincipal.java:19: error: cannot find symbol
+      private final Collection<? extends GrantedAuthority>
+ authorities;
+                                         ^
+    symbol:   class GrantedAuthority
+    location: class UserPrincipal
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\UserPrincipal.java:21: error: cannot find symbol
+      public UserPrincipal(UUID id, String email, String p
+assword, String name, Collection<? extends GrantedAuthorit
+y> authorities) {
+                                                          
+                                           ^
+    symbol:   class GrantedAuthority
+    location: class UserPrincipal
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\UserPrincipal.java:19: error: cannot find symbol
+      private final Collection<? extends GrantedAuthority>
+ authorities;
+                                                          
+ ^
+    symbol:   class GrantedAuthority
+    location: class UserPrincipal
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\
+GlobalExceptionHandler.java:272: error: cannot find symbol
+      public ResponseEntity<ErrorResponse> handleAuthentic
+ationException(AuthenticationException ex) {
+                                                          
+               ^
+    symbol:   class AuthenticationException
+    location: class GlobalExceptionHandler
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\
+GlobalExceptionHandler.java:291: error: cannot find symbol
+      public ResponseEntity<ErrorResponse> handleAccessDen
+iedException(AccessDeniedException ex) {
+                                                          
+             ^
+    symbol:   class AccessDeniedException
+    location: class GlobalExceptionHandler
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\
+GlobalExceptionHandler.java:271: error: cannot find symbol
+      @ExceptionHandler(AuthenticationException.class)
+                        ^
+    symbol:   class AuthenticationException
+    location: class GlobalExceptionHandler
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\
+GlobalExceptionHandler.java:290: error: cannot find symbol
+      @ExceptionHandler(AccessDeniedException.class)
+                        ^
+    symbol:   class AccessDeniedException
+    location: class GlobalExceptionHandler
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CustomUserDetailsService.java:16: error: cannot find
+ symbol
+  public class CustomUserDetailsService implements UserDet
+ailsService {
+                                                   ^
+    symbol: class UserDetailsService
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CurrentUserId.java:9: error: cannot find symbol
+  @AuthenticationPrincipal(expression = "#this == 'anonymo
+usUser' ? null : id")
+   ^
+    symbol: class AuthenticationPrincipal
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:18: error: cannot find symbol
+  @EnableWebSecurity
+   ^
+    symbol: class EnableWebSecurity
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\UserPrincipal.java:14: error: cannot find symbol
+  public class UserPrincipal implements UserDetails {
+                                        ^
+    symbol: class UserDetails
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conv
+erter\ReportContextConverter.java:3: error: package com.fa
+sterxml.jackson.core does not exist
+  import com.fasterxml.jackson.core.JsonProcessingExceptio
+n;
+                                   ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conv
+erter\ReportContextConverter.java:4: error: package com.fa
+sterxml.jackson.databind does not exist
+  import com.fasterxml.jackson.databind.ObjectMapper;
+                                       ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conv
+erter\ReportMetricsConverter.java:3: error: package com.fa
+sterxml.jackson.core does not exist
+  import com.fasterxml.jackson.core.JsonProcessingExceptio
+n;
+                                   ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\report\conv
+erter\ReportMetricsConverter.java:4: error: package com.fa
+sterxml.jackson.databind does not exist
+  import com.fasterxml.jackson.databind.ObjectMapper;
+                                       ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:5: error: package org.springframework.d
+ata.redis.core does not exist
+  import org.springframework.data.redis.core.StringRedisTe
+mplate;
+                                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:6: error: package org.springframework.s
+ecurity.authentication does not exist
+  import org.springframework.security.authentication.Authe
+nticationManager;
+                                                    ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:7: error: package org.springframework.s
+ecurity.authentication does not exist
+  import org.springframework.security.authentication.Usern
+amePasswordAuthenticationToken;
+                                                    ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:8: error: package org.springframework.s
+ecurity.core does not exist
+  import org.springframework.security.core.Authentication;
+                                          ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:9: error: package org.springframework.s
+ecurity.core.userdetails does not exist
+  import org.springframework.security.core.userdetails.Use
+rDetails;
+                                                      ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\servic
+e\AuthService.java:10: error: package org.springframework.
+security.crypto.password does not exist
+  import org.springframework.security.crypto.password.Pass
+wordEncoder;
+                                                     ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtTokenProvider.java:4: error: package io.jsonwebto
+ken.security does not exist
+  import io.jsonwebtoken.security.Keys;
+                                 ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtTokenProvider.java:7: error: package org.springfr
+amework.security.core does not exist
+  import org.springframework.security.core.Authentication;
+                                          ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CustomUserDetailsService.java:4: error: package org.
+springframework.security.core.userdetails does not exist
+  import org.springframework.security.core.userdetails.Use
+rDetails;
+                                                      ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CustomUserDetailsService.java:5: error: package org.
+springframework.security.core.userdetails does not exist
+  import org.springframework.security.core.userdetails.Use
+rDetailsService;
+                                                      ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CustomUserDetailsService.java:6: error: package org.
+springframework.security.core.userdetails does not exist
+  import org.springframework.security.core.userdetails.Use
+rnameNotFoundException;
+                                                      ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtTokenProvider.java:3: error: package io.jsonwebto
+ken does not exist
+  import io.jsonwebtoken.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\CurrentUserId.java:3: error: package org.springframe
+work.security.core.annotation does not exist
+  import org.springframework.security.core.annotation.Auth
+enticationPrincipal;
+                                                     ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtAuthenticationFilter.java:8: error: package org.s
+pringframework.security.authentication does not exist
+  import org.springframework.security.authentication.Usern
+amePasswordAuthenticationToken;
+                                                    ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtAuthenticationFilter.java:9: error: package org.s
+pringframework.security.core.context does not exist
+  import org.springframework.security.core.context.Securit
+yContextHolder;
+                                                  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtAuthenticationFilter.java:10: error: package org.
+springframework.security.core.userdetails does not exist
+  import org.springframework.security.core.userdetails.Use
+rDetails;
+                                                      ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\JwtAuthenticationFilter.java:11: error: package org.
+springframework.security.web.authentication does not exist
+  import org.springframework.security.web.authentication.W
+ebAuthenticationDetailsSource;
+                                                        ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:6: error: package org.springfram
+ework.security.authentication does not exist
+  import org.springframework.security.authentication.Authe
+nticationManager;
+                                                    ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:7: error: package org.springfram
+ework.security.config.annotation.authentication.configurat
+ion does not exist
+  import org.springframework.security.config.annotation.au
+thentication.configuration.AuthenticationConfiguration;
+                                                          
+                          ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:8: error: package org.springfram
+ework.security.config.annotation.web.builders does not exi
+st
+  import org.springframework.security.config.annotation.we
+b.builders.HttpSecurity;
+                                                          
+          ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:9: error: package org.springfram
+ework.security.config.annotation.web.configuration does no
+t exist
+  import org.springframework.security.config.annotation.we
+b.configuration.EnableWebSecurity;
+                                                          
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:10: error: package org.springfra
+mework.security.config.annotation.web.configurers does not
+ exist
+  import org.springframework.security.config.annotation.we
+b.configurers.AbstractHttpConfigurer;
+                                                          
+             ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:11: error: package org.springfra
+mework.security.config.http does not exist
+  import org.springframework.security.config.http.SessionC
+reationPolicy;
+                                                 ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:12: error: package org.springfra
+mework.security.crypto.bcrypt does not exist
+  import org.springframework.security.crypto.bcrypt.BCrypt
+PasswordEncoder;
+                                                   ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:13: error: package org.springfra
+mework.security.crypto.password does not exist
+  import org.springframework.security.crypto.password.Pass
+wordEncoder;
+1 actionable task: 1 executed
+                                                     ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:14: error: package org.springfra
+mework.security.web does not exist
+  import org.springframework.security.web.SecurityFilterCh
+ain;
+                                         ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\SecurityConfig.java:15: error: package org.springfra
+mework.security.web.authentication does not exist
+  import org.springframework.security.web.authentication.U
+sernamePasswordAuthenticationFilter;
+                                                        ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\UserPrincipal.java:4: error: package org.springframe
+work.security.core does not exist
+  import org.springframework.security.core.GrantedAuthorit
+y;
+                                          ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\UserPrincipal.java:5: error: package org.springframe
+work.security.core.authority does not exist
+  import org.springframework.security.core.authority.Simpl
+eGrantedAuthority;
+                                                    ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\infrastructure\sec
+urity\UserPrincipal.java:6: error: package org.springframe
+work.security.core.userdetails does not exist
+  import org.springframework.security.core.userdetails.Use
+rDetails;
+                                                      ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\
+GlobalExceptionHandler.java:21: error: package org.springf
+ramework.security.access does not exist
+  import org.springframework.security.access.AccessDeniedE
+xception;
+                                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\interfaces\common\
+GlobalExceptionHandler.java:22: error: package org.springf
+ramework.security.core does not exist
+  import org.springframework.security.core.AuthenticationE
+xception;
+                                          ^
+  65 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation 
+error(s)
+> Run with --scan to generate a Build Scan (powered by Dev
+elocity).
+
+BUILD FAILED in 3s

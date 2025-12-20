@@ -1,0 +1,32 @@
+﻿> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName FAILED
+.\gradlew.bat : 
+위치 줄:1 문자:1
++ .\gradlew.bat bootRun 2>&1 | Out-File -FilePath gradle_b
+ootrun.txt -E ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], 
+    RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':resolveMainClassName'.
+> Unable to find a single main class from the following ca
+ndidates [vibe.digthc.as_digt_hc_dev_fe.AsDigtHcDevFeAppli
+cation, com.example.as_digt_hc_dev_fe.AsDigtHcDevFeApplica
+tion]
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output
+.
+> Run with --scan to generate a Build Scan (powered by Dev
+elocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1s
+3 actionable tasks: 1 executed, 2 up-to-date
