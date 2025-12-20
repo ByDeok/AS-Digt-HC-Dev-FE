@@ -1,7 +1,7 @@
 // src/app/onboarding/page.tsx
 /**
  * 스크립트 용도: 온보딩 - 소셜 로그인 선택 페이지
- * 
+ *
  * 함수 호출 구조:
  * OnboardingAuthPage
  * └── Card (Login Options)
@@ -9,15 +9,15 @@
  *     └── Button (Naver Login)
  */
 
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { KakaoIcon } from "@/components/icons/kakao";
-import { NaverIcon } from "@/components/icons/naver";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
+import { KakaoIcon } from '@/components/icons/kakao';
+import { NaverIcon } from '@/components/icons/naver';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 /**
  * 프로그램 단위 용도: 소셜 로그인(카카오, 네이버)을 통해 사용자를 인증하고 온보딩 프로세스를 시작
@@ -27,13 +27,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
  * - 프로필 설정 페이지로 이동
  */
 export default function OnboardingAuthPage() {
-  const [isLoading, setIsLoading] = useState<null | "kakao" | "naver">(null);
+  const [isLoading, setIsLoading] = useState<null | 'kakao' | 'naver'>(null);
   const navigate = useNavigate();
 
-  const handleLogin = (provider: "kakao" | "naver") => {
+  const handleLogin = (provider: 'kakao' | 'naver') => {
     setIsLoading(provider);
     setTimeout(() => {
-      navigate("/onboarding/profile");
+      navigate('/onboarding/profile');
     }, 1000);
   };
 
@@ -42,7 +42,9 @@ export default function OnboardingAuthPage() {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-headline">시작하기</CardTitle>
         <CardDescription>
-          간편하게 로그인하고<br />맞춤 건강 관리를 시작해보세요.
+          간편하게 로그인하고
+          <br />
+          맞춤 건강 관리를 시작해보세요.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -50,7 +52,7 @@ export default function OnboardingAuthPage() {
           <Button
             size="xl"
             className="w-full bg-[#FEE500] text-black hover:bg-[#FEE500]/90"
-            onClick={() => handleLogin("kakao")}
+            onClick={() => handleLogin('kakao')}
             disabled={!!isLoading}
           >
             {isLoading === 'kakao' ? (
@@ -65,7 +67,7 @@ export default function OnboardingAuthPage() {
           <Button
             size="xl"
             className="w-full bg-[#03C75A] text-white hover:bg-[#03C75A]/90"
-            onClick={() => handleLogin("naver")}
+            onClick={() => handleLogin('naver')}
             disabled={!!isLoading}
           >
             {isLoading === 'naver' ? (
@@ -77,6 +79,13 @@ export default function OnboardingAuthPage() {
               </>
             )}
           </Button>
+        </div>
+
+        <div className="mt-4 text-center text-sm text-muted-foreground">
+          이미 계정이 있으신가요?{' '}
+          <Link className="text-primary underline underline-offset-4" to="/login">
+            이메일 로그인
+          </Link>
         </div>
       </CardContent>
     </Card>

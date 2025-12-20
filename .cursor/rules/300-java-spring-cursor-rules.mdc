@@ -1,0 +1,39 @@
+# Java Spring Boot 3.x Cursor Rules
+
+## Core Principles
+- **Version**: Java 17+, Spring Boot 3.4+
+- **Standard**: Use `jakarta.*` packages instead of `javax.*` (Jakarta EE 10).
+- **Architecture**: Layered Architecture (Controller -> Service -> Repository).
+- **Paradigm**: Prefer functional style and immutability where possible.
+
+## Code Style & Conventions
+
+### Classes & Interfaces
+- **Controllers**: `RestController` with `RequestMapping` versions (v1).
+- **Services**: Interface-based services are optional unless multiple implementations exist.
+- **DTOs**: Use Java `record` for all Data Transfer Objects (Request/Response).
+  ```java
+  public record UserResponse(String id, String name) {}
+  ```
+- **Entities**: Use Lombok `@Getter`, `@NoArgsConstructor(access = AccessLevel.PROTECTED)`. Avoid `@Data` or `@Setter` on entities to preserve consistency.
+
+### Spring Boot 3.x Specifics
+- **Observation**: Use Micrometer Tracing instead of Spring Cloud Sleuth.
+- **Validation**: Use `jakarta.validation.constraints` (@NotNull, @Size, etc.).
+- **HTTP Client**: Use `RestClient` (Synchronous) or `WebClient` (Reactive) over `RestTemplate`.
+- **Error Handling**: Implement `ProblemDetails` (RFC 7807) via `@ControllerAdvice` extending `ResponseEntityExceptionHandler`.
+
+### Database & Transactions
+- **Transactional**: Use `@Transactional(readOnly = true)` on class level, override with `@Transactional` on write methods.
+- **JPA**: Use `FetchType.LAZY` for all relationships (`@ManyToOne`, `@OneToMany`).
+- **Auditing**: Extend a `BaseTimeEntity` (@MappedSuperclass) for `createdAt`, `updatedAt`.
+
+## Naming Conventions
+- **Classes**: PascalCase (e.g., `OnboardingService`).
+- **Methods/Vars**: camelCase (e.g., `findUserById`).
+- **Constants**: UPPER_SNAKE_CASE.
+- **Tables**: lower_snake_case (e.g., `users`, `onboarding_sessions`).
+
+## See also
+- [310-testing-strategy-rules.mdc](310-testing-strategy-rules.mdc) for testing standards
+- [311-api-documentation-rules.mdc](311-api-documentation-rules.mdc) for OpenAPI/Swagger

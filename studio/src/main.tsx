@@ -7,17 +7,34 @@
  * - 전역 CSS 임포트
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './app/globals.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { ErrorBoundary } from 'react-error-boundary';
+import App from './App';
+import { ErrorFallback } from './components/error/ErrorFallback';
+import './app/globals.css';
 
 /**
  * 프로그램 단위 용도: React DOM 렌더링 및 StrictMode 적용
  */
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        // 에러 발생 시 리셋 로직 (예: 홈으로 이동)
+        window.location.href = '/';
+      }}
+      onError={(error, info) => {
+        // 콘솔 로그 대신(ESLint no-console), 필요 시 상위에서 에러를 관측할 수 있게 이벤트만 남깁니다.
+        window.dispatchEvent(
+          new CustomEvent('app_error', {
+            detail: { error, componentStack: info.componentStack },
+          }),
+        );
+      }}
+    >
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>,
-)
-
+);

@@ -1,0 +1,48 @@
+﻿
+> Task :compileJava
+.\gradlew.bat : C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-
+HC-Dev-FE\src\main\java\vibe\digthc\as_digt_hc_dev_fe\doma
+in\family\service\PermissionService.java:38: error: cannot
+ find symbol
+위치 줄:1 문자:1
++ .\gradlew.bat compileJava 2>&1 | Out-File -FilePath grad
+le_output3.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\ejr 
+   wl\...not find symbol:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    private boolean hasPermission(FamilyBoardMember member
+, FamilyBoardPermission permission) {
+                                  ^
+  symbol:   class FamilyBoardMember
+  location: class PermissionService
+1 error
+
+> Task :compileJava FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/ejrwl/OneDrive/Workspace/AS-Digt-HC-Dev-FE/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\serv
+ice\PermissionService.java:38: error: cannot find symbol
+      private boolean hasPermission(FamilyBoardMember memb
+er, FamilyBoardPermission permission) {
+                                    ^
+    symbol:   class FamilyBoardMember
+    location: class PermissionService
+  1 error
+
+* Try:
+> Check your code and dependencies to fix the compilation 
+error(s)
+> Run with --scan to generate a Build Scan (powered by Dev
+elocity).
+
+BUILD FAILED in 3s
+1 actionable task: 1 executed

@@ -1,0 +1,158 @@
+erDiagram
+    USERS {
+        UUID user_id PK
+        STRING email UK
+        STRING password
+        ENUM role "SENIOR|CAREGIVER|ADMIN"
+        ENUM status "ACTIVE|INACTIVE|LOCKED"
+        ENUM auth_provider "GOOGLE|KAKAO|LOCAL"
+        STRING provider_id
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    
+    USER_PROFILES {
+        UUID profile_id PK
+        UUID user_id UK FK
+        STRING name
+        INT age
+        ENUM gender "MALE|FEMALE|OTHER"
+        JSON primary_conditions
+        JSON accessibility_prefs
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    
+    USER_AGREEMENTS {
+        UUID agreement_id PK
+        UUID user_id FK
+        STRING agreement_type
+        BOOLEAN agreed
+        TIMESTAMP agreed_at
+        TIMESTAMP created_at
+    }
+    
+    ONBOARDING_SESSIONS {
+        UUID session_id PK
+        UUID user_id FK
+        ENUM status "IN_PROGRESS|COMPLETED|FAILED"
+        ENUM current_step "PROFILE|AUTH|DEVICE|PORTAL|COMPLETE"
+        INT step_index
+        INT eta_seconds
+        TIMESTAMP started_at
+        TIMESTAMP completed_at
+    }
+    
+    HEALTH_REPORTS {
+        UUID report_id PK
+        UUID user_id FK
+        DATE start_date
+        DATE end_date
+        JSON metrics
+        JSON context
+        TIMESTAMP generated_at
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    
+    ACTION_CARDS {
+        BIGINT action_id PK
+        UUID user_id FK
+        DATE action_date
+        STRING title
+        STRING description
+        ENUM status "PENDING|COMPLETED|SKIPPED"
+        STRING rule_id
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+        TIMESTAMP completed_at
+    }
+    
+    FAMILY_BOARDS {
+        UUID board_id PK
+        UUID senior_id UK FK
+        STRING name
+        TEXT description
+        JSON settings
+        TIMESTAMP last_activity_at
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    
+    FAMILY_BOARD_MEMBERS {
+        UUID membership_id PK
+        UUID board_id FK
+        UUID member_id FK
+        ENUM role "VIEWER|EDITOR|ADMIN"
+        ENUM status "PENDING|ACTIVE|INACTIVE"
+        TIMESTAMP invited_at
+        TIMESTAMP accepted_at
+        TIMESTAMP removed_at
+    }
+    
+    BOARD_INVITATIONS {
+        UUID invitation_id PK
+        UUID board_id FK
+        UUID inviter_id FK
+        STRING invitee_email
+        ENUM status "PENDING|ACCEPTED|REJECTED|EXPIRED"
+        STRING token UK
+        TIMESTAMP expires_at
+        TIMESTAMP created_at
+        TIMESTAMP responded_at
+    }
+    
+    CONSENT_RECORDS {
+        UUID consent_id PK
+        UUID user_id FK
+        ENUM subject_type "DEVICE|PORTAL|FAMILY_BOARD"
+        UUID subject_id
+        ENUM consent_type "DATA_SHARING|DELEGATION"
+        ENUM status "ACTIVE|REVOKED|EXPIRED"
+        JSON consent_scope
+        TIMESTAMP created_at
+        TIMESTAMP revoked_at
+    }
+    
+    DEVICE_LINKS {
+        UUID device_link_id PK
+        UUID user_id FK
+        STRING vendor
+        STRING device_type
+        STRING access_token
+        ENUM status "ACTIVE|REVOKED|EXPIRED"
+        TIMESTAMP last_sync_at
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    
+    PORTAL_CONNECTIONS {
+        UUID portal_conn_id PK
+        UUID user_id FK
+        STRING portal_id
+        ENUM status "ACTIVE|PENDING|FAILED|UNSUPPORTED_REGION"
+        TIMESTAMP last_sync_at
+        STRING error_code
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    %% Relationships
+    USERS ||--|| USER_PROFILES : has
+    USERS ||--o{ USER_AGREEMENTS : has
+    USERS ||--o{ ONBOARDING_SESSIONS : has
+    USERS ||--o{ HEALTH_REPORTS : generates
+    USERS ||--o{ ACTION_CARDS : receives
+    USERS ||--o{ DEVICE_LINKS : links
+    USERS ||--o{ PORTAL_CONNECTIONS : connects
+    USERS ||--o{ CONSENT_RECORDS : grants
+    USERS ||--o| FAMILY_BOARDS : owns_as_senior
+    USERS ||--o{ FAMILY_BOARD_MEMBERS : is_member
+    USERS ||--o{ BOARD_INVITATIONS : invites
+    
+    FAMILY_BOARDS ||--o{ FAMILY_BOARD_MEMBERS : has
+    FAMILY_BOARDS ||--o{ BOARD_INVITATIONS : has
+    
+    CONSENT_RECORDS }o--o| DEVICE_LINKS : references
+    CONSENT_RECORDS }o--o| PORTAL_CONNECTIONS : references
+    CONSENT_RECORDS }o--o| FAMILY_BOARD_MEMBERS : references

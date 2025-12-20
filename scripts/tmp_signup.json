@@ -1,0 +1,11 @@
+{
+  "email": "test@example.com",
+  "password": "Test1234!",
+  "name": "테스트",
+  "role": "SENIOR",
+  "agreements": {
+    "termsService": true,
+    "privacyPolicy": true,
+    "marketingConsent": false
+  }
+}

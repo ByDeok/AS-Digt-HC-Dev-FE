@@ -1,0 +1,1263 @@
+﻿
+> Task :compileJava FAILED
+.\gradlew.bat : C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-
+HC-Dev-FE\src\main\java\vibe\digthc\as_digt_hc_dev_fe\AsDi
+gtHcDevFeApplication.java:5: error: package org.springfram
+ework.data.jpa.repository.config does not exist
+위치 줄:1 문자:1
++ .\gradlew.bat compileJava 2>&1 | Out-File -FilePath grad
+le_output.txt ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\ejr 
+   wl\... does not exist:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+import org.springframework.data.jpa.repository.config.Enab
+leJpaAuditing;
+                                                     ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\AsDigtHcDevFeApplica
+tion.java:14: error: cannot find symbol
+@EnableJpaAuditing  // JPA Auditing ?쒖꽦??(BaseTimeEntity ?
+ъ슜???꾪빐)
+ ^
+  symbol: class EnableJpaAuditing
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:3: error: package lombok does not ex
+ist
+import lombok.AllArgsConstructor;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:4: error: package lombok does not ex
+ist
+import lombok.Builder;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:5: error: package lombok does not ex
+ist
+import lombok.Getter;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:6: error: package lombok does not ex
+ist
+import lombok.NoArgsConstructor;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:12: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:13: error: cannot find symbol
+@Builder
+ ^
+  symbol: class Builder
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:14: error: cannot find symbol
+@NoArgsConstructor
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionCardResponse.java:15: error: cannot find symbol
+@AllArgsConstructor
+ ^
+  symbol: class AllArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:3: error: package jakarta.persistence does n
+ot exist
+import jakarta.persistence.Column;
+                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:4: error: package jakarta.persistence does n
+ot exist
+import jakarta.persistence.EntityListeners;
+                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:5: error: package jakarta.persistence does n
+ot exist
+import jakarta.persistence.MappedSuperclass;
+                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:6: error: package lombok does not exist
+import lombok.Getter;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:7: error: package org.springframework.data.a
+nnotation does not exist
+import org.springframework.data.annotation.CreatedDate;
+                                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:8: error: package org.springframework.data.a
+nnotation does not exist
+import org.springframework.data.annotation.LastModifiedDat
+e;
+                                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:9: error: package org.springframework.data.j
+pa.domain.support does not exist
+import org.springframework.data.jpa.domain.support.Auditin
+gEntityListener;
+                                                  ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:13: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:14: error: cannot find symbol
+@MappedSuperclass
+ ^
+  symbol: class MappedSuperclass
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\BaseTi
+meEntity.java:15: error: cannot find symbol
+@EntityListeners(AuditingEntityListener.class)
+ ^
+  symbol: class EntityListeners
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\entity
+\ActionCard.java:11: error: cannot find symbol
+@Entity
+ ^
+  symbol: class Entity
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\entity
+\ActionCard.java:12: error: cannot find symbol
+@Table(name = "action_cards", indexes = {
+ ^
+  symbol: class Table
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\entity
+\ActionCard.java:16: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\entity
+\ActionCard.java:17: error: cannot find symbol
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+ser.java:9: error: cannot find symbol
+@Entity
+ ^
+  symbol: class Entity
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+ser.java:10: error: cannot find symbol
+@Table(name = "users", indexes = {
+ ^
+  symbol: class Table
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+ser.java:13: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+ser.java:14: error: cannot find symbol
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+serProfile.java:9: error: cannot find symbol
+@Entity
+ ^
+  symbol: class Entity
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+serProfile.java:10: error: cannot find symbol
+@Table(name = "user_profiles", indexes = {
+ ^
+  symbol: class Table
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+serProfile.java:13: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+serProfile.java:14: error: cannot find symbol
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\entity
+\ActionCard.java:3: error: package jakarta.persistence doe
+s not exist
+import jakarta.persistence.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\entity
+\ActionCard.java:4: error: package lombok does not exist
+import lombok.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+ser.java:4: error: package jakarta.persistence does not ex
+ist
+import jakarta.persistence.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+ser.java:5: error: package lombok does not exist
+import lombok.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+serProfile.java:4: error: package jakarta.persistence does
+ not exist
+import jakarta.persistence.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity\U
+serProfile.java:5: error: package lombok does not exist
+import lombok.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:3: error: package lombok does not e
+xist
+import lombok.AllArgsConstructor;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:4: error: package lombok does not e
+xist
+import lombok.Builder;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:5: error: package lombok does not e
+xist
+import lombok.Getter;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:6: error: package lombok does not e
+xist
+import lombok.NoArgsConstructor;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:8: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:9: error: cannot find symbol
+@Builder
+ ^
+  symbol: class Builder
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:10: error: cannot find symbol
+@NoArgsConstructor
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\Ac
+tionStatsResponse.java:11: error: cannot find symbol
+@AllArgsConstructor
+ ^
+  symbol: class AllArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\reposi
+tory\ActionCardRepository.java:3: error: package org.sprin
+gframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.JpaReposito
+ry;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\reposi
+tory\ActionCardRepository.java:4: error: package org.sprin
+gframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.Query;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\reposi
+tory\ActionCardRepository.java:5: error: package org.sprin
+gframework.data.repository.query does not exist
+import org.springframework.data.repository.query.Param;
+                                                ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\reposi
+tory\ActionCardRepository.java:15: error: cannot find symb
+ol
+public interface ActionCardRepository extends JpaRepositor
+y<ActionCard, Long> {
+                                              ^
+  symbol: class JpaRepository
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionCardService.java:3: error: package lombok does not
+ exist
+import lombok.RequiredArgsConstructor;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionCardService.java:5: error: package org.springframe
+work.transaction.annotation does not exist
+import org.springframework.transaction.annotation.Transact
+ional;
+                                                 ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionCardService.java:22: error: cannot find symbol
+@RequiredArgsConstructor
+ ^
+  symbol: class RequiredArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionCardService.java:23: error: cannot find symbol
+@Transactional(readOnly = true)
+ ^
+  symbol: class Transactional
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\reposito
+ry\UserRepository.java:4: error: package org.springframewo
+rk.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.JpaReposito
+ry;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\reposito
+ry\UserRepository.java:11: error: cannot find symbol
+public interface UserRepository extends JpaRepository<User
+, UUID> {
+                                        ^
+  symbol: class JpaRepository
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardRepository.java:4: error: package org.spri
+ngframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.JpaReposito
+ry;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardRepository.java:5: error: package org.spri
+ngframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.Query;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardRepository.java:6: error: package org.spri
+ngframework.data.repository.query does not exist
+import org.springframework.data.repository.query.Param;
+                                                ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardRepository.java:13: error: cannot find sym
+bol
+public interface FamilyBoardRepository extends JpaReposito
+ry<FamilyBoard, UUID> {
+                                               ^
+  symbol: class JpaRepository
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:7: error: package org.hibernate.annotati
+ons does not exist
+import org.hibernate.annotations.JdbcTypeCode;
+                                ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:8: error: package org.hibernate.type doe
+s not exist
+import org.hibernate.type.SqlTypes;
+                         ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:17: error: cannot find symbol
+@Entity
+ ^
+  symbol: class Entity
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:18: error: cannot find symbol
+@Table(name = "family_boards",
+ ^
+  symbol: class Table
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:23: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:24: error: cannot find symbol
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoardMember.java:17: error: cannot find symbol
+@Entity
+ ^
+  symbol: class Entity
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoardMember.java:18: error: cannot find symbol
+@Table(name = "family_board_members",
+ ^
+  symbol: class Table
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoardMember.java:28: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoardMember.java:29: error: cannot find symbol
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\BoardInvitation.java:17: error: cannot find symbol
+@Entity
+ ^
+  symbol: class Entity
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\BoardInvitation.java:18: error: cannot find symbol
+@Table(name = "board_invitations",
+ ^
+  symbol: class Table
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\BoardInvitation.java:27: error: cannot find symbol
+@Getter
+ ^
+  symbol: class Getter
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\BoardInvitation.java:28: error: cannot find symbol
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+ ^
+  symbol: class NoArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:5: error: package jakarta.persistence do
+es not exist
+import jakarta.persistence.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoard.java:6: error: package lombok does not exist
+import lombok.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\BoardInvitation.java:7: error: package jakarta.persistenc
+e does not exist
+import jakarta.persistence.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\BoardInvitation.java:8: error: package lombok does not ex
+ist
+import lombok.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoardMember.java:7: error: package jakarta.persiste
+nce does not exist
+import jakarta.persistence.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\entity
+\FamilyBoardMember.java:8: error: package lombok does not 
+exist
+import lombok.*;
+^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionScheduler.java:3: error: package lombok does not e
+xist
+import lombok.RequiredArgsConstructor;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionScheduler.java:4: error: package lombok.extern.slf
+4j does not exist
+import lombok.extern.slf4j.Slf4j;
+                          ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionScheduler.java:9: error: cannot find symbol
+@RequiredArgsConstructor
+ ^
+  symbol: class RequiredArgsConstructor
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\servic
+e\ActionScheduler.java:10: error: cannot find symbol
+@Slf4j
+ ^
+  symbol: class Slf4j
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\Ac
+ceptReq.java:3: error: package jakarta.validation.constrai
+nts does not exist
+import jakarta.validation.constraints.NotBlank;
+                                     ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\In
+viteReq.java:4: error: package jakarta.validation.constrai
+nts does not exist
+import jakarta.validation.constraints.Email;
+                                     ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\In
+viteReq.java:5: error: package jakarta.validation.constrai
+nts does not exist
+import jakarta.validation.constraints.NotNull;
+                                     ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\Ro
+leUpdateReq.java:4: error: package jakarta.validation.cons
+traints does not exist
+import jakarta.validation.constraints.NotNull;
+                                     ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\BoardInvitationRepository.java:5: error: package org.
+springframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.JpaReposito
+ry;
+                                              ^
+
+[Incubating] Problems report is available at: file:///C:/Users/ejrwl/OneDrive/Workspace/AS-Digt-HC-Dev-FE/build/reports/problems/problems-report.html
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\BoardInvitationRepository.java:6: error: package org.
+springframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.Modifying;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\BoardInvitationRepository.java:7: error: package org.
+springframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.Query;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\BoardInvitationRepository.java:8: error: package org.
+springframework.data.repository.query does not exist
+import org.springframework.data.repository.query.Param;
+                                                ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\BoardInvitationRepository.java:17: error: cannot find
+ symbol
+public interface BoardInvitationRepository extends JpaRepo
+sitory<BoardInvitation, UUID> {
+                                                   ^
+  symbol: class JpaRepository
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardMemberRepository.java:5: error: package or
+g.springframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.JpaReposito
+ry;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardMemberRepository.java:6: error: package or
+g.springframework.data.jpa.repository does not exist
+import org.springframework.data.jpa.repository.Query;
+                                              ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardMemberRepository.java:7: error: package or
+g.springframework.data.repository.query does not exist
+import org.springframework.data.repository.query.Param;
+                                                ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\reposi
+tory\FamilyBoardMemberRepository.java:15: error: cannot fi
+nd symbol
+public interface FamilyBoardMemberRepository extends JpaRe
+pository<FamilyBoardMember, Long> {
+                                                     ^
+  symbol: class JpaRepository
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\servic
+e\FamilyBoardServiceImpl.java:17: error: package lombok do
+es not exist
+import lombok.RequiredArgsConstructor;
+             ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\servic
+e\FamilyBoardServiceImpl.java:19: error: package org.sprin
+gframework.transaction.annotation does not exist
+import org.springframework.transaction.annotation.Transact
+ional;
+                                                 ^
+C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\ma
+in\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\servic
+e\FamilyBoardServiceImpl.java:28: error: cannot find symbo
+l
+@RequiredArgsConstructor
+ ^
+  symbol: class RequiredArgsConstructor
+100 errors
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\AsDigtHcDevFeAppli
+cation.java:14: error: cannot find symbol
+  @EnableJpaAuditing  // JPA Auditing ?쒖꽦??(BaseTimeEntity
+ ?ъ슜???꾪빐)
+   ^
+    symbol: class EnableJpaAuditing
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:12: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:13: error: cannot find symbol
+  @Builder
+   ^
+    symbol: class Builder
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:14: error: cannot find symbol
+  @NoArgsConstructor
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:15: error: cannot find symbol
+  @AllArgsConstructor
+   ^
+    symbol: class AllArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:13: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:14: error: cannot find symbol
+  @MappedSuperclass
+   ^
+    symbol: class MappedSuperclass
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:15: error: cannot find symbol
+  @EntityListeners(AuditingEntityListener.class)
+   ^
+    symbol: class EntityListeners
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\enti
+ty\ActionCard.java:11: error: cannot find symbol
+  @Entity
+   ^
+    symbol: class Entity
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\enti
+ty\ActionCard.java:12: error: cannot find symbol
+  @Table(name = "action_cards", indexes = {
+   ^
+    symbol: class Table
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\enti
+ty\ActionCard.java:16: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\enti
+ty\ActionCard.java:17: error: cannot find symbol
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\User.java:9: error: cannot find symbol
+  @Entity
+   ^
+    symbol: class Entity
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\User.java:10: error: cannot find symbol
+  @Table(name = "users", indexes = {
+   ^
+    symbol: class Table
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\User.java:13: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\User.java:14: error: cannot find symbol
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\UserProfile.java:9: error: cannot find symbol
+  @Entity
+   ^
+    symbol: class Entity
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\UserProfile.java:10: error: cannot find symbol
+  @Table(name = "user_profiles", indexes = {
+   ^
+    symbol: class Table
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\UserProfile.java:13: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\UserProfile.java:14: error: cannot find symbol
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:8: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:9: error: cannot find symbol
+  @Builder
+   ^
+    symbol: class Builder
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:10: error: cannot find symbol
+  @NoArgsConstructor
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:11: error: cannot find symbol
+  @AllArgsConstructor
+   ^
+    symbol: class AllArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\repo
+sitory\ActionCardRepository.java:15: error: cannot find sy
+mbol
+  public interface ActionCardRepository extends JpaReposit
+ory<ActionCard, Long> {
+                                                ^
+    symbol: class JpaRepository
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionCardService.java:22: error: cannot find symbol
+  @RequiredArgsConstructor
+   ^
+    symbol: class RequiredArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionCardService.java:23: error: cannot find symbol
+  @Transactional(readOnly = true)
+   ^
+    symbol: class Transactional
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\reposi
+tory\UserRepository.java:11: error: cannot find symbol
+  public interface UserRepository extends JpaRepository<Us
+er, UUID> {
+                                          ^
+    symbol: class JpaRepository
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardRepository.java:13: error: cannot find s
+ymbol
+  public interface FamilyBoardRepository extends JpaReposi
+tory<FamilyBoard, UUID> {
+                                                 ^
+    symbol: class JpaRepository
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:17: error: cannot find symbol
+  @Entity
+   ^
+    symbol: class Entity
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:18: error: cannot find symbol
+  @Table(name = "family_boards",
+   ^
+    symbol: class Table
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:23: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:24: error: cannot find symbol
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoardMember.java:17: error: cannot find symbol
+  @Entity
+   ^
+    symbol: class Entity
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoardMember.java:18: error: cannot find symbol
+  @Table(name = "family_board_members",
+   ^
+    symbol: class Table
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoardMember.java:28: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoardMember.java:29: error: cannot find symbol
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\BoardInvitation.java:17: error: cannot find symbol
+  @Entity
+   ^
+    symbol: class Entity
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\BoardInvitation.java:18: error: cannot find symbol
+  @Table(name = "board_invitations",
+   ^
+    symbol: class Table
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\BoardInvitation.java:27: error: cannot find symbol
+  @Getter
+   ^
+    symbol: class Getter
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\BoardInvitation.java:28: error: cannot find symbol
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+   ^
+    symbol: class NoArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionScheduler.java:9: error: cannot find symbol
+  @RequiredArgsConstructor
+   ^
+    symbol: class RequiredArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionScheduler.java:10: error: cannot find symbol
+  @Slf4j
+   ^
+    symbol: class Slf4j
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\BoardInvitationRepository.java:17: error: cannot fi
+nd symbol
+  public interface BoardInvitationRepository extends JpaRe
+pository<BoardInvitation, UUID> {
+                                                     ^
+    symbol: class JpaRepository
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardMemberRepository.java:15: error: cannot 
+find symbol
+  public interface FamilyBoardMemberRepository extends Jpa
+Repository<FamilyBoardMember, Long> {
+                                                       ^
+    symbol: class JpaRepository
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\serv
+ice\FamilyBoardServiceImpl.java:28: error: cannot find sym
+bol
+  @RequiredArgsConstructor
+   ^
+    symbol: class RequiredArgsConstructor
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\AsDigtHcDevFeAppli
+cation.java:5: error: package org.springframework.data.jpa
+.repository.config does not exist
+  import org.springframework.data.jpa.repository.config.En
+ableJpaAuditing;
+                                                       ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:3: error: package lombok does not 
+exist
+  import lombok.AllArgsConstructor;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:4: error: package lombok does not 
+exist
+  import lombok.Builder;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:5: error: package lombok does not 
+exist
+  import lombok.Getter;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionCardResponse.java:6: error: package lombok does not 
+exist
+  import lombok.NoArgsConstructor;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:3: error: package jakarta.persistence does
+ not exist
+  import jakarta.persistence.Column;
+                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:4: error: package jakarta.persistence does
+ not exist
+  import jakarta.persistence.EntityListeners;
+                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:5: error: package jakarta.persistence does
+ not exist
+  import jakarta.persistence.MappedSuperclass;
+                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:6: error: package lombok does not exist
+  import lombok.Getter;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:7: error: package org.springframework.data
+.annotation does not exist
+  import org.springframework.data.annotation.CreatedDate;
+                                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:8: error: package org.springframework.data
+.annotation does not exist
+  import org.springframework.data.annotation.LastModifiedD
+ate;
+                                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\common\Base
+TimeEntity.java:9: error: package org.springframework.data
+.jpa.domain.support does not exist
+  import org.springframework.data.jpa.domain.support.Audit
+ingEntityListener;
+                                                    ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\enti
+ty\ActionCard.java:3: error: package jakarta.persistence d
+oes not exist
+  import jakarta.persistence.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\enti
+ty\ActionCard.java:4: error: package lombok does not exist
+  import lombok.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\User.java:4: error: package jakarta.persistence does not 
+exist
+  import jakarta.persistence.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\User.java:5: error: package lombok does not exist
+  import lombok.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\UserProfile.java:4: error: package jakarta.persistence do
+es not exist
+  import jakarta.persistence.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\entity
+\UserProfile.java:5: error: package lombok does not exist
+  import lombok.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:3: error: package lombok does not
+ exist
+  import lombok.AllArgsConstructor;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:4: error: package lombok does not
+ exist
+  import lombok.Builder;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:5: error: package lombok does not
+ exist
+  import lombok.Getter;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\dto\
+ActionStatsResponse.java:6: error: package lombok does not
+ exist
+  import lombok.NoArgsConstructor;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\repo
+sitory\ActionCardRepository.java:3: error: package org.spr
+ingframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.JpaReposi
+tory;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\repo
+sitory\ActionCardRepository.java:4: error: package org.spr
+ingframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.Query;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\repo
+sitory\ActionCardRepository.java:5: error: package org.spr
+ingframework.data.repository.query does not exist
+  import org.springframework.data.repository.query.Param;
+                                                  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionCardService.java:3: error: package lombok does n
+ot exist
+  import lombok.RequiredArgsConstructor;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionCardService.java:5: error: package org.springfra
+mework.transaction.annotation does not exist
+  import org.springframework.transaction.annotation.Transa
+ctional;
+                                                   ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\user\reposi
+tory\UserRepository.java:4: error: package org.springframe
+work.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.JpaReposi
+tory;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardRepository.java:4: error: package org.sp
+ringframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.JpaReposi
+tory;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardRepository.java:5: error: package org.sp
+ringframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.Query;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardRepository.java:6: error: package org.sp
+ringframework.data.repository.query does not exist
+  import org.springframework.data.repository.query.Param;
+                                                  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:7: error: package org.hibernate.annota
+tions does not exist
+  import org.hibernate.annotations.JdbcTypeCode;
+                                  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:8: error: package org.hibernate.type d
+oes not exist
+  import org.hibernate.type.SqlTypes;
+                           ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:5: error: package jakarta.persistence 
+does not exist
+  import jakarta.persistence.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoard.java:6: error: package lombok does not exis
+t
+  import lombok.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\BoardInvitation.java:7: error: package jakarta.persiste
+nce does not exist
+  import jakarta.persistence.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\BoardInvitation.java:8: error: package lombok does not 
+exist
+  import lombok.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoardMember.java:7: error: package jakarta.persis
+tence does not exist
+  import jakarta.persistence.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\enti
+ty\FamilyBoardMember.java:8: error: package lombok does no
+t exist
+  import lombok.*;
+  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionScheduler.java:3: error: package lombok does not
+ exist
+  import lombok.RequiredArgsConstructor;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\action\serv
+ice\ActionScheduler.java:4: error: package lombok.extern.s
+lf4j does not exist
+  import lombok.extern.slf4j.Slf4j;
+                            ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\
+AcceptReq.java:3: error: package jakarta.validation.constr
+aints does not exist
+  import jakarta.validation.constraints.NotBlank;
+                                       ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\
+InviteReq.java:4: error: package jakarta.validation.constr
+aints does not exist
+  import jakarta.validation.constraints.Email;
+                                       ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\
+InviteReq.java:5: error: package jakarta.validation.constr
+aints does not exist
+  import jakarta.validation.constraints.NotNull;
+                                       ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\dto\
+RoleUpdateReq.java:4: error: package jakarta.validation.co
+nstraints does not exist
+  import jakarta.validation.constraints.NotNull;
+                                       ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\BoardInvitationRepository.java:5: error: package or
+g.springframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.JpaReposi
+tory;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\BoardInvitationRepository.java:6: error: package or
+g.springframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.Modifying
+;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\BoardInvitationRepository.java:7: error: package or
+g.springframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.Query;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\BoardInvitationRepository.java:8: error: package or
+g.springframework.data.repository.query does not exist
+  import org.springframework.data.repository.query.Param;
+                                                  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardMemberRepository.java:5: error: package 
+org.springframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.JpaReposi
+tory;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardMemberRepository.java:6: error: package 
+org.springframework.data.jpa.repository does not exist
+  import org.springframework.data.jpa.repository.Query;
+                                                ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\repo
+sitory\FamilyBoardMemberRepository.java:7: error: package 
+org.springframework.data.repository.query does not exist
+  import org.springframework.data.repository.query.Param;
+                                                  ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\serv
+ice\FamilyBoardServiceImpl.java:17: error: package lombok 
+does not exist
+  import lombok.RequiredArgsConstructor;
+               ^
+  C:\Users\ejrwl\OneDrive\Workspace\AS-Digt-HC-Dev-FE\src\
+main\java\vibe\digthc\as_digt_hc_dev_fe\domain\family\serv
+ice\FamilyBoardServiceImpl.java:19: error: package org.spr
+ingframework.transaction.annotation does not exist
+  import org.springframework.transaction.annotation.Transa
+ctional;
+                                                   ^
+  100 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation 
+error(s)
+> Run with --scan to generate a Build Scan (powered by Dev
+elocity).
+
+BUILD FAILED in 2s
+1 actionable task: 1 executed

@@ -1,7 +1,7 @@
 // src/app/(main)/layout.tsx
 /**
  * 스크립트 용도: 메인 앱의 공통 레이아웃 (네비게이션 바 포함)
- * 
+ *
  * 함수 호출 구조:
  * MainAppLayout
  * ├── <main> (Page Content)
@@ -11,15 +11,12 @@
  */
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, BarChart2, Users, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+import { clearAuthSession } from '@/lib/auth';
 
 const navItems = [
   { href: '/dashboard', label: '홈', icon: Home },
@@ -28,8 +25,10 @@ const navItems = [
 ];
 
 const settingsNav = {
-  href: '/settings', label: '설정', icon: Settings
-}
+  href: '/settings',
+  label: '설정',
+  icon: Settings,
+};
 
 /**
  * 프로그램 단위 용도: 하단 탭 네비게이션 바를 포함한 메인 레이아웃 래퍼
@@ -39,12 +38,9 @@ const settingsNav = {
  * - 현재 활성화된 탭 강조
  * - 설정 팝오버 메뉴 제공
  */
-export default function MainAppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function MainAppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const pathname = location.pathname;
 
   const isSettingsActive = pathname.startsWith(settingsNav.href);
@@ -62,7 +58,7 @@ export default function MainAppLayout({
                 'flex flex-col items-center justify-center w-full pt-2 pb-1 text-sm transition-colors',
                 pathname === href
                   ? 'text-primary font-semibold'
-                  : 'text-muted-foreground hover:text-primary'
+                  : 'text-muted-foreground hover:text-primary',
               )}
             >
               <Icon className="w-6 h-6 mb-1" />
@@ -71,36 +67,47 @@ export default function MainAppLayout({
           ))}
           <Popover>
             <PopoverTrigger asChild>
-                <button
+              <button
                 className={cn(
-                    'flex flex-col items-center justify-center w-full pt-2 pb-1 text-sm transition-colors',
-                    isSettingsActive
+                  'flex flex-col items-center justify-center w-full pt-2 pb-1 text-sm transition-colors',
+                  isSettingsActive
                     ? 'text-primary font-semibold'
-                    : 'text-muted-foreground hover:text-primary'
+                    : 'text-muted-foreground hover:text-primary',
                 )}
-                >
+              >
                 <Settings className="w-6 h-6 mb-1" />
                 <span>{settingsNav.label}</span>
-                </button>
+              </button>
             </PopoverTrigger>
             <PopoverContent className="w-56 p-2 mb-2">
-                <div className="grid">
-                    <div className="p-2">
-                        <h4 className="font-medium leading-none">설정</h4>
-                        <p className="text-sm text-muted-foreground mt-1">
-                            앱 관련 설정을 변경할 수 있습니다.
-                        </p>
-                    </div>
-                    <Link to="/settings/profile">
-                        <Button variant="ghost" className="w-full justify-start">내 정보 수정</Button>
-                    </Link>
-                    <Link to="/settings/notifications">
-                        <Button variant="ghost" className="w-full justify-start">알림 설정</Button>
-                    </Link>
-                    <Link to="/">
-                        <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-600">로그아웃</Button>
-                    </Link>
+              <div className="grid">
+                <div className="p-2">
+                  <h4 className="font-medium leading-none">설정</h4>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    앱 관련 설정을 변경할 수 있습니다.
+                  </p>
                 </div>
+                <Link to="/settings/profile">
+                  <Button variant="ghost" className="w-full justify-start">
+                    내 정보 수정
+                  </Button>
+                </Link>
+                <Link to="/settings/notifications">
+                  <Button variant="ghost" className="w-full justify-start">
+                    알림 설정
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-red-500 hover:text-red-600"
+                  onClick={() => {
+                    clearAuthSession();
+                    navigate('/login', { replace: true });
+                  }}
+                >
+                  로그아웃
+                </Button>
+              </div>
             </PopoverContent>
           </Popover>
         </div>

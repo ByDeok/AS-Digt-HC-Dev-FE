@@ -1,0 +1,29 @@
+---
+description: Universal project principles - core meta rules applied across all domains
+globs: 
+alwaysApply: false
+---
+# META RULES: UNIVERSAL PROJECT PRINCIPLES
+
+## Core Principles
+- **Maintainability**: Prioritize code clarity, modularity, and documentation
+- **Scalability**: Design for growth in users, data, and features
+- **Security**: Security-first approach with proper validation and error handling
+- **Quality**: Comprehensive testing, code reviews, and continuous improvement
+
+## Development Approach
+- Define problems clearly before solving
+- Use established patterns and best practices
+- Document decisions and changes transparently
+- Implement proper error handling, logging, and monitoring
+
+## Project Organization
+- Maintain clear hierarchical structure (rules, docs, code)
+- Use consistent naming conventions
+- Separate concerns into logical domains
+- Keep documentation concise and focused
+
+## See also:
+- [001-project-overview.mdc](001-project-overview.mdc) for project-specific details
+- [003-development-guidelines.mdc](003-development-guidelines.mdc) for development standards
+- [100-error-fixing-process.mdc](100-error-fixing-process.mdc) for problem resolution

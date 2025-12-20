@@ -1,12 +1,6 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 interface SectionProps {
   /** 섹션 제목 */
@@ -23,19 +17,13 @@ interface SectionProps {
 
 /**
  * 프로그램 단위 용도: 콘텐츠 섹션 컴포넌트
- * 
+ *
  * 로직 및 데이터 흐름:
  * - Card 컴포넌트를 기반으로 섹션을 구분합니다.
  * - 제목과 설명을 포함한 헤더 영역과 콘텐츠 영역으로 나뉩니다.
  * - action prop이 있으면 헤더 우측에 배치합니다.
  */
-export function Section({
-  title,
-  description,
-  action,
-  children,
-  className,
-}: SectionProps) {
+export function Section({ title, description, action, children, className }: SectionProps) {
   return (
     <Card className={cn(className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -49,4 +37,3 @@ export function Section({
     </Card>
   );
 }
-
