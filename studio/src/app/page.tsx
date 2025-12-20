@@ -28,8 +28,6 @@ import {
   Activity,
   Lock,
 } from 'lucide-react';
-import LogoWithText from '@/assets/resource/Logo_wint_name-Photoroom.png';
-import GodenWellnessVideo from '@/assets/resource/goden wellness.mp4';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -207,12 +205,12 @@ export default function LandingPage() {
             </div>
             
             <div className="flex flex-col items-center gap-4 w-full">
-              <img 
-                src={LogoWithText} 
-                alt="Golden Wellness" 
-                className="w-full max-w-[500px] object-contain mb-2"
-                style={{ filter: 'drop-shadow(0 0 2px hsl(var(--background)))' }}
-              />
+              {/* 로컬 개발 환경에서 assets 경로가 달라 Vite import 에러가 날 수 있어,
+                  텍스트 로고로 대체(런타임 안정). */}
+              <div className="w-full max-w-[500px] rounded-2xl border bg-background/60 px-6 py-4 text-center shadow-sm">
+                <p className="text-sm font-medium text-muted-foreground">Golden Wellness</p>
+                <p className="text-2xl font-extrabold tracking-tight text-foreground">골든 웰니스</p>
+              </div>
               <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl break-keep">
                 “감시”가 아니라<br className="sm:hidden" /> <span className="text-primary">“안심”</span>을 위한 공유
               </h1>
@@ -260,20 +258,19 @@ export default function LandingPage() {
 
           <div className="p-4 sm:p-6">
             <div className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 bg-black/5">
-              <video
-                className="block h-full w-full object-cover"
-                src={GodenWellnessVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                controls
-                preload="metadata"
-                aria-label="골든웰니스 소개 영상"
-              >
-                {/* 브라우저가 video 태그를 지원하지 않을 때의 대체 문구 */}
-                동영상을 재생할 수 없는 환경입니다.
-              </video>
+              {/* mp4 에셋 경로가 환경에 따라 달라 dev 서버가 깨지는 경우가 있어,
+                  개발/검증 단계에서는 플레이스홀더로 대체합니다. */}
+              <div className="flex min-h-[220px] items-center justify-center bg-gradient-to-br from-primary/5 via-background to-muted/30 p-8 text-center">
+                <div className="max-w-md">
+                  <p className="text-sm font-medium text-muted-foreground">소개 영상</p>
+                  <p className="mt-2 text-lg font-semibold text-foreground break-keep">
+                    (개발 환경) 영상은 나중에 public 경로로 연결할 수 있어요.
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground break-keep">
+                    지금은 API/인증 플로우 검증을 위해 렌더링 안정성을 우선합니다.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, HeartPulse, Loader2, Watch } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { integrationService } from '@/services/integrationService';
+import { useToast } from '@/hooks/use-toast';
 
 type DeviceStatus = 'idle' | 'connecting' | 'connected';
 const devices = [
@@ -34,12 +36,33 @@ const devices = [
 export default function OnboardingDevicePage() {
   const [deviceStatuses, setDeviceStatuses] = useState<Record<string, DeviceStatus>>({});
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleConnect = (deviceId: string) => {
+  const handleConnect = async (deviceId: string) => {
     setDeviceStatuses((prev) => ({ ...prev, [deviceId]: 'connecting' }));
-    setTimeout(() => {
+
+    const deviceType = deviceId === 'watch' ? 'WATCH' : 'BP_MONITOR';
+    const dataTypes = deviceId === 'watch' ? ['STEPS', 'HEART_RATE', 'SLEEP'] : ['BLOOD_PRESSURE'];
+
+    try {
+      await integrationService.connectDevice({
+        vendor: 'mock',
+        deviceType,
+        authCode: 'local',
+        consentScope: {
+          dataTypes,
+          frequency: 'daily',
+          retentionPeriod: '30d',
+          sharingAllowed: { family: true },
+        },
+      });
       setDeviceStatuses((prev) => ({ ...prev, [deviceId]: 'connected' }));
-    }, 2000);
+      toast({ title: '연동 완료', description: `${deviceId === 'watch' ? '스마트 워치' : '스마트 혈압계'}가 연동되었습니다.` });
+    } catch (e) {
+      const message = e instanceof Error ? e.message : '기기 연동에 실패했습니다.';
+      setDeviceStatuses((prev) => ({ ...prev, [deviceId]: 'idle' }));
+      toast({ title: '연동 실패', description: message, variant: 'destructive' });
+    }
   };
 
   const handleNext = () => {

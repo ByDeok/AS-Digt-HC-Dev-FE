@@ -1,6 +1,8 @@
 package vibe.digthc.as_digt_hc_dev_fe.domain.onboarding.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vibe.digthc.as_digt_hc_dev_fe.domain.onboarding.dto.OnboardingStepRequest;
@@ -21,6 +23,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class OnboardingService {
 
     private final OnboardingSessionRepository sessionRepository;
@@ -29,15 +32,7 @@ public class OnboardingService {
 
     public OnboardingStepResponse startSession(UUID userId) {
         User user = getUser(userId);
-        OnboardingSession session = sessionRepository.findByUser(user)
-                .orElseGet(() -> {
-                    OnboardingSession newSession = OnboardingSession.builder()
-                            .user(user)
-                            .status(OnboardingStatus.IN_PROGRESS)
-                            .currentStep(OnboardingStep.TERMS_AGREEMENT)
-                            .build();
-                    return sessionRepository.save(newSession);
-                });
+        OnboardingSession session = getOrCreateSession(user);
 
         return createResponse(session);
     }
@@ -87,18 +82,36 @@ public class OnboardingService {
      */
     public OnboardingStepResponse getSession(UUID userId) {
         User user = getUser(userId);
-        OnboardingSession session = sessionRepository.findByUser(user)
-                .orElseGet(() -> {
-                    // 세션이 없으면 새로 생성
-                    OnboardingSession newSession = OnboardingSession.builder()
-                            .user(user)
-                            .status(OnboardingStatus.IN_PROGRESS)
-                            .currentStep(OnboardingStep.TERMS_AGREEMENT)
-                            .build();
-                    return sessionRepository.save(newSession);
-                });
+        OnboardingSession session = getOrCreateSession(user);
         
         return createResponse(session);
+    }
+
+    /**
+     * 온보딩 세션을 "멱등 + 동시성 안전"하게 생성/조회한다.
+     *
+     * 배경:
+     * - FE 개발 모드(React StrictMode)에서는 동일 컴포넌트가 mount/unmount 되며
+     *   useEffect가 2회 호출될 수 있어 /onboarding/start 가 거의 동시에 2번 들어오는 일이 흔하다.
+     * - onboarding_sessions.user_id 는 unique 제약이므로, 동시 insert가 발생하면 23505가 터진다.
+     * - 따라서 insert 경합이 발생하면 재조회로 회복한다.
+     */
+    private OnboardingSession getOrCreateSession(User user) {
+        return sessionRepository.findByUser(user).orElseGet(() -> {
+            OnboardingSession newSession = OnboardingSession.builder()
+                    .user(user)
+                    .status(OnboardingStatus.IN_PROGRESS)
+                    .currentStep(OnboardingStep.TERMS_AGREEMENT)
+                    .build();
+            try {
+                // save()는 flush/commit 시점까지 DB 제약 위반이 지연될 수 있어 레이스를 잡기 어렵다.
+                // 동시 start 호출에서 unique(user_id) 경합이 나면 여기서 바로 예외를 발생시켜 회복한다.
+                return sessionRepository.saveAndFlush(newSession);
+            } catch (DataIntegrityViolationException e) {
+                log.warn("Onboarding session already exists (race). Returning existing session. userId={}", user.getId());
+                return sessionRepository.findByUser(user).orElseThrow(() -> e);
+            }
+        });
     }
     
     private User getUser(UUID userId) {

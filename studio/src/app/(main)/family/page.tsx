@@ -17,17 +17,20 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { mockFamilyMembers, mockActivityFeed, type Activity } from '@/lib/mockData';
-import { Mail, HeartPulse, Pill, ChevronsRight } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Mail } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Section } from '@/components/common/Section';
 import { ListItem } from '@/components/common/ListItem';
-
-const activityIcons: { [key in Activity['type']]: React.ReactNode } = {
-  measure: <HeartPulse className="w-5 h-5" />,
-  medication: <Pill className="w-5 h-5" />,
-};
+import {
+  useAcceptFamilyInvite,
+  useFamilyMembers,
+  useInviteFamilyMember,
+  useMyFamilyBoard,
+} from '@/hooks/queries/useFamilyBoard';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { useState } from 'react';
 
 /**
  * 프로그램 단위 용도: 연결된 가족 멤버 목록과 그들의 최근 활동 내역을 표시
@@ -38,14 +41,58 @@ const activityIcons: { [key in Activity['type']]: React.ReactNode } = {
  */
 export default function FamilyPage() {
   const { toast } = useToast();
+  const { data: board, isLoading: boardLoading, isError: boardError } = useMyFamilyBoard();
+  const { data: members = [], isLoading: membersLoading, isError: membersError } = useFamilyMembers();
+  const inviteMutation = useInviteFamilyMember();
+  const acceptMutation = useAcceptFamilyInvite();
+  const [inviteCode, setInviteCode] = useState('');
 
-  const handleInvite = () => {
-    navigator.clipboard.writeText('https://golden-wellness.app/invite/family-code-xyz');
-    toast({
-      title: '초대 링크가 복사되었습니다.',
-      description: '가족에게 링크를 공유하여 초대하세요.',
-    });
+  const handleInvite = async () => {
+    const email = window.prompt('초대할 가족의 이메일을 입력해주세요.');
+    if (!email) return;
+
+    try {
+      const inv = await inviteMutation.mutateAsync({ inviteeEmail: email, intendedRole: 'VIEWER' });
+      await navigator.clipboard.writeText(inv.inviteCode);
+      toast({
+        title: '초대 코드가 복사되었습니다.',
+        description: `초대 코드: ${inv.inviteCode}`,
+      });
+    } catch (e) {
+      const message = e instanceof Error ? e.message : '가족 초대에 실패했습니다.';
+      toast({ title: '초대 실패', description: message, variant: 'destructive' });
+    }
   };
+
+  const handleAccept = async () => {
+    const code = inviteCode.trim();
+    if (!code) return;
+
+    try {
+      await acceptMutation.mutateAsync(code);
+      setInviteCode('');
+      toast({ title: '참여 완료', description: '가족 보드에 참여했습니다.' });
+    } catch (e) {
+      const message = e instanceof Error ? e.message : '초대 수락에 실패했습니다.';
+      toast({ title: '참여 실패', description: message, variant: 'destructive' });
+    }
+  };
+
+  if (boardLoading || membersLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (boardError || membersError) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <p className="text-red-500">가족 정보를 불러오는 중 오류가 발생했습니다.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -53,8 +100,8 @@ export default function FamilyPage() {
 
       <main className="p-4 space-y-6">
         <Section
-          title="우리 가족"
-          description="가족의 건강 상태를 함께 확인해요."
+          title={board?.name || '우리 가족'}
+          description={board?.description || '가족의 건강 상태를 함께 확인해요.'}
           action={
             <Button onClick={handleInvite} size="sm" withIcon>
               <Mail className="w-4 h-4" />
@@ -63,29 +110,25 @@ export default function FamilyPage() {
           }
         >
           <div className="space-y-4">
-            {mockFamilyMembers.map((member) => (
+            {members.map((member) => (
               <ListItem
-                key={member.uid}
+                key={member.user.id}
                 className="p-0 hover:bg-transparent"
                 start={
                   <Avatar>
-                    <AvatarImage src={`https://i.pravatar.cc/150?u=${member.uid}`} />
-                    <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                    <AvatarImage src={`https://i.pravatar.cc/150?u=${member.user.id}`} />
+                    <AvatarFallback>{(member.user.name || 'U').charAt(0)}</AvatarFallback>
                   </Avatar>
                 }
                 middle={
                   <div>
-                    <p className="font-semibold">{member.name}</p>
-                    <p className="text-sm text-muted-foreground">{member.relation}</p>
+                    <p className="font-semibold">{member.user.name}</p>
+                    <p className="text-sm text-muted-foreground">{member.user.email}</p>
                   </div>
                 }
                 end={
-                  <Badge variant={member.role === 'admin' ? 'default' : 'secondary'}>
-                    {member.role === 'admin'
-                      ? '관리자'
-                      : member.role === 'viewer'
-                        ? '뷰어'
-                        : '대상자'}
+                  <Badge variant={member.role === 'ADMIN' ? 'default' : 'secondary'}>
+                    {member.role === 'ADMIN' ? '관리자' : member.role === 'EDITOR' ? '편집자' : '뷰어'}
                   </Badge>
                 }
               />
@@ -93,35 +136,31 @@ export default function FamilyPage() {
           </div>
         </Section>
 
-        <Section title="활동 피드" description="가족의 최근 활동 내역입니다.">
-          <div className="space-y-6">
-            {mockActivityFeed.map((activity) => (
-              <div key={activity.id} className="flex items-start gap-4">
-                <div className="bg-secondary p-3 rounded-full mt-1">
-                  {activityIcons[activity.type]}
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm">
-                    <span className="font-semibold">
-                      {mockFamilyMembers.find((m) => m.uid === activity.userId)?.name ||
-                        '알 수 없음'}
-                    </span>
-                    님이 {activity.description}
-                  </p>
-                  <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
-                </div>
-                {activity.details && (
-                  <div className="text-sm text-right">
-                    <p className="font-semibold">{activity.details}</p>
-                    <p className="text-xs text-muted-foreground">측정 결과</p>
-                  </div>
-                )}
-              </div>
-            ))}
+        <Section title="초대 코드로 참여" description="가족에게 받은 초대 코드를 입력해 참여할 수 있어요.">
+          <div className="flex gap-2">
+            <Input
+              value={inviteCode}
+              onChange={(e) => setInviteCode(e.target.value)}
+              placeholder="초대 코드 입력"
+              autoComplete="off"
+            />
+            <Button onClick={handleAccept} disabled={acceptMutation.isPending}>
+              {acceptMutation.isPending ? '처리 중...' : '참여'}
+            </Button>
           </div>
-          <Button variant="ghost" className="w-full mt-6 text-primary hover:text-primary">
-            더보기 <ChevronsRight className="w-4 h-4 ml-1" />
-          </Button>
+        </Section>
+
+        <Section
+          title="활동 피드"
+          description={
+            board?.lastActivityAt
+              ? `최근 활동 시간: ${board.lastActivityAt}`
+              : '가족의 최근 활동 내역입니다. (준비중)'
+          }
+        >
+          <div className="rounded-md border bg-card p-4 text-sm text-muted-foreground">
+            활동 피드는 현재 BE API가 준비되는 단계입니다. (연동 시, 행동 카드/리포트/측정 데이터와 함께 제공 예정)
+          </div>
         </Section>
       </main>
     </div>

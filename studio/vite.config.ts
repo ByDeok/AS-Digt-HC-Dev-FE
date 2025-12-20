@@ -1,10 +1,16 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  // Vite config에서 .env.* 를 안전하게 읽기 위해 loadEnv 사용
+  const env = loadEnv(mode, process.cwd(), '');
+
+  const beTarget = env.VITE_BE_URL || process.env.VITE_BE_URL || 'http://localhost:8081';
+
+  return {
   plugins: [react()],
   resolve: {
     alias: {
@@ -26,7 +32,7 @@ export default defineConfig({
      */
     proxy: {
       '/api': {
-        target: process.env.VITE_BE_URL || 'http://localhost:8081',
+        target: beTarget,
         changeOrigin: true,
         secure: false,
       },
@@ -37,4 +43,5 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
   },
+  };
 });

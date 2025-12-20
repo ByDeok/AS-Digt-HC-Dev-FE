@@ -1,296 +1,182 @@
 // src/app/(main)/report/page.tsx
 /**
- * 스크립트 용도: 건강 리포트 페이지 (차트 시각화)
+ * 건강 리포트 페이지 (BE 연동 버전)
  *
- * 함수 호출 구조:
- * ReportPage
- * ├── Header (Report Title & Date)
- * ├── Buttons (Chart Toggle: BP / Glucose)
- * └── ResponsiveContainer (Recharts)
- *     └── LineChart
- *         ├── CustomDot (Custom Marker Logic)
- *         ├── ReferenceLine (Normal/Abnormal Thresholds)
- *         └── Tooltip/Legend
+ * 화면 이벤트 → 호출 API:
+ * - 페이지 진입: GET /api/reports  (리포트 목록)
+ * - "리포트 생성" 클릭: POST /api/reports/generate  (리포트 생성)
+ * - "삭제" 클릭: DELETE /api/reports/{id}  (리포트 삭제)
+ *
+ * 참고:
+ * - 현재 BE 리포트는 "기간 요약 metrics" 구조라, 기존의 일자별 혈압/혈당 시계열 차트 UI와 1:1 매칭되지 않습니다.
+ * - 따라서 목록/상세(요약지표) 형태로 우선 연결하고, 시계열 API가 생기면 차트형으로 확장하는 것을 권장합니다.
  */
 
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { mockUser, mockHealthMetrics } from '@/lib/mockData';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  ReferenceLine,
-} from 'recharts';
-import { format, subMonths } from 'date-fns';
-import { Printer } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { PageHeader } from '@/components/common/PageHeader';
+import { Section } from '@/components/common/Section';
+import { ListItem } from '@/components/common/ListItem';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { useToast } from '@/hooks/use-toast';
+import { useDeleteReport, useGenerateReport, useReports } from '@/hooks/queries/useReports';
+import type { HealthReport } from '@/services/reportsService';
+import { Trash2 } from 'lucide-react';
 
-/**
- * 프로그램 단위 용도: 차트 그래프의 데이터 포인트 커스텀 렌더링
- * 기능:
- * - 정상 범위를 벗어난 데이터 포인트를 빨간색으로 강조
- */
-const CustomDot = (props: any) => {
-  const { cx, cy, payload, dataKey } = props;
+function formatRange(r: HealthReport) {
+  return `${r.startDate} ~ ${r.endDate}`;
+}
 
-  let isOutOfRange = false;
-  if (dataKey === 'systolic' && (payload.systolic > 140 || payload.systolic < 90)) {
-    isOutOfRange = true;
-  }
-  if (dataKey === 'diastolic' && (payload.diastolic > 90 || payload.diastolic < 60)) {
-    isOutOfRange = true;
-  }
-  if (dataKey === 'glucose' && (payload.glucose > 125 || payload.glucose < 70)) {
-    isOutOfRange = true;
-  }
+export default function ReportPage() {
+  const { toast } = useToast();
+  const { data: reports = [], isLoading, isError } = useReports();
+  const generateMutation = useGenerateReport();
+  const deleteMutation = useDeleteReport();
 
-  if (isOutOfRange) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const selected = useMemo(() => {
+    if (!selectedId) return reports[0] || null;
+    return reports.find((r) => r.reportId === selectedId) || null;
+  }, [reports, selectedId]);
+
+  const handleGenerate = async () => {
+    try {
+      const created = await generateMutation.mutateAsync();
+      setSelectedId(created.reportId);
+      toast({ title: '리포트 생성 완료', description: '새 리포트가 생성되었습니다.' });
+    } catch (e) {
+      const message = e instanceof Error ? e.message : '리포트 생성에 실패했습니다.';
+      toast({ title: '리포트 생성 실패', description: message, variant: 'destructive' });
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteMutation.mutateAsync(id);
+      toast({ title: '삭제 완료', description: '리포트가 삭제되었습니다.' });
+      if (selectedId === id) setSelectedId(null);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : '리포트 삭제에 실패했습니다.';
+      toast({ title: '삭제 실패', description: message, variant: 'destructive' });
+    }
+  };
+
+  if (isLoading) {
     return (
-      <circle cx={cx} cy={cy} r={5} fill="hsl(var(--destructive))" stroke="#fff" strokeWidth={2} />
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <LoadingSpinner />
+      </div>
     );
   }
 
-  return <circle cx={cx} cy={cy} r={3} fill={props.stroke} />;
-};
-
-/**
- * 프로그램 단위 용도: 사용자의 건강 데이터(혈압, 혈당)를 그래프로 시각화하여 제공
- * 기능:
- * - 3개월 간의 건강 데이터 필터링 및 표시
- * - 혈압/혈당 그래프 전환
- * - 인쇄 기능 제공
- */
-export default function ReportPage() {
-  const [activeChart, setActiveChart] = useState<'bp' | 'glucose'>('bp');
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const threeMonthsAgo = subMonths(new Date(), 3);
-  const chartData = mockHealthMetrics.filter((d) => new Date(d.date) >= threeMonthsAgo);
-
-  const formattedData = chartData.map((d) => ({
-    ...d,
-    formattedDate: format(new Date(d.date), 'MM/dd'),
-  }));
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <p className="text-red-500">리포트를 불러오는 중 오류가 발생했습니다.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-4 print:p-0 print:bg-white">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-end mb-4 print:hidden">
-          <Button onClick={handlePrint} withIcon>
-            <Printer className="w-4 h-4 mr-2" />
-            PDF 저장 / 인쇄
+    <div className="bg-gray-50 min-h-screen">
+      <PageHeader
+        title="건강 리포트"
+        rightContent={
+          <Button onClick={handleGenerate} disabled={generateMutation.isPending}>
+            {generateMutation.isPending ? '생성 중...' : '리포트 생성'}
           </Button>
-        </div>
-
-        <Card className="p-2 sm:p-6 print:border-none print:shadow-none" id="report-content">
-          <PageHeader
-            title={`${mockUser.name}님 건강 리포트`}
-            className="rounded-t-lg print:bg-white bg-gray-50 border-b-0 pb-0"
-            leftContent={null}
-            rightContent={
-              <div className="text-right mt-4 sm:mt-0">
-                <p className="font-semibold">
-                  {mockUser.name} ({mockUser.age}세)
-                </p>
-                <p className="text-sm text-gray-600">{mockUser.conditions.join(', ')}</p>
-              </div>
-            }
-          />
-          <div className="px-4 sm:px-6 pb-4 bg-gray-50 print:bg-white">
-            <p className="text-gray-500">
-              {format(threeMonthsAgo, 'yyyy.MM.dd')} - {format(new Date(), 'yyyy.MM.dd')} (최근
-              3개월)
-            </p>
-          </div>
-
-          <main className="p-4 sm:p-6">
-            <div className="print:hidden mb-6 flex justify-center">
-              <div className="inline-flex rounded-md shadow-sm">
-                <Button
-                  onClick={() => setActiveChart('bp')}
-                  className={cn(
-                    'rounded-r-none',
-                    activeChart === 'bp'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-white text-gray-700',
-                  )}
-                >
-                  혈압
-                </Button>
-                <Button
-                  onClick={() => setActiveChart('glucose')}
-                  className={cn(
-                    'rounded-l-none',
-                    activeChart === 'glucose'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-white text-gray-700',
-                  )}
-                >
-                  혈당
-                </Button>
-              </div>
-            </div>
-
-            <div className={cn('print-container', activeChart === 'glucose' && 'print:hidden')}>
-              <h2 className="text-xl font-semibold mb-4 text-center">혈압 추이</h2>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart
-                  data={formattedData}
-                  margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="formattedDate" />
-                  <YAxis domain={[50, 160]} />
-                  <Tooltip />
-                  <Legend />
-                  <ReferenceLine
-                    y={140}
-                    label={{
-                      value: '고혈압',
-                      position: 'insideTopLeft',
-                      fill: 'hsl(var(--destructive))',
-                    }}
-                    stroke="hsl(var(--destructive))"
-                    strokeDasharray="3 3"
-                  />
-                  <ReferenceLine
-                    y={90}
-                    label={{ value: '정상', position: 'insideTopLeft' }}
-                    stroke="hsl(var(--primary))"
-                    strokeDasharray="3 3"
-                  />
-                  <ReferenceLine
-                    y={60}
-                    label={{
-                      value: '저혈압',
-                      position: 'insideTopLeft',
-                      fill: 'hsl(var(--destructive))',
-                    }}
-                    stroke="hsl(var(--destructive))"
-                    strokeDasharray="3 3"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="systolic"
-                    name="수축기"
-                    stroke="hsl(var(--chart-1))"
-                    strokeWidth={2}
-                    dot={<CustomDot dataKey="systolic" />}
-                    activeDot={{ r: 6 }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="diastolic"
-                    name="이완기"
-                    stroke="hsl(var(--chart-2))"
-                    strokeWidth={2}
-                    dot={<CustomDot dataKey="diastolic" />}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className={cn('mt-10 print-container', activeChart === 'bp' && 'print:hidden')}>
-              <h2 className="text-xl font-semibold mb-4 text-center">공복 혈당 추이</h2>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart
-                  data={formattedData}
-                  margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="formattedDate" />
-                  <YAxis domain={[60, 180]} />
-                  <Tooltip />
-                  <Legend />
-                  <ReferenceLine
-                    y={126}
-                    label={{
-                      value: '당뇨 의심',
-                      position: 'insideTopLeft',
-                      fill: 'hsl(var(--destructive))',
-                    }}
-                    stroke="hsl(var(--destructive))"
-                    strokeDasharray="3 3"
-                  />
-                  <ReferenceLine
-                    y={100}
-                    label={{ value: '정상', position: 'insideTopLeft' }}
-                    stroke="hsl(var(--primary))"
-                    strokeDasharray="3 3"
-                  />
-                  <ReferenceLine
-                    y={70}
-                    label={{
-                      value: '저혈당 주의',
-                      position: 'insideTopLeft',
-                      fill: 'hsl(var(--destructive))',
-                    }}
-                    stroke="hsl(var(--destructive))"
-                    strokeDasharray="3 3"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="glucose"
-                    name="공복 혈당"
-                    stroke="hsl(var(--chart-4))"
-                    strokeWidth={2}
-                    dot={<CustomDot dataKey="glucose" />}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </main>
-
-          <footer className="text-center p-6 text-gray-500 border-t mt-6">
-            <p>의사 선생님께 보여주세요.</p>
-          </footer>
-        </Card>
-      </div>
-
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          #report-content, #report-content * {
-            visibility: visible;
-          }
-          #report-content {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-          }
-          .print-container {
-             display: block !important;
-             page-break-before: auto;
-             page-break-inside: avoid;
-          }
-           @page {
-            size: A4;
-            margin: 20mm;
-          }
         }
-      `,
-        }}
       />
+
+      <main className="p-4 space-y-6 max-w-3xl mx-auto w-full">
+        <Section title="리포트 목록" description="최근 생성된 리포트부터 표시됩니다.">
+          {reports.length === 0 ? (
+            <Card className="p-4 text-sm text-muted-foreground">리포트가 없습니다. 생성해보세요.</Card>
+          ) : (
+            <div className="space-y-3">
+              {reports.map((r) => (
+                <ListItem
+                  key={r.reportId}
+                  onClick={() => setSelectedId(r.reportId)}
+                  className={selected?.reportId === r.reportId ? 'bg-primary/5 border-border' : 'bg-card'}
+                  middle={
+                    <div className="space-y-1">
+                      <p className="font-semibold">{formatRange(r)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        생성일: {r.createdAt ?? '알 수 없음'} · Report ID: {r.reportId}
+                      </p>
+                    </div>
+                  }
+                  end={
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(r.reportId);
+                      }}
+                      disabled={deleteMutation.isPending}
+                      aria-label="리포트 삭제"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  }
+                />
+              ))}
+            </div>
+          )}
+        </Section>
+
+        <Section title="리포트 상세" description="선택한 리포트의 요약 지표입니다.">
+          {!selected ? (
+            <Card className="p-4 text-sm text-muted-foreground">표시할 리포트가 없습니다.</Card>
+          ) : (
+            <Card className="p-4 space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">기간</p>
+                  <p className="text-lg font-semibold">{formatRange(selected)}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-muted-foreground">생성일</p>
+                  <p className="text-sm">{selected.createdAt ?? '-'}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <Card className="p-3">
+                  <p className="text-xs text-muted-foreground">걸음 수</p>
+                  <p className="font-semibold">{selected.metrics?.activity?.steps ?? '-'}</p>
+                </Card>
+                <Card className="p-3">
+                  <p className="text-xs text-muted-foreground">활동 시간(분)</p>
+                  <p className="font-semibold">{selected.metrics?.activity?.activeMinutes ?? '-'}</p>
+                </Card>
+                <Card className="p-3">
+                  <p className="text-xs text-muted-foreground">평균 심박수(bpm)</p>
+                  <p className="font-semibold">{selected.metrics?.heartRate?.avgBpm ?? '-'}</p>
+                </Card>
+                <Card className="p-3">
+                  <p className="text-xs text-muted-foreground">혈압(수축/이완)</p>
+                  <p className="font-semibold">
+                    {selected.metrics?.bloodPressure?.systolic ?? '-'} / {selected.metrics?.bloodPressure?.diastolic ?? '-'}
+                  </p>
+                </Card>
+              </div>
+
+              <div className="text-xs text-muted-foreground">
+                데이터 출처: {selected.context?.deviceType ?? '-'} ({selected.context?.deviceId ?? '-'})
+              </div>
+            </Card>
+          )}
+        </Section>
+      </main>
     </div>
   );
 }
+
+

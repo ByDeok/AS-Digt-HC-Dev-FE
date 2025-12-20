@@ -116,7 +116,9 @@ notepad .env.local
 # =================================================================
 
 # 백엔드 API 서버 주소
-VITE_API_BASE_URL=http://localhost:8080/api
+# - 권장: VITE_API_URL
+# - 호환: VITE_API_BASE_URL (코드에서 함께 지원)
+VITE_API_URL=http://localhost:8081/api
 
 # 앱 환경 설정
 VITE_APP_NAME=AS-Digt-HC

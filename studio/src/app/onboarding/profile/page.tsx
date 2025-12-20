@@ -11,7 +11,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +19,9 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { WizardLayout } from '@/components/layout/WizardLayout';
+import { onboardingService } from '@/services/onboardingService';
+import { userService } from '@/services/userService';
+import { useToast } from '@/hooks/use-toast';
 
 type Step = 'name' | 'birthdate' | 'conditions';
 
@@ -40,11 +43,84 @@ export default function OnboardingProfilePage() {
     conditions: [] as string[],
   });
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleNext = () => {
-    if (step === 'name') setStep('birthdate');
-    else if (step === 'birthdate') setStep('conditions');
-    else if (step === 'conditions') navigate('/onboarding/device');
+  useEffect(() => {
+    // 온보딩 세션 시작(best-effort). 인증이 없으면 401이므로 무시 가능.
+    onboardingService.start().catch(() => undefined);
+  }, []);
+
+  const toIsoDate = (yyyymmdd: string) => {
+    if (!/^\d{8}$/.test(yyyymmdd)) return null;
+    return `${yyyymmdd.slice(0, 4)}-${yyyymmdd.slice(4, 6)}-${yyyymmdd.slice(6, 8)}`;
+  };
+
+  const handleNext = async () => {
+    if (step === 'name') {
+      setStep('birthdate');
+      return;
+    }
+
+    if (step === 'birthdate') {
+      // PROFILE_BASIC 저장
+      const birthDate = toIsoDate(formData.birthdate);
+      if (!formData.name.trim()) {
+        toast({ title: '입력 필요', description: '이름을 입력해주세요.', variant: 'destructive' });
+        return;
+      }
+      if (!birthDate) {
+        toast({ title: '입력 오류', description: '생년월일 8자리(예: 19501024)를 입력해주세요.', variant: 'destructive' });
+        return;
+      }
+      const gender = formData.gender === 'male' ? 'MALE' : formData.gender === 'female' ? 'FEMALE' : undefined;
+
+      try {
+        await onboardingService.step({
+          currentStep: 'PROFILE_BASIC',
+          nextStep: 'PROFILE_DETAILS',
+          name: formData.name.trim(),
+          birthDate,
+          gender,
+        });
+      } catch {
+        // 온보딩 저장은 best-effort (서버 미연동/권한 문제로 실패해도 UX를 막지 않음)
+      }
+      setStep('conditions');
+      return;
+    }
+
+    if (step === 'conditions') {
+      const birthDate = toIsoDate(formData.birthdate);
+      const gender = formData.gender === 'male' ? 'MALE' : formData.gender === 'female' ? 'FEMALE' : undefined;
+      const primaryConditions = JSON.stringify(formData.conditions);
+
+      try {
+        // PROFILE_DETAILS 저장(best-effort)
+        await onboardingService.step({
+          currentStep: 'PROFILE_DETAILS',
+          nextStep: 'HOSPITAL_SELECTION',
+          primaryConditions,
+        });
+      } catch {
+        // best-effort
+      }
+
+      try {
+        // 실제 프로필 저장(핵심)
+        await userService.updateMe({
+          name: formData.name.trim(),
+          birthDate: birthDate ?? undefined,
+          gender: gender ?? undefined,
+          primaryConditions,
+        });
+      } catch (e) {
+        const message = e instanceof Error ? e.message : '프로필 저장에 실패했습니다.';
+        toast({ title: '저장 실패', description: message, variant: 'destructive' });
+        return;
+      }
+
+      navigate('/onboarding/device');
+    }
   };
 
   const handleBack = () => {

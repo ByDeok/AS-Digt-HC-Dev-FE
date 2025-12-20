@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PartyPopper } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import { onboardingService } from '@/services/onboardingService';
 
 /**
  * 프로그램 단위 용도: 온보딩 완료 메시지를 표시하고 대시보드로 자동 이동
@@ -25,6 +26,9 @@ export default function OnboardingCompletePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // 온보딩 완료 처리(best-effort). 인증이 없거나 서버 미연동이어도 UX는 유지.
+    onboardingService.complete().catch(() => undefined);
+
     const timer = setTimeout(() => {
       navigate('/dashboard', { replace: true });
     }, 2500);

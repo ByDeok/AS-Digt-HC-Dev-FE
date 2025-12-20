@@ -4,7 +4,10 @@ import { clearAuthSession, getAccessToken } from '@/lib/auth';
 const api = axios.create({
   // 개발: Vite 프록시(/api -> BE) 사용
   // 배포/통합: 같은 오리진에서 /api로 호출 가능
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  // 환경변수 호환:
+  // - 신규: VITE_API_URL
+  // - 문서/기존: VITE_API_BASE_URL
+  baseURL: import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || '/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

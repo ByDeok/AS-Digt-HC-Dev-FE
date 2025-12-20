@@ -61,33 +61,41 @@ function App() {
           <Route
             path="/onboarding"
             element={
-              <OnboardingLayout>
-                <OnboardingPage />
-              </OnboardingLayout>
+              <RequireAuth>
+                <OnboardingLayout>
+                  <OnboardingPage />
+                </OnboardingLayout>
+              </RequireAuth>
             }
           />
           <Route
             path="/onboarding/device"
             element={
-              <OnboardingLayout>
-                <DevicePage />
-              </OnboardingLayout>
+              <RequireAuth>
+                <OnboardingLayout>
+                  <DevicePage />
+                </OnboardingLayout>
+              </RequireAuth>
             }
           />
           <Route
             path="/onboarding/profile"
             element={
-              <OnboardingLayout>
-                <ProfilePage />
-              </OnboardingLayout>
+              <RequireAuth>
+                <OnboardingLayout>
+                  <ProfilePage />
+                </OnboardingLayout>
+              </RequireAuth>
             }
           />
           <Route
             path="/onboarding/complete"
             element={
-              <OnboardingLayout>
-                <CompletePage />
-              </OnboardingLayout>
+              <RequireAuth>
+                <OnboardingLayout>
+                  <CompletePage />
+                </OnboardingLayout>
+              </RequireAuth>
             }
           />
 
