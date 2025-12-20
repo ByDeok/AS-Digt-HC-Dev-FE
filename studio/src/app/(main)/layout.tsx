@@ -11,11 +11,12 @@
  */
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, BarChart2, Users, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
+import { clearAuthSession } from '@/lib/auth';
 
 const navItems = [
   { href: '/dashboard', label: '홈', icon: Home },
@@ -39,6 +40,7 @@ const settingsNav = {
  */
 export default function MainAppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const pathname = location.pathname;
 
   const isSettingsActive = pathname.startsWith(settingsNav.href);
@@ -95,14 +97,16 @@ export default function MainAppLayout({ children }: { children: React.ReactNode 
                     알림 설정
                   </Button>
                 </Link>
-                <Link to="/">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start text-red-500 hover:text-red-600"
-                  >
-                    로그아웃
-                  </Button>
-                </Link>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-red-500 hover:text-red-600"
+                  onClick={() => {
+                    clearAuthSession();
+                    navigate('/login', { replace: true });
+                  }}
+                >
+                  로그아웃
+                </Button>
               </div>
             </PopoverContent>
           </Popover>

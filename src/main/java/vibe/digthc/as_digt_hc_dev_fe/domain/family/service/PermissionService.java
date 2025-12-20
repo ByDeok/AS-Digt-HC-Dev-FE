@@ -1,5 +1,6 @@
 package vibe.digthc.as_digt_hc_dev_fe.domain.family.service;
 
+import vibe.digthc.as_digt_hc_dev_fe.domain.family.entity.FamilyBoardMember;
 import vibe.digthc.as_digt_hc_dev_fe.domain.family.enums.BoardRole;
 import vibe.digthc.as_digt_hc_dev_fe.domain.family.enums.FamilyBoardPermission;
 import vibe.digthc.as_digt_hc_dev_fe.domain.family.exception.IllegalOperationException;
@@ -63,15 +64,6 @@ public class PermissionService {
                 .orElse(null);
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 

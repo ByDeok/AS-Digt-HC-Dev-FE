@@ -20,7 +20,14 @@ export const genkitService: AIService = {
         },
       };
     } catch (error) {
-      console.error('Genkit AI Error:', error);
+      // 콘솔 로그 대신(ESLint no-console), 필요 시 상위에서 에러를 관측할 수 있게 이벤트만 남깁니다.
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('genkit_error', {
+            detail: { kind: 'generateContent', error },
+          }),
+        );
+      }
       throw error;
     }
   },
@@ -40,7 +47,14 @@ export const genkitService: AIService = {
         }
       }
     } catch (error) {
-      console.error('Genkit Stream Error:', error);
+      // 콘솔 로그 대신(ESLint no-console), 필요 시 상위에서 에러를 관측할 수 있게 이벤트만 남깁니다.
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('genkit_error', {
+            detail: { kind: 'generateStream', error },
+          }),
+        );
+      }
       throw error;
     }
   },

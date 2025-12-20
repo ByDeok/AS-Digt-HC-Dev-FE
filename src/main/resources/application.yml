@@ -23,7 +23,6 @@ spring:
       # ddl-auto는 프로필별로 설정
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     # JPA Auditing 설정
     show-sql: false  # 프로필별로 오버라이드 가능
 

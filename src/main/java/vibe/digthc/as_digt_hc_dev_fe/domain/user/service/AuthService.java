@@ -1,6 +1,7 @@
 package vibe.digthc.as_digt_hc_dev_fe.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -112,12 +114,19 @@ public class AuthService {
         String refreshToken = jwtTokenProvider.createRefreshToken(authentication);
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
-        redisTemplate.opsForValue().set(
-                refreshTokenPrefix + userPrincipal.getId(),
-                refreshToken,
-                refreshTokenValidityInSeconds,
-                TimeUnit.SECONDS
-        );
+        // 로컬 개발 환경에서는 Redis가 없을 수 있음.
+        // - Redis 연결 실패로 로그인 자체가 실패하지 않도록, refresh token 저장은 best-effort로 처리한다.
+        // - 운영 환경에서는 Redis가 반드시 준비되어 있어야 정상적인 refresh 흐름을 사용할 수 있다.
+        try {
+            redisTemplate.opsForValue().set(
+                    refreshTokenPrefix + userPrincipal.getId(),
+                    refreshToken,
+                    refreshTokenValidityInSeconds,
+                    TimeUnit.SECONDS
+            );
+        } catch (Exception e) {
+            log.warn("Redis unavailable; skipping refresh token persistence (local/dev convenience).", e);
+        }
 
         UserResponse userResponse = new UserResponse(
                 userPrincipal.getId(),

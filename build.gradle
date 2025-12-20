@@ -1,30 +1,32 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.1'
+	id 'org.springframework.boot' version '4.0.1-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'vibe.digthc'
+springBoot {
+	mainClass = 'vibe.digthc.as_digt_hc_dev_fe.AsDigtHcDevFeApplication'
+}
+
+group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-description = 'AS-Digt-HC Backend Application'
+description = 'Demo project for Spring Boot'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-		vendor = JvmVendorSpec.ADOPTIUM  // 자동 다운로드 가능한 벤더 지정
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
 repositories {
 	mavenCentral()
+	maven { url = 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
-	// Spring Boot Starters
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -34,20 +36,19 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 	
-	// Database
-	runtimeOnly 'com.mysql:mysql-connector-j'          // MySQL 9.x 드라이버
-	runtimeOnly 'com.h2database:h2'                     // 테스트용 H2
+	// Jackson for JSON processing (included via spring-boot-starter-web, but explicit for clarity)
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	
+	// Database - using H2 for development
+	runtimeOnly 'com.h2database:h2'
 	
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	
-	// Test Dependencies
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	// JUnit 5 명시적 의존성 추가 (IDE 인식 개선)
-	testImplementation 'org.junit.jupiter:junit-jupiter-api'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

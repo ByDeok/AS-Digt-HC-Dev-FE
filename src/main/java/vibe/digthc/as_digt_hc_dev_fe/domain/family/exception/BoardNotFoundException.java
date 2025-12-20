@@ -21,3 +21,20 @@ public class BoardNotFoundException extends RuntimeException {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,7 +12,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { KakaoIcon } from '@/components/icons/kakao';
@@ -79,6 +79,13 @@ export default function OnboardingAuthPage() {
               </>
             )}
           </Button>
+        </div>
+
+        <div className="mt-4 text-center text-sm text-muted-foreground">
+          이미 계정이 있으신가요?{' '}
+          <Link className="text-primary underline underline-offset-4" to="/login">
+            이메일 로그인
+          </Link>
         </div>
       </CardContent>
     </Card>

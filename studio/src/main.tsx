@@ -26,8 +26,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         window.location.href = '/';
       }}
       onError={(error, info) => {
-        console.error('Global Error:', error);
-        console.error('Component Stack:', info.componentStack);
+        // 콘솔 로그 대신(ESLint no-console), 필요 시 상위에서 에러를 관측할 수 있게 이벤트만 남깁니다.
+        window.dispatchEvent(
+          new CustomEvent('app_error', {
+            detail: { error, componentStack: info.componentStack },
+          }),
+        );
       }}
     >
       <App />

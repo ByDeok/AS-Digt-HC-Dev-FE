@@ -222,6 +222,9 @@ credentials/
 - [로컬 개발 환경 설정 가이드](scripts/LOCAL_SETUP_GUIDE.md)
 - [환경변수 관리 상세 가이드](studio/docs/ENV_MANAGEMENT_GUIDE.md)
 - [프론트엔드 README](studio/README.md)
+- [랜딩페이지 원고(강력 버전)](docs/Landing_advanced.md)
+- [랜딩페이지 결과 검수 체크리스트](docs/Landing_advanced_checklist.md)
+- [랜딩페이지 고도화 전략(레퍼런스)](docs/landing_page.md)
 
 ---
 

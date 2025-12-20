@@ -7,7 +7,8 @@
  * ├── BrowserRouter (Router Provider)
  * ├── Suspense (Async Loading Boundary)
  * │   └── Routes (Route Matcher)
- * │       ├── Route (/) -> LandingPage
+ * │       ├── Route (/) -> LandingPage (Hook 랜딩)
+ * │       ├── Route (/start) -> StartPage (기존 시작 화면)
  * │       ├── Route (/onboarding/*) -> OnboardingLayout -> [Pages]
  * │       └── Route (/dashboard, etc) -> MainLayout -> [Pages]
  * └── Toaster (Global Toast Provider)
@@ -20,6 +21,8 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { queryClient } from '@/lib/react-query';
+import { RequireAuth } from '@/components/common/RequireAuth';
+import { BrandCornerIcon } from '@/components/common/BrandCornerIcon';
 
 // Layouts
 import MainLayout from './app/(main)/layout';
@@ -27,6 +30,9 @@ import OnboardingLayout from './app/onboarding/layout';
 
 // Pages (Lazy Loading)
 const LandingPage = lazy(() => import('./app/page'));
+const StartPage = lazy(() => import('./app/start/page'));
+const LoginPage = lazy(() => import('./app/auth/login/page'));
+const SignupPage = lazy(() => import('./app/auth/signup/page'));
 const DashboardPage = lazy(() => import('./app/(main)/dashboard/page'));
 const ReportPage = lazy(() => import('./app/(main)/report/page'));
 const FamilyPage = lazy(() => import('./app/(main)/family/page'));
@@ -43,9 +49,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        {/* 브랜드 대표 아이콘: 라우트와 무관하게 모든 페이지에 고정 노출 */}
+        <BrandCornerIcon />
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
+            <Route path="/start" element={<StartPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
 
           <Route
             path="/onboarding"
@@ -83,25 +94,31 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <MainLayout>
-                <DashboardPage />
-              </MainLayout>
+              <RequireAuth>
+                <MainLayout>
+                  <DashboardPage />
+                </MainLayout>
+              </RequireAuth>
             }
           />
           <Route
             path="/report"
             element={
-              <MainLayout>
-                <ReportPage />
-              </MainLayout>
+              <RequireAuth>
+                <MainLayout>
+                  <ReportPage />
+                </MainLayout>
+              </RequireAuth>
             }
           />
           <Route
             path="/family"
             element={
-              <MainLayout>
-                <FamilyPage />
-              </MainLayout>
+              <RequireAuth>
+                <MainLayout>
+                  <FamilyPage />
+                </MainLayout>
+              </RequireAuth>
             }
           />
 
