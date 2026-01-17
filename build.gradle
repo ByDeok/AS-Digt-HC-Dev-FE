@@ -40,6 +40,8 @@ dependencies {
 	
 	// Jackson for JSON processing (included via spring-boot-starter-web, but explicit for clarity)
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	// ULID generator for request tracing
+	implementation 'com.github.f4b6a3:ulid-creator:5.2.3'
 	
 	// Database - using H2 for development
 	runtimeOnly 'com.h2database:h2'
@@ -50,7 +52,10 @@ dependencies {
 	
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-test'
+	testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
 	testImplementation 'org.springframework.security:spring-security-test'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

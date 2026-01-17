@@ -19,6 +19,7 @@ public record HealthReportResponse(
         UUID userId,
         LocalDate startDate,
         LocalDate endDate,
+        String periodType,
         ReportMetrics metrics,
         ReportContext context,
         LocalDateTime createdAt,
@@ -30,6 +31,7 @@ public record HealthReportResponse(
                 report.getUser() != null ? report.getUser().getId() : null,
                 report.getStartDate(),
                 report.getEndDate(),
+                report.getPeriodType() != null ? report.getPeriodType().name() : null,
                 report.getMetrics(),
                 report.getContext(),
                 report.getCreatedAt(),
@@ -37,5 +39,6 @@ public record HealthReportResponse(
         );
     }
 }
+
 
 

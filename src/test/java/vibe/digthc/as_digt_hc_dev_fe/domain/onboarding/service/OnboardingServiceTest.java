@@ -85,10 +85,8 @@ public class OnboardingServiceTest {
         // Given: 기존 세션이 없는 경우
         given(userRepository.findById(userId)).willReturn(Optional.of(testUser));
         given(sessionRepository.findByUser(testUser)).willReturn(Optional.empty());
-        given(sessionRepository.save(any(OnboardingSession.class))).willAnswer(invocation -> {
-            OnboardingSession session = invocation.getArgument(0);
-            return session;
-        });
+        given(sessionRepository.saveAndFlush(any(OnboardingSession.class))).willAnswer(invocation -> invocation.getArgument(0));
+
 
         // When: 온보딩 세션 시작
         OnboardingStepResponse response = onboardingService.startSession(userId);
@@ -98,7 +96,7 @@ public class OnboardingServiceTest {
         assertThat(response.progressPercent()).isEqualTo(0.0);
         assertThat(response.estimatedMinutesLeft()).isEqualTo(3);
 
-        verify(sessionRepository, times(1)).save(any(OnboardingSession.class));
+        verify(sessionRepository, times(1)).saveAndFlush(any(OnboardingSession.class));
     }
 
     // =================================================================
@@ -233,9 +231,8 @@ public class OnboardingServiceTest {
         // Given: 세션이 없는 경우
         given(userRepository.findById(userId)).willReturn(Optional.of(testUser));
         given(sessionRepository.findByUser(testUser)).willReturn(Optional.empty());
-        given(sessionRepository.save(any(OnboardingSession.class))).willAnswer(invocation -> 
-                invocation.getArgument(0)
-        );
+        given(sessionRepository.saveAndFlush(any(OnboardingSession.class))).willAnswer(invocation -> invocation.getArgument(0));
+
 
         // When: 세션 조회
         OnboardingStepResponse response = onboardingService.getSession(userId);
@@ -243,7 +240,7 @@ public class OnboardingServiceTest {
         // Then: 새 세션이 생성되어 반환됨 (중간 저장 기능)
         assertThat(response.currentStep()).isEqualTo(OnboardingStep.TERMS_AGREEMENT);
         assertThat(response.progressPercent()).isEqualTo(0.0);
-        verify(sessionRepository, times(1)).save(any(OnboardingSession.class));
+        verify(sessionRepository, times(1)).saveAndFlush(any(OnboardingSession.class));
     }
 
     // =================================================================

@@ -9,7 +9,7 @@ import vibe.digthc.as_digt_hc_dev_fe.domain.user.service.AuthService;
 import vibe.digthc.as_digt_hc_dev_fe.interfaces.common.ApiResponse;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

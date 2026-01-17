@@ -1,6 +1,5 @@
 package vibe.digthc.as_digt_hc_dev_fe.domain.user.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.entity.Gender;

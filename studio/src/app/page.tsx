@@ -32,7 +32,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ReviewSection } from '@/components/landing/ReviewSection';
+import { ScrollAnimate } from '@/components/landing/ScrollAnimate';
 import { isAuthenticated } from '@/lib/auth';
+import videoSrc from '@/assets/resource/goden wellness.mp4';
+import logoSrc from '@/assets/resource/Logo_wint_name-Photoroom.png';
 
 type TrackProps = Record<string, string | number | boolean | null | undefined>;
 
@@ -205,11 +208,18 @@ export default function LandingPage() {
             </div>
             
             <div className="flex flex-col items-center gap-4 w-full">
-              {/* 로컬 개발 환경에서 assets 경로가 달라 Vite import 에러가 날 수 있어,
-                  텍스트 로고로 대체(런타임 안정). */}
-              <div className="w-full max-w-[500px] rounded-2xl border bg-background/60 px-6 py-4 text-center shadow-sm">
-                <p className="text-sm font-medium text-muted-foreground">Golden Wellness</p>
-                <p className="text-2xl font-extrabold tracking-tight text-foreground">골든 웰니스</p>
+              {/* 로고 이미지 - 브라우저 창 크기에 맞게 반응형 조절, 중심 정렬, 꽉 차게 */}
+              <div className="w-full flex justify-center items-center">
+                <img 
+                  src={logoSrc} 
+                  alt="골든 웰니스" 
+                  className="w-auto h-auto max-w-[85vw] sm:max-w-[75vw] md:max-w-[70vw] lg:max-w-[65vw] xl:max-w-[60vw] object-contain"
+                  style={{ 
+                    maxHeight: 'min(30vh, 300px)',
+                    width: 'auto',
+                    height: 'auto'
+                  }}
+                />
               </div>
               <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl break-keep">
                 “감시”가 아니라<br className="sm:hidden" /> <span className="text-primary">“안심”</span>을 위한 공유
@@ -248,7 +258,8 @@ export default function LandingPage() {
 
       {/* 영상 섹션: 상단 히어로(가치 제안)와 다음 히어로(결과 제시) 사이의 감정 전환용 브릿지 */}
       <section className="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-3xl border bg-muted/10 shadow-sm">
+        <ScrollAnimate animationType="fade-up" delay={100}>
+          <div className="overflow-hidden rounded-3xl border bg-muted/10 shadow-sm">
           <div className="px-6 pt-6 sm:px-8 sm:pt-8">
             <p className="text-sm font-medium text-muted-foreground">소개 영상</p>
             <p className="mt-1 text-base font-semibold text-foreground break-keep">
@@ -258,29 +269,29 @@ export default function LandingPage() {
 
           <div className="p-4 sm:p-6">
             <div className="relative overflow-hidden rounded-2xl ring-1 ring-border/60 bg-black/5">
-              {/* mp4 에셋 경로가 환경에 따라 달라 dev 서버가 깨지는 경우가 있어,
-                  개발/검증 단계에서는 플레이스홀더로 대체합니다. */}
-              <div className="flex min-h-[220px] items-center justify-center bg-gradient-to-br from-primary/5 via-background to-muted/30 p-8 text-center">
-                <div className="max-w-md">
-                  <p className="text-sm font-medium text-muted-foreground">소개 영상</p>
-                  <p className="mt-2 text-lg font-semibold text-foreground break-keep">
-                    (개발 환경) 영상은 나중에 public 경로로 연결할 수 있어요.
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground break-keep">
-                    지금은 API/인증 플로우 검증을 위해 렌더링 안정성을 우선합니다.
-                  </p>
-                </div>
-              </div>
+              <video
+                className="w-full h-auto"
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+              >
+                <source src={videoSrc} type="video/mp4" />
+                브라우저가 비디오 태그를 지원하지 않습니다.
+              </video>
             </div>
           </div>
         </div>
+        </ScrollAnimate>
       </section>
 
-      {/* Hero: 3초 안에 ‘얻는 이득’을 전달 */}
+      {/* Hero: 3초 안에 '얻는 이득'을 전달 */}
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         {/* 반응형: 중간 폭(태블릿)에서는 1열로 내려 잘림/오버플로우를 예방합니다. */}
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-8 min-w-0">
+          <ScrollAnimate animationType="slide-right" delay={0}>
+            <div className="space-y-8 min-w-0">
             <div className="space-y-4">
               <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl break-keep">
                 오늘 건강 상태,<br />
@@ -303,7 +314,8 @@ export default function LandingPage() {
                 { title: 'A4 한 장 리포트', desc: 'PDF 저장·A4 인쇄', icon: <FileText className="h-4 w-4 text-green-500" /> },
                 { title: '미션 1~3개', desc: '과부하 없이 실천', icon: <CheckCircle2 className="h-4 w-4 text-orange-500" /> }
               ].map((item, i) => (
-                <div key={i} className="flex flex-col gap-2 rounded-xl border bg-background/50 p-4 transition-all hover:border-primary/30 hover:shadow-sm">
+                <ScrollAnimate key={i} animationType="fade-up" delay={100 + i * 100}>
+                  <div className="flex flex-col gap-2 rounded-xl border bg-background/50 p-4 transition-all hover:border-primary/30 hover:shadow-sm">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted">
                     {item.icon}
                   </div>
@@ -311,7 +323,8 @@ export default function LandingPage() {
                     <p className="font-semibold text-foreground">{item.title}</p>
                     <p className="text-sm text-muted-foreground">{item.desc}</p>
                   </div>
-                </div>
+                  </div>
+                </ScrollAnimate>
               ))}
             </div>
 
@@ -338,10 +351,12 @@ export default function LandingPage() {
               </a>
             </div>
           </div>
+          </ScrollAnimate>
 
-          {/* Hero media: C 유형은 “최종 결과물”을 먼저 보여줘 기대감을 만듭니다. */}
+          {/* Hero media: C 유형은 "최종 결과물"을 먼저 보여줘 기대감을 만듭니다. */}
           {/* Glassmorphism 적용 */}
-          <div className="relative min-w-0 w-full max-w-lg mx-auto lg:max-w-none">
+          <ScrollAnimate animationType="slide-left" delay={150}>
+            <div className="relative min-w-0 w-full max-w-lg mx-auto lg:max-w-none">
             <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-primary/20 via-primary/5 to-transparent blur-2xl opacity-70" />
             <Card className="relative overflow-hidden border-0 shadow-2xl shadow-primary/10 ring-1 ring-border/50 bg-background/80 backdrop-blur-sm">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/40 via-primary to-primary/40" />
@@ -400,37 +415,43 @@ export default function LandingPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+            </div>
+          </ScrollAnimate>
         </div>
       </section>
 
       {/* 문제 → 해결 구조: 숨은 비용을 정확히 찌르기 */}
       <section id="problem" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <div className="text-center space-y-4 mb-12">
+        <ScrollAnimate animationType="fade-up" delay={0}>
+          <div className="text-center space-y-4 mb-12">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl break-keep">기록은 있는데, 결론이 없습니다</h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto break-keep">
             더 많은 데이터가 아니라, 더 빠른 결론이 필요합니다.<br/>
             복잡함은 우리가 처리하고, 당신은 결과만 확인하세요.
           </p>
         </div>
+        </ScrollAnimate>
 
         <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
-          <Card className="bg-muted/30 border-0 shadow-none">
-            <CardHeader>
-              <CardTitle className="text-lg">시니어의 어려움</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-muted-foreground">
-              <p className="flex items-start gap-2">
-                <span className="text-red-400 mt-1">✕</span>
-                앱이 복잡하고 용어가 어려워서 금방 포기하게 됩니다.
-              </p>
-              <p className="flex items-start gap-2">
-                <span className="text-red-400 mt-1">✕</span>
-                수치는 쌓이는데, “오늘 당장 뭘 해야 하는지” 모릅니다.
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="bg-muted/30 border-0 shadow-none">
+          <ScrollAnimate animationType="fade-up" delay={100}>
+            <Card className="bg-muted/30 border-0 shadow-none">
+              <CardHeader>
+                <CardTitle className="text-lg">시니어의 어려움</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-muted-foreground">
+                <p className="flex items-start gap-2">
+                  <span className="text-red-400 mt-1">✕</span>
+                  앱이 복잡하고 용어가 어려워서 금방 포기하게 됩니다.
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-red-400 mt-1">✕</span>
+                  수치는 쌓이는데, &ldquo;오늘 당장 뭘 해야 하는지&rdquo; 모릅니다.
+                </p>
+              </CardContent>
+            </Card>
+          </ScrollAnimate>
+          <ScrollAnimate animationType="fade-up" delay={200}>
+            <Card className="bg-muted/30 border-0 shadow-none">
             <CardHeader>
               <CardTitle className="text-lg">가족의 어려움</CardTitle>
             </CardHeader>
@@ -444,36 +465,42 @@ export default function LandingPage() {
                 과잉정보는 불안만 키우고, 정작 중요한 변화는 놓칩니다.
               </p>
             </CardContent>
-          </Card>
+            </Card>
+          </ScrollAnimate>
         </div>
 
-        <div className="mt-8 rounded-2xl bg-primary/5 p-8 text-center border border-primary/10">
+        <ScrollAnimate animationType="scale" delay={300}>
+          <div className="mt-8 rounded-2xl bg-primary/5 p-8 text-center border border-primary/10">
           <p className="text-lg font-medium text-foreground">
-            골든 웰니스는 <span className="text-primary font-bold">“데이터 나열”</span>이 아닌{' '}
-            <span className="text-primary font-bold">“명쾌한 결론”</span>을 제공합니다.
+            골든 웰니스는 <span className="text-primary font-bold">&ldquo;데이터 나열&rdquo;</span>이 아닌{' '}
+            <span className="text-primary font-bold">&ldquo;명쾌한 결론&rdquo;</span>을 제공합니다.
           </p>
-        </div>
+          </div>
+        </ScrollAnimate>
       </section>
 
-      {/* C 유형 핵심: Input-Output 다이어그램 (복잡한 과정은 숨기고 “넣으면 나온다”) */}
+      {/* C 유형 핵심: Input-Output 다이어그램 (복잡한 과정은 숨기고 "넣으면 나온다") */}
       <section id="how" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 bg-muted/10 scroll-mt-20">
         <div className="space-y-12">
-          <div className="text-center space-y-4">
+          <ScrollAnimate animationType="fade-up" delay={0}>
+            <div className="text-center space-y-4">
             <div className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium bg-background">
               Process
             </div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl break-keep">입력하면, 이렇게 나옵니다</h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto break-keep">
               내부의 복잡한 로직은 몰라도 됩니다.<br/>
-              “입력 → 엔진 → 결과”의 단순한 흐름만 기억하세요.
+              &ldquo;입력 → 엔진 → 결과&rdquo;의 단순한 흐름만 기억하세요.
             </p>
-          </div>
+            </div>
+          </ScrollAnimate>
 
           <div className="relative grid gap-8 md:grid-cols-3 md:items-stretch">
             {/* 연결선 (데스크탑) */}
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-border to-transparent -translate-y-1/2 z-0" />
 
-            <Card className="relative z-10 bg-background transition-all hover:-translate-y-1 hover:shadow-lg">
+            <ScrollAnimate animationType="fade-up" delay={100}>
+              <Card className="relative z-10 bg-background transition-all hover:-translate-y-1 hover:shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-lg">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground">1</div>
@@ -485,9 +512,11 @@ export default function LandingPage() {
                 <p>• (선택) 삼성헬스 등 기기 연동</p>
                 <p>• (선택) 가족 구성원 연결</p>
               </CardContent>
-            </Card>
+              </Card>
+            </ScrollAnimate>
 
-            <Card className="relative z-10 bg-background border-primary/50 shadow-lg shadow-primary/5 transition-all hover:-translate-y-1 hover:shadow-xl">
+            <ScrollAnimate animationType="scale" delay={200}>
+              <Card className="relative z-10 bg-background border-primary/50 shadow-lg shadow-primary/5 transition-all hover:-translate-y-1 hover:shadow-xl">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">
                 AUTO
               </div>
@@ -504,9 +533,11 @@ export default function LandingPage() {
                 <p>• 이상 징후 & 패턴 감지</p>
                 <p>• 개인화된 우선순위 도출</p>
               </CardContent>
-            </Card>
+              </Card>
+            </ScrollAnimate>
 
-            <Card className="relative z-10 bg-background transition-all hover:-translate-y-1 hover:shadow-lg">
+            <ScrollAnimate animationType="fade-up" delay={300}>
+              <Card className="relative z-10 bg-background transition-all hover:-translate-y-1 hover:shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-lg">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground">3</div>
@@ -518,12 +549,14 @@ export default function LandingPage() {
                 <p>• 오늘의 미션 카드 (1~3개)</p>
                 <p>• 안심 공유 알림</p>
               </CardContent>
-            </Card>
+              </Card>
+            </ScrollAnimate>
           </div>
         </div>
 
         {/* CTA 반복 배치 (중단) */}
-        <div className="mt-16 text-center">
+        <ScrollAnimate animationType="fade-up" delay={400}>
+          <div className="mt-16 text-center">
           <Link to="/start">
             <Button
               size="lg"
@@ -536,7 +569,8 @@ export default function LandingPage() {
           <p className="mt-4 text-sm text-muted-foreground">
             3분이면 설정이 끝납니다. 카드 등록 없이 무료로 시작하세요.
           </p>
-        </div>
+          </div>
+        </ScrollAnimate>
       </section>
 
       {/* 사용자 리뷰 섹션 */}
@@ -544,8 +578,9 @@ export default function LandingPage() {
 
       {/* ROI / Before & After */}
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <Card className="overflow-hidden border-0 bg-gradient-to-br from-muted/50 via-background to-muted/50 shadow-sm">
-          <CardHeader className="pb-8 text-center">
+        <ScrollAnimate animationType="fade-up" delay={0}>
+          <Card className="overflow-hidden border-0 bg-gradient-to-br from-muted/50 via-background to-muted/50 shadow-sm">
+            <CardHeader className="pb-8 text-center">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
               <TrendingDown className="h-6 w-6" />
             </div>
@@ -554,10 +589,11 @@ export default function LandingPage() {
               “건강 관리를 잘 하고 싶지만 복잡해서 못 하는” 문제를,<br/>
               결과물 중심으로 단순화하여 효율을 높입니다.
             </p>
-          </CardHeader>
-          <CardContent className="px-6 pb-12 md:px-12">
-            <div className="grid gap-8 md:grid-cols-2">
-              <div className="relative rounded-2xl border bg-background p-6 shadow-sm">
+            </CardHeader>
+            <CardContent className="px-6 pb-12 md:px-12">
+              <div className="grid gap-8 md:grid-cols-2">
+                <ScrollAnimate animationType="slide-right" delay={100}>
+                  <div className="relative rounded-2xl border bg-background p-6 shadow-sm">
                 <div className="absolute top-0 right-0 rounded-bl-xl bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">BEFORE</div>
                 <h3 className="font-bold text-foreground mb-4 text-lg">기존의 방식</h3>
                 <ul className="space-y-4">
@@ -567,16 +603,18 @@ export default function LandingPage() {
                   </li>
                   <li className="flex gap-3 text-muted-foreground text-sm sm:text-base break-keep">
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs">2</span>
-                    <span>가족에게 전화해서 "오늘 어때?" 묻고 답답해함</span>
+                    <span>가족에게 전화해서 &ldquo;오늘 어때?&rdquo; 묻고 답답해함</span>
                   </li>
                   <li className="flex gap-3 text-muted-foreground text-sm sm:text-base break-keep">
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs">3</span>
-                    <span>"그래서 오늘 뭘 조심해야 하지?" 결론 없이 끝남</span>
+                    <span>&ldquo;그래서 오늘 뭘 조심해야 하지?&rdquo; 결론 없이 끝남</span>
                   </li>
-                </ul>
-              </div>
+                  </ul>
+                  </div>
+                </ScrollAnimate>
               
-              <div className="relative rounded-2xl border-2 border-primary/20 bg-primary/5 p-6 shadow-sm">
+                <ScrollAnimate animationType="slide-left" delay={200}>
+                  <div className="relative rounded-2xl border-2 border-primary/20 bg-primary/5 p-6 shadow-sm">
                 <div className="absolute top-0 right-0 rounded-bl-xl bg-primary text-primary-foreground px-3 py-1 text-xs font-bold">AFTER</div>
                 <h3 className="font-bold text-foreground mb-4 text-lg">골든 웰니스</h3>
                 <ul className="space-y-4">
@@ -592,17 +630,20 @@ export default function LandingPage() {
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">3</span>
                     <span><span className="font-bold">오늘의 미션 1개</span>만 실천하면 관리 끝</span>
                   </li>
-                </ul>
+                  </ul>
+                  </div>
+                </ScrollAnimate>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </ScrollAnimate>
       </section>
 
       {/* 신뢰/안전 — 의심(개인정보/민감정보)을 먼저 처리 */}
       <section id="trust" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
         <div className="grid gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-1 space-y-4">
+          <ScrollAnimate animationType="fade-up" delay={0}>
+            <div className="lg:col-span-1 space-y-4">
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl break-keep">
               신뢰와 안전을<br/>최우선으로 합니다
             </h2>
@@ -615,7 +656,8 @@ export default function LandingPage() {
                 <ShieldCheck className="h-4 w-4" /> 보안 백서 보기 (준비중)
               </Button>
             </div>
-          </div>
+            </div>
+          </ScrollAnimate>
           
           <div className="lg:col-span-2 grid gap-6 sm:grid-cols-2">
             {[
@@ -624,14 +666,16 @@ export default function LandingPage() {
               { title: '권한 기반 공유', desc: '가족이라도 모든 정보를 볼 수 없습니다. 사용자가 허용한 항목만 공유됩니다.' },
               { title: '투명한 의료 고지', desc: '본 서비스는 의료 진단/치료가 아닙니다. AI의 제안은 참고용 가이드임을 명확히 합니다.' }
             ].map((item, i) => (
-              <Card key={i} className="border bg-background transition-colors hover:border-primary/40">
+              <ScrollAnimate key={i} animationType="fade-up" delay={100 + i * 100}>
+                <Card className="border bg-background transition-colors hover:border-primary/40">
                 <CardHeader>
                   <CardTitle className="text-base font-semibold">{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">{item.desc}</p>
                 </CardContent>
-              </Card>
+                </Card>
+              </ScrollAnimate>
             ))}
           </div>
         </div>
@@ -639,9 +683,11 @@ export default function LandingPage() {
 
       {/* FAQ: 불안 해소 */}
       <section id="faq" className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-20">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold">자주 묻는 질문</h2>
-        </div>
+        <ScrollAnimate animationType="fade-up" delay={0}>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold">자주 묻는 질문</h2>
+          </div>
+        </ScrollAnimate>
         <Accordion type="single" collapsible className="w-full space-y-2">
           {[
             { q: '스마트폰을 잘 못해도 쓸 수 있나요?', a: '네. 큰 글씨와 단순한 버튼으로 설계했습니다. 초기 설정이 어려우면 가족이 대신 설정해줄 수도 있습니다.' },
@@ -663,7 +709,8 @@ export default function LandingPage() {
 
       {/* Bottom CTA: 마지막 결심 포인트 */}
       <section className="border-t bg-muted/30">
-        <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 text-center">
+        <ScrollAnimate animationType="fade-up" delay={0}>
+          <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl mb-6 break-keep">
             오늘부터, “설명” 대신 “요약”을 공유하세요.
           </h2>
@@ -691,9 +738,10 @@ export default function LandingPage() {
 
           <div className="mt-8 inline-flex items-center gap-2 rounded-full border bg-background/50 px-4 py-2 text-xs text-muted-foreground backdrop-blur">
             <AlertTriangle className="h-3.5 w-3.5 text-primary" />
-            <p>의료적 진단이 아닌 건강 관리 보조 서비스입니다.</p>
+            <p>의료적 진단이 아닌 건강 관리 보조 서비스입니다.            </p>
           </div>
-        </div>
+          </div>
+        </ScrollAnimate>
       </section>
 
       {/* Footer */}

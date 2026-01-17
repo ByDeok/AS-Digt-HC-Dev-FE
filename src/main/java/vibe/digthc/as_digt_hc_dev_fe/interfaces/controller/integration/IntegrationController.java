@@ -19,7 +19,7 @@ import java.util.UUID;
  * 외부 연동 API Controller
  */
 @RestController
-@RequestMapping("/api/v1/integration")
+@RequestMapping("/v1/integration")
 @RequiredArgsConstructor
 public class IntegrationController {
 

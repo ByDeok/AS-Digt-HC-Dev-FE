@@ -41,13 +41,20 @@ public class HealthReport extends BaseTimeEntity {
     @Column(name = "end_date")
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "period_type", length = 10)
+    private PeriodType periodType;
+
     @Builder
-    public HealthReport(User user, ReportMetrics metrics, ReportContext context, LocalDate startDate, LocalDate endDate) {
+    public HealthReport(User user, ReportMetrics metrics, ReportContext context, LocalDate startDate, LocalDate endDate,
+                        PeriodType periodType) {
         this.user = user;
         this.metrics = metrics;
         this.context = context;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.periodType = periodType;
     }
+
 }
 

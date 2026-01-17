@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   // Vite config에서 .env.* 를 안전하게 읽기 위해 loadEnv 사용
   const env = loadEnv(mode, process.cwd(), '');
 
-  const beTarget = env.VITE_BE_URL || process.env.VITE_BE_URL || 'http://localhost:8081';
+  const beTarget = env.VITE_BE_URL || process.env.VITE_BE_URL || 'http://localhost:8080';
 
   return {
   plugins: [react()],

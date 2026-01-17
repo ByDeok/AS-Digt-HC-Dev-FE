@@ -30,11 +30,14 @@ export type ReportContext = {
   metadata?: string;
 };
 
+export type PeriodType = 'WEEKLY' | 'MONTHLY';
+
 export type HealthReport = {
   reportId: string;
   userId: string;
   startDate: string; // YYYY-MM-DD
   endDate: string; // YYYY-MM-DD
+  periodType?: PeriodType | null;
   metrics: ReportMetrics | null;
   context: ReportContext | null;
   createdAt: string | null;
@@ -42,15 +45,20 @@ export type HealthReport = {
 };
 
 export const reportsService = {
-  list: async (): Promise<HealthReport[]> => {
-    const res = await api.get('/reports');
+  list: async (periodType?: PeriodType): Promise<HealthReport[]> => {
+    const res = await api.get('/reports', {
+      params: periodType ? { periodType } : undefined,
+    });
     return unwrapApiResponse<HealthReport[]>(res, '리포트를 불러오지 못했습니다.');
   },
 
-  generate: async (): Promise<HealthReport> => {
-    const res = await api.post('/reports/generate');
+  generate: async (periodType?: PeriodType): Promise<HealthReport> => {
+    const res = await api.post('/reports/generate', undefined, {
+      params: periodType ? { periodType } : undefined,
+    });
     return unwrapApiResponse<HealthReport>(res, '리포트 생성에 실패했습니다.');
   },
+
 
   getById: async (reportId: string): Promise<HealthReport> => {
     const res = await api.get(`/reports/${reportId}`);

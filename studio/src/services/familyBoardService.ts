@@ -24,6 +24,8 @@ export type FamilyBoard = {
   lastActivityAt: string | null;
 };
 
+export type BoardSettingsUpdate = Record<string, unknown>;
+
 export type FamilyMember = {
   membershipId: number;
   user: UserResponse;
@@ -60,6 +62,20 @@ export const familyBoardService = {
   accept: async (inviteCode: string): Promise<FamilyMember> => {
     const res = await api.post('/v1/family-board/accept', { inviteCode });
     return unwrapApiResponse<FamilyMember>(res, '가족 초대 수락에 실패했습니다.');
+  },
+
+  updateMemberRole: async (memberId: string, newRole: BoardRole): Promise<FamilyMember> => {
+    const res = await api.put(`/v1/family-board/members/${memberId}/role`, { newRole });
+    return unwrapApiResponse<FamilyMember>(res, '멤버 역할 변경에 실패했습니다.');
+  },
+
+  removeMember: async (memberId: string): Promise<void> => {
+    await api.delete(`/v1/family-board/members/${memberId}`);
+  },
+
+  updateSettings: async (settings: BoardSettingsUpdate): Promise<FamilyBoard> => {
+    const res = await api.put('/v1/family-board/settings', { settings });
+    return unwrapApiResponse<FamilyBoard>(res, '보드 설정 변경에 실패했습니다.');
   },
 };
 

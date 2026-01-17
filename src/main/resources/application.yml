@@ -48,6 +48,17 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 # =================================================================
+# API 로깅 설정
+# =================================================================
+app:
+  logging:
+    api:
+      enabled: ${API_LOGGING_ENABLED:true}  # API 로깅 활성화 여부
+      include-headers: ${API_LOGGING_INCLUDE_HEADERS:true}  # 헤더 포함 여부
+      include-body: ${API_LOGGING_INCLUDE_BODY:true}  # 본문 포함 여부
+      max-body-length: ${API_LOGGING_MAX_BODY_LENGTH:1000}  # 본문 최대 길이
+
+# =================================================================
 # 서버 설정
 # =================================================================
 server:
@@ -57,6 +68,14 @@ server:
     encoding:
       charset: UTF-8
       force-response: true
+
+# =================================================================
+# CORS 설정
+# =================================================================
+app:
+  cors:
+    allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:http://localhost:*,http://127.0.0.1:*}
+
 
 # =================================================================
 # JWT 설정

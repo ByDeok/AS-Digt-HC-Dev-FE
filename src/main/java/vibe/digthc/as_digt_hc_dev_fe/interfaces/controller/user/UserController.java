@@ -16,7 +16,7 @@ import java.util.UUID;
  * 사용자 프로필 관리 Controller
  */
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 

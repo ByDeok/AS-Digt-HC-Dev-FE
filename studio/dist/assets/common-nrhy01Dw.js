@@ -1,0 +1,1 @@
+function r(a,n){const t=a==null?void 0:a.data;if(!(t!=null&&t.success))throw new Error((t==null?void 0:t.message)||n);if(t.data===void 0||t.data===null)throw new Error((t==null?void 0:t.message)||n);return t.data}export{r as u};

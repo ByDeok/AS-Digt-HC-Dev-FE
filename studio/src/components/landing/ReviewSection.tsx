@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Star, User, Quote } from 'lucide-react';
 import {
   Carousel,
@@ -6,6 +6,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -55,9 +56,65 @@ const REVIEWS: Review[] = [
   { id: 28, name: '박보영', age: '31세', role: 'Family', rating: 5, content: '부모님이랑 대화 주제가 늘었어요.', highlight: '소통의 창구' },
   { id: 29, name: '조인성', age: '44세', role: 'Caregiver', rating: 5, content: '멀리 떨어져 살아도 곁에 있는 것 같아요.', highlight: '거리 극복' },
   { id: 30, name: '윤여정', age: '76세', role: 'Senior', rating: 5, content: '이 나이에 스마트한 노인이 된 기분입니다.', highlight: '스마트 시니어' },
+  { id: 31, name: '박하늘', age: '38세', role: 'Family', rating: 5, content: '스테키데스네~', highlight: '모든 기능이 한 곳에' },
 ];
 
 export function ReviewSection() {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 자동 재생 기능
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    const startAutoplay = () => {
+      // 기존 interval이 있으면 정리
+      if (autoplayIntervalRef.current) {
+        clearInterval(autoplayIntervalRef.current);
+      }
+
+      // 새로운 interval 시작
+      autoplayIntervalRef.current = setInterval(() => {
+        api.scrollNext();
+      }, 4000); // 4초마다 다음 슬라이드로 이동
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayIntervalRef.current) {
+        clearInterval(autoplayIntervalRef.current);
+        autoplayIntervalRef.current = null;
+      }
+    };
+
+    // 초기 자동 재생 시작
+    startAutoplay();
+
+    // 마우스 호버 시 일시 정지
+    const handleMouseEnter = () => {
+      stopAutoplay();
+    };
+
+    const handleMouseLeave = () => {
+      startAutoplay();
+    };
+
+    const carouselElement = api.containerNode();
+    if (carouselElement) {
+      carouselElement.addEventListener('mouseenter', handleMouseEnter);
+      carouselElement.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      stopAutoplay();
+      if (carouselElement) {
+        carouselElement.removeEventListener('mouseenter', handleMouseEnter);
+        carouselElement.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [api]);
+
   return (
     <section id="reviews" className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 bg-muted/20 scroll-mt-20">
       <div className="text-center space-y-4 mb-12">
@@ -70,16 +127,18 @@ export function ReviewSection() {
       </div>
 
       <Carousel
+        setApi={setApi}
         opts={{
           align: 'start',
           loop: true,
+          duration: 25, // 부드러운 스크롤 속도 (ms)
         }}
         className="w-full max-w-6xl mx-auto"
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {REVIEWS.map((review) => (
             <CarouselItem key={review.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <Card className="h-full border-0 bg-background shadow-sm hover:shadow-md transition-shadow">
+              <Card className="h-full border-0 bg-background shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02]">
                 <CardContent className="flex flex-col h-full p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-2">
@@ -101,7 +160,7 @@ export function ReviewSection() {
                   {review.highlight && (
                     <div className="mb-3">
                       <span className="inline-block rounded-md bg-primary/5 px-2 py-1 text-xs font-medium text-primary break-keep">
-                        "{review.highlight}"
+                        &ldquo;{review.highlight}&rdquo;
                       </span>
                     </div>
                   )}

@@ -37,7 +37,18 @@ mysql -u root -p < scripts/init-local-db.sql
 
 ---
 
+## 2.3 SQLite 스키마 (선택)
+
+SQLite로 빠르게 테스트하려면 아래 스키마를 사용하세요:
+
+```powershell
+sqlite3 app.db < scripts/sqlite-schema.sql
+```
+
+---
+
 ## 3. 백엔드 환경변수 설정
+
 
 ### 3.1 application-local.yml 수정
 

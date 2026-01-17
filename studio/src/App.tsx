@@ -61,11 +61,9 @@ function App() {
           <Route
             path="/onboarding"
             element={
-              <RequireAuth>
-                <OnboardingLayout>
-                  <OnboardingPage />
-                </OnboardingLayout>
-              </RequireAuth>
+              <OnboardingLayout>
+                <OnboardingPage />
+              </OnboardingLayout>
             }
           />
           <Route

@@ -12,8 +12,8 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/icons/logo';
 import { isAuthenticated } from '@/lib/auth';
+import logoSrc from '@/assets/resource/Logo_wint_name-Photoroom.png';
 
 /**
  * 프로그램 단위 용도: 인증 상태에 따라 서비스 진입 동선을 분기하는 시작 화면
@@ -31,12 +31,18 @@ export default function StartPage() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center bg-background p-8">
       <div className="flex flex-col items-center justify-center gap-6 text-center">
-        <Logo className="h-24 w-24 text-primary" />
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground font-headline">
-            골든 웰니스
-          </h1>
-          <p className="text-lg text-muted-foreground">건강한 오늘, 활기찬 내일</p>
+        {/* 로고 이미지 */}
+        <div className="w-full flex justify-center items-center">
+          <img 
+            src={logoSrc} 
+            alt="골든 웰니스" 
+            className="w-auto h-auto max-w-[70vw] sm:max-w-[60vw] md:max-w-[50vw] lg:max-w-[450px] object-contain"
+            style={{ 
+              maxHeight: 'min(25vh, 200px)',
+              width: 'auto',
+              height: 'auto'
+            }}
+          />
         </div>
         <div className="w-full max-w-sm space-y-3">
           <Link to="/login" className="block">

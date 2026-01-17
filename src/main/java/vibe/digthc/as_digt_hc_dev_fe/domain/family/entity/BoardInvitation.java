@@ -174,3 +174,7 @@ public class BoardInvitation extends BaseTimeEntity {
 
 
 
+
+
+
+

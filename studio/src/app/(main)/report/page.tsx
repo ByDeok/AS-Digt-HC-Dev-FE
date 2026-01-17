@@ -25,6 +25,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useDeleteReport, useGenerateReport, useReports } from '@/hooks/queries/useReports';
 import type { HealthReport } from '@/services/reportsService';
 import { Trash2 } from 'lucide-react';
+import type { PeriodType } from '@/services/reportsService';
 
 function formatRange(r: HealthReport) {
   return `${r.startDate} ~ ${r.endDate}`;
@@ -32,9 +33,10 @@ function formatRange(r: HealthReport) {
 
 export default function ReportPage() {
   const { toast } = useToast();
-  const { data: reports = [], isLoading, isError } = useReports();
-  const generateMutation = useGenerateReport();
-  const deleteMutation = useDeleteReport();
+  const [periodType, setPeriodType] = useState<PeriodType>('WEEKLY');
+  const { data: reports = [], isLoading, isError } = useReports(periodType);
+  const generateMutation = useGenerateReport(periodType);
+  const deleteMutation = useDeleteReport(periodType);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -52,6 +54,11 @@ export default function ReportPage() {
       const message = e instanceof Error ? e.message : '리포트 생성에 실패했습니다.';
       toast({ title: '리포트 생성 실패', description: message, variant: 'destructive' });
     }
+  };
+
+  const handlePeriodToggle = () => {
+    setPeriodType((prev) => (prev === 'WEEKLY' ? 'MONTHLY' : 'WEEKLY'));
+    setSelectedId(null); // Reset selection when changing period
   };
 
   const handleDelete = async (id: string) => {
@@ -86,14 +93,25 @@ export default function ReportPage() {
       <PageHeader
         title="건강 리포트"
         rightContent={
-          <Button onClick={handleGenerate} disabled={generateMutation.isPending}>
-            {generateMutation.isPending ? '생성 중...' : '리포트 생성'}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant={periodType === 'WEEKLY' ? 'default' : 'outline'} size="sm" onClick={handlePeriodToggle}>
+              주간
+            </Button>
+            <Button variant={periodType === 'MONTHLY' ? 'default' : 'outline'} size="sm" onClick={handlePeriodToggle}>
+              월간
+            </Button>
+            <Button onClick={handleGenerate} disabled={generateMutation.isPending}>
+              {generateMutation.isPending ? '생성 중...' : '리포트 생성'}
+            </Button>
+          </div>
         }
       />
 
       <main className="p-4 space-y-6 max-w-3xl mx-auto w-full">
-        <Section title="리포트 목록" description="최근 생성된 리포트부터 표시됩니다.">
+        <Section
+          title="리포트 목록"
+          description={`${periodType === 'WEEKLY' ? '주간' : '월간'} 리포트 목록입니다. 최근 생성된 리포트부터 표시됩니다.`}
+        >
           {reports.length === 0 ? (
             <Card className="p-4 text-sm text-muted-foreground">리포트가 없습니다. 생성해보세요.</Card>
           ) : (

@@ -1,21 +1,20 @@
 package vibe.digthc.as_digt_hc_dev_fe.interfaces.controller.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import vibe.digthc.as_digt_hc_dev_fe.domain.user.dto.*;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import vibe.digthc.as_digt_hc_dev_fe.domain.user.dto.AgreementsRequest;
+import vibe.digthc.as_digt_hc_dev_fe.domain.user.dto.SignupRequest;
+import vibe.digthc.as_digt_hc_dev_fe.domain.user.dto.UserResponse;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.entity.Role;
 import vibe.digthc.as_digt_hc_dev_fe.domain.user.service.AuthService;
-import vibe.digthc.as_digt_hc_dev_fe.infrastructure.security.JwtAuthenticationFilter;
-import vibe.digthc.as_digt_hc_dev_fe.infrastructure.security.SecurityConfig;
-import vibe.digthc.as_digt_hc_dev_fe.infrastructure.security.JwtTokenProvider;
-import vibe.digthc.as_digt_hc_dev_fe.infrastructure.security.CustomUserDetailsService;
 
 import java.util.UUID;
 
@@ -25,25 +24,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthController.class)
-@Import(SecurityConfig.class)
+@ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @MockBean
+    @Mock
     private AuthService authService;
 
-    @MockBean
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
-    @MockBean
-    private JwtTokenProvider jwtTokenProvider;
-    @MockBean
-    private CustomUserDetailsService customUserDetailsService;
+    @InjectMocks
+    private AuthController authController;
+
+    @BeforeEach
+    void setup() {
+        mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
+    }
 
     @Test
     void signup_ShouldReturnSuccess() throws Exception {
@@ -61,7 +58,7 @@ class AuthControllerTest {
 
         given(authService.signup(any(SignupRequest.class))).willReturn(response);
 
-        mockMvc.perform(post("/api/v1/auth/signup")
+        mockMvc.perform(post("/v1/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -69,4 +66,3 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.data.email").value("test@example.com"));
     }
 }
-

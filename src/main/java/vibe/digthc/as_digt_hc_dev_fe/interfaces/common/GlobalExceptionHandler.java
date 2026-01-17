@@ -30,13 +30,19 @@ import org.springframework.security.core.AuthenticationException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private ResponseEntity<ApiResponse<ErrorResponse>> buildErrorResponse(HttpStatus status, ErrorResponse errorResponse) {
+        return ResponseEntity.status(status)
+                .body(ApiResponse.failure(errorResponse.getMessage(), errorResponse));
+    }
+
+
     /**
      * 정적 리소스/매핑 미존재(404) 처리
      * - 예: /h2-console 이 실제로 노출되지 않는 경우
      * - 기존에는 최종 fallback(Exception)에서 500으로 처리되어 원인 파악이 어려웠다.
      */
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleNoResourceFound(NoResourceFoundException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("NOT_FOUND")
                 .message("요청한 리소스를 찾을 수 없습니다.")
@@ -45,7 +51,7 @@ public class GlobalExceptionHandler {
                 .build();
 
         log.warn("Resource not found: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, errorResponse);
     }
 
     /**
@@ -53,7 +59,7 @@ public class GlobalExceptionHandler {
      * - 예: UUID가 필요한 PathVariable에 '2' 같은 값이 들어오는 경우
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("TYPE_MISMATCH")
                 .message("요청 파라미터 형식이 올바르지 않습니다.")
@@ -62,14 +68,14 @@ public class GlobalExceptionHandler {
                 .build();
 
         log.warn("Type mismatch: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorResponse);
     }
     
     /**
      * UnsupportedRegionException 처리
      */
     @ExceptionHandler(UnsupportedRegionException.class)
-    public ResponseEntity<ErrorResponse> handleUnsupportedRegionException(
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleUnsupportedRegionException(
             UnsupportedRegionException ex) {
         
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -80,16 +86,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Unsupported region: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorResponse);
     }
 
     /**
      * 필드 검증 예외 처리 (@Valid 실패)
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationException(
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleValidationException(
             MethodArgumentNotValidException ex) {
         
         List<ErrorResponse.FieldError> fieldErrors = ex.getBindingResult()
@@ -113,16 +117,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Validation error: {}", fieldErrors);
         
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorResponse);
     }
     
     /**
      * IllegalArgumentException 처리
      */
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleIllegalArgumentException(
             IllegalArgumentException ex) {
         
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -133,16 +135,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Illegal argument: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorResponse);
     }
     
     /**
      * IllegalStateException 처리
      */
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalStateException(
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleIllegalStateException(
             IllegalStateException ex) {
         
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -153,16 +153,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Illegal state: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.CONFLICT, errorResponse);
     }
     
     /**
      * BoardNotFoundException 처리
      */
     @ExceptionHandler(BoardNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBoardNotFoundException(BoardNotFoundException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleBoardNotFoundException(BoardNotFoundException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("BOARD_NOT_FOUND")
                 .message(ex.getMessage())
@@ -171,16 +169,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Board not found: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, errorResponse);
     }
 
     /**
      * MemberNotFoundException 처리
      */
     @ExceptionHandler(MemberNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleMemberNotFoundException(MemberNotFoundException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleMemberNotFoundException(MemberNotFoundException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("MEMBER_NOT_FOUND")
                 .message(ex.getMessage())
@@ -189,16 +185,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Member not found: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, errorResponse);
     }
 
     /**
      * IllegalOperationException 처리
      */
     @ExceptionHandler(IllegalOperationException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalOperationException(IllegalOperationException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleIllegalOperationException(IllegalOperationException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("ILLEGAL_OPERATION")
                 .message(ex.getMessage())
@@ -207,16 +201,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Illegal operation: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.FORBIDDEN, errorResponse);
     }
 
     /**
      * InvalidInvitationException 처리
      */
     @ExceptionHandler(InvalidInvitationException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidInvitationException(InvalidInvitationException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleInvalidInvitationException(InvalidInvitationException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("INVALID_INVITATION")
                 .message(ex.getMessage())
@@ -225,16 +217,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Invalid invitation: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorResponse);
     }
 
     /**
      * DeviceNotFoundException 처리
      */
     @ExceptionHandler(DeviceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleDeviceNotFoundException(DeviceNotFoundException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleDeviceNotFoundException(DeviceNotFoundException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("DEVICE_NOT_FOUND")
                 .message(ex.getMessage())
@@ -243,16 +233,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Device not found: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, errorResponse);
     }
 
     /**
      * DeviceAlreadyLinkedException 처리
      */
     @ExceptionHandler(DeviceAlreadyLinkedException.class)
-    public ResponseEntity<ErrorResponse> handleDeviceAlreadyLinkedException(DeviceAlreadyLinkedException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleDeviceAlreadyLinkedException(DeviceAlreadyLinkedException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("DEVICE_ALREADY_LINKED")
                 .message(ex.getMessage())
@@ -261,16 +249,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Device already linked: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.CONFLICT, errorResponse);
     }
 
     /**
      * ConsentNotFoundException 처리
      */
     @ExceptionHandler(ConsentNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleConsentNotFoundException(ConsentNotFoundException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleConsentNotFoundException(ConsentNotFoundException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("CONSENT_NOT_FOUND")
                 .message(ex.getMessage())
@@ -279,16 +265,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Consent not found: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, errorResponse);
     }
 
     /**
      * SecurityException 처리
      */
     @ExceptionHandler(SecurityException.class)
-    public ResponseEntity<ErrorResponse> handleSecurityException(SecurityException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleSecurityException(SecurityException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("SECURITY_ERROR")
                 .message(ex.getMessage())
@@ -297,16 +281,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Security error: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.FORBIDDEN, errorResponse);
     }
 
     /**
      * AuthenticationException 처리 (인증 실패)
      */
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleAuthenticationException(AuthenticationException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("AUTHENTICATION_FAILED")
                 .message("인증에 실패했습니다.")
@@ -316,16 +298,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Authentication failed: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, errorResponse);
     }
 
     /**
      * AccessDeniedException 처리 (권한 부족)
      */
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleAccessDeniedException(AccessDeniedException ex) {
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("ACCESS_DENIED")
                 .message("접근 권한이 없습니다.")
@@ -334,16 +314,14 @@ public class GlobalExceptionHandler {
         
         log.warn("Access denied: {}", ex.getMessage());
         
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.FORBIDDEN, errorResponse);
     }
 
     /**
      * 모든 예외 처리 (최종 fallback)
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleException(Exception ex) {
         
         log.error("Unexpected error occurred", ex);
         
@@ -354,9 +332,7 @@ public class GlobalExceptionHandler {
                 .timestamp(java.time.LocalDateTime.now())
                 .build();
         
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(errorResponse);
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, errorResponse);
     }
 }
 
