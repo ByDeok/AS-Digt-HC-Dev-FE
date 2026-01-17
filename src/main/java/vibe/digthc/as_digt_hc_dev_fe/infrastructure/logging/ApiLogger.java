@@ -69,6 +69,13 @@ public class ApiLogger {
     }
 
     /**
+     * 요청/응답 본문 캐싱 시 사용할 최대 길이
+     */
+    public int getMaxBodyLength() {
+        return maxBodyLength;
+    }
+
+    /**
      * 3. 백엔드 요청 로거
      * 백엔드에서 받는 요청을 로깅
      */

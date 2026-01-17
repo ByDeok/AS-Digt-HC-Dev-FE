@@ -173,7 +173,6 @@ export function logFrontendResponse(
     body: data ? formatBody(data) : undefined,
   };
 
-  const logMethod = isError ? console.error : console.log;
   const emoji = isError ? '❌' : '✅';
   const statusColor = isError ? 'color: red' : status >= 300 ? 'color: orange' : 'color: green';
 
@@ -245,7 +244,6 @@ export function logBackendResponse(
     body: data ? formatBody(data) : undefined,
   };
 
-  const logMethod = isError ? console.error : console.log;
   const emoji = isError ? '❌' : '✅';
   const statusColor = isError ? 'color: red' : status >= 300 ? 'color: orange' : 'color: green';
 

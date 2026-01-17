@@ -54,7 +54,10 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         String requestBody = "";
 
         // 요청 본문을 캐싱할 수 있도록 래핑
-        ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(request);
+        ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(
+                request,
+                apiLogger.getMaxBodyLength()
+        );
         
         // 응답 본문을 캐싱할 수 있도록 래핑
         ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper(response);
