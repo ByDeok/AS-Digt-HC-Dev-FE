@@ -16,7 +16,7 @@ export type DailyHealthMetricsResponse = DailyHealthMetrics & {
 
 export const healthMetricsService = {
   getDaily: async (date: string): Promise<DailyHealthMetricsResponse> => {
-    const res = await api.get('/metrics/daily', { params: { date } });
+    const res = await api.get('/v1/metrics/daily', { params: { date } });
     return unwrapApiResponse<DailyHealthMetricsResponse>(
       res,
       '일별 건강 기록을 불러오지 못했습니다.'
@@ -24,7 +24,7 @@ export const healthMetricsService = {
   },
 
   upsertDaily: async (payload: DailyHealthMetrics): Promise<DailyHealthMetricsResponse> => {
-    const res = await api.post('/metrics/daily', payload);
+    const res = await api.post('/v1/metrics/daily', payload);
     return unwrapApiResponse<DailyHealthMetricsResponse>(
       res,
       '일별 건강 기록 저장에 실패했습니다.'

@@ -46,14 +46,14 @@ export type HealthReport = {
 
 export const reportsService = {
   list: async (periodType?: PeriodType): Promise<HealthReport[]> => {
-    const res = await api.get('/reports', {
+    const res = await api.get('/v1/reports', {
       params: periodType ? { periodType } : undefined,
     });
     return unwrapApiResponse<HealthReport[]>(res, '리포트를 불러오지 못했습니다.');
   },
 
   generate: async (periodType?: PeriodType): Promise<HealthReport> => {
-    const res = await api.post('/reports/generate', undefined, {
+    const res = await api.post('/v1/reports/generate', undefined, {
       params: periodType ? { periodType } : undefined,
     });
     return unwrapApiResponse<HealthReport>(res, '리포트 생성에 실패했습니다.');
@@ -61,12 +61,12 @@ export const reportsService = {
 
 
   getById: async (reportId: string): Promise<HealthReport> => {
-    const res = await api.get(`/reports/${reportId}`);
+    const res = await api.get(`/v1/reports/${reportId}`);
     return unwrapApiResponse<HealthReport>(res, '리포트를 불러오지 못했습니다.');
   },
 
   delete: async (reportId: string): Promise<void> => {
-    const res = await api.delete(`/reports/${reportId}`);
+    const res = await api.delete(`/v1/reports/${reportId}`);
     // 삭제 API는 ApiResponse<Void> 형태 (200)로 내려오도록 되어있어 success만 확인
     unwrapApiResponse<unknown>(res, '리포트 삭제에 실패했습니다.');
   },

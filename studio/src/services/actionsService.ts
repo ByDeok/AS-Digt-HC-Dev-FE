@@ -19,22 +19,22 @@ export type ActionStats = {
 
 export const actionsService = {
   getTodayActions: async (): Promise<ActionCard[]> => {
-    const res = await api.get('/actions/today');
+    const res = await api.get('/v1/actions/today');
     return unwrapApiResponse<ActionCard[]>(res, '오늘의 행동 카드를 불러오지 못했습니다.');
   },
 
   completeAction: async (id: number): Promise<ActionCard> => {
-    const res = await api.post(`/actions/${id}/complete`);
+    const res = await api.post(`/v1/actions/${id}/complete`);
     return unwrapApiResponse<ActionCard>(res, '행동 카드 완료 처리에 실패했습니다.');
   },
 
   skipAction: async (id: number): Promise<ActionCard> => {
-    const res = await api.post(`/actions/${id}/skip`);
+    const res = await api.post(`/v1/actions/${id}/skip`);
     return unwrapApiResponse<ActionCard>(res, '행동 카드 스킵 처리에 실패했습니다.');
   },
 
   getStats: async (): Promise<ActionStats> => {
-    const res = await api.get('/actions/stats');
+    const res = await api.get('/v1/actions/stats');
     return unwrapApiResponse<ActionStats>(res, '통계를 불러오지 못했습니다.');
   },
 };

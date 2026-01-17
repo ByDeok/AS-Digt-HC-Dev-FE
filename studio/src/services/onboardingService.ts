@@ -35,22 +35,22 @@ export type OnboardingStepRequest = {
 
 export const onboardingService = {
   start: async (): Promise<OnboardingStepResponse> => {
-    const res = await api.post('/onboarding/start');
+    const res = await api.post('/v1/onboarding/start');
     return unwrapApiResponse<OnboardingStepResponse>(res, '온보딩 시작에 실패했습니다.');
   },
 
   get: async (): Promise<OnboardingStepResponse> => {
-    const res = await api.get('/onboarding');
+    const res = await api.get('/v1/onboarding');
     return unwrapApiResponse<OnboardingStepResponse>(res, '온보딩 상태 조회에 실패했습니다.');
   },
 
   step: async (req: OnboardingStepRequest): Promise<OnboardingStepResponse> => {
-    const res = await api.post('/onboarding/step', req);
+    const res = await api.post('/v1/onboarding/step', req);
     return unwrapApiResponse<OnboardingStepResponse>(res, '온보딩 진행 저장에 실패했습니다.');
   },
 
   complete: async (): Promise<void> => {
-    await api.post('/onboarding/complete');
+    await api.post('/v1/onboarding/complete');
   },
 };
 

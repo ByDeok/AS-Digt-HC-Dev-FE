@@ -118,7 +118,7 @@ notepad .env.local
 # 백엔드 API 서버 주소
 # - 권장: VITE_API_URL
 # - 호환: VITE_API_BASE_URL (코드에서 함께 지원)
-VITE_API_URL=http://localhost:8081/api
+VITE_API_URL=http://localhost:8080/api
 
 # 앱 환경 설정
 VITE_APP_NAME=AS-Digt-HC
@@ -140,7 +140,8 @@ VITE_DEBUG_MODE=true
 
 | 변수명 | 필수 | 클라이언트 노출 | 설명 |
 |--------|------|----------------|------|
-| `VITE_API_BASE_URL` | ✅ | ✅ | 백엔드 API URL |
+| `VITE_API_URL` | ✅ | ✅ | 백엔드 API URL (권장) |
+| `VITE_API_BASE_URL` | ⚠️ | ✅ | 백엔드 API URL (레거시 호환) |
 | `VITE_APP_ENV` | ❌ | ✅ | 앱 환경 (development/production) |
 | `GOOGLE_GENAI_API_KEY` | ⚠️ | ❌ | Google AI API 키 |
 | `VITE_ENABLE_AI_FEATURES` | ❌ | ✅ | AI 기능 활성화 여부 |
@@ -176,7 +177,7 @@ VITE_DEBUG_MODE=true
 
 ```typescript
 // ✅ 클라이언트에서 사용 가능 (공개 정보만)
-const apiUrl = import.meta.env.VITE_API_BASE_URL;
+const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL;
 
 // ✅ 서버 사이드에서만 사용 (Genkit 서버 등)
 const apiKey = process.env.GOOGLE_GENAI_API_KEY;

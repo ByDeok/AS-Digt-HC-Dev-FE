@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/actions")
+@RequestMapping("/v1/actions")
 @RequiredArgsConstructor
 public class ActionController {
 

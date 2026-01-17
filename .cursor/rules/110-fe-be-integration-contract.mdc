@@ -1,0 +1,21 @@
+# FE-BE Integration Contract Rules
+Description: Frontend-backend integration contract and environment alignment.
+
+## Base URL & Prefix
+- **Backend base**: `http://localhost:8080/api` (server context-path `/api`)
+- **Frontend env**: use `VITE_API_URL` (fallback `VITE_API_BASE_URL`)
+
+## Endpoint Versioning
+- All public APIs use `/v1/*` (e.g., `/v1/actions`, `/v1/metrics`, `/v1/reports`, `/v1/onboarding`)
+
+## Social Login (Spec)
+- OAuth2 Authorization Code + PKCE
+- Endpoints: `GET /v1/auth/oauth/{provider}/authorize`, `POST /v1/auth/oauth/{provider}/callback`
+
+## Response & Error Shape
+- All APIs return `ApiResponse<T>` with `success`, `message`, `data`, `timestamp`
+- FE must handle `401` by redirecting to `/login` and triggering refresh flow once
+
+## Logging & Masking
+- Follow `LOGGING_GUIDE.md` for request/response logging and masking rules
+- Never log raw tokens or passwords from either FE or BE

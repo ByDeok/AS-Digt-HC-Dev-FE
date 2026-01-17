@@ -24,7 +24,7 @@ Spring Boot 기반의 RESTful API 서버로, 사용자 인증, 건강 데이터 
 | **Language** | Java 21 |
 | **Framework** | Spring Boot 4.0 |
 | **ORM** | Spring Data JPA + Hibernate |
-| **Database** | MySQL 9.x |
+| **Database** | H2 (local default) / MySQL 9.x (prod) |
 | **Security** | Spring Security + JWT |
 | **Build Tool** | Gradle (Groovy) |
 | **AI Integration** | Google AI (Gemini) via REST API |
@@ -58,8 +58,8 @@ src/main/
 ### 사전 요구사항
 
 - **Java 21** (JDK)
-- **MySQL 9.x**
 - **Gradle 8.x** (Wrapper 포함)
+- **MySQL 9.x** (선택: 로컬에서 MySQL 사용 시)
 
 ### 설치 및 실행
 
@@ -68,7 +68,9 @@ src/main/
 git clone https://github.com/ByDeok/AS-Digt-HC-Dev-FE.git
 cd AS-Digt-HC-Dev-FE
 
-# 2. MySQL 데이터베이스 생성
+# 2. (선택) MySQL 데이터베이스 생성
+# - 로컬 기본값은 H2 인메모리 DB입니다.
+# - MySQL을 사용할 경우 아래 스크립트를 실행하세요.
 mysql -u root -p < scripts/init-local-db.sql
 
 # 3. 환경변수 설정 (아래 섹션 참조)
@@ -119,11 +121,10 @@ external:
 | 변수명 | 필수 | 설명 | 기본값 |
 |--------|------|------|--------|
 | `SPRING_PROFILES_ACTIVE` | ✅ | 활성 프로필 | `local` |
-| `DB_HOST` | ✅ | MySQL 호스트 | `localhost` |
-| `DB_PORT` | ✅ | MySQL 포트 | `3306` |
-| `DB_NAME` | ✅ | 데이터베이스명 | `as_digt_hc_dev` |
-| `DB_USERNAME` | ✅ | DB 사용자 | `root` |
-| `DB_PASSWORD` | ✅ | DB 비밀번호 | - |
+| `DB_URL` | ⚠️ | JDBC URL (MySQL 사용 시 설정) | `jdbc:h2:mem:testdb` |
+| `DB_DRIVER` | ⚠️ | JDBC Driver (MySQL 사용 시 설정) | `org.h2.Driver` |
+| `DB_USERNAME` | ⚠️ | DB 사용자 | `sa` |
+| `DB_PASSWORD` | ⚠️ | DB 비밀번호 | - |
 | `JWT_SECRET` | ✅ | JWT 서명 키 (256비트+) | - |
 | `GOOGLE_AI_API_KEY` | ⚠️ | Google AI API 키 | - |
 

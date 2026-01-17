@@ -11,7 +11,7 @@ import vibe.digthc.as_digt_hc_dev_fe.interfaces.common.ApiResponse;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/onboarding")
+@RequestMapping("/v1/onboarding")
 @RequiredArgsConstructor
 public class OnboardingController {
 

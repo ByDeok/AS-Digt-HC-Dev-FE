@@ -4,7 +4,7 @@
 
 **SRS REQ-FUNC-003, 004** 및 **동의(Consent)** 관리를 위한 외부 시스템 연동 API 명세서입니다.
 
-**기술 스택**: Java 17+, Spring Boot 3.4+, MySQL 9.x, Jakarta EE 10
+**기술 스택**: Java 21, Spring Boot 4.0.x (Snapshot), H2 (local) / MySQL 9.x (prod), Jakarta EE 10+
 
 ---
 

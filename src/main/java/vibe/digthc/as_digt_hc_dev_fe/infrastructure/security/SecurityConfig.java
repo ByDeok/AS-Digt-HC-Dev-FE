@@ -63,9 +63,10 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         // 인증 필요 엔드포인트
                         .requestMatchers("/v1/users/**").authenticated()
-                        .requestMatchers("/onboarding/**").authenticated()
-                        .requestMatchers("/reports/**").authenticated()
-                        .requestMatchers("/actions/**").authenticated()
+                        .requestMatchers("/v1/onboarding/**").authenticated()
+                        .requestMatchers("/v1/reports/**").authenticated()
+                        .requestMatchers("/v1/actions/**").authenticated()
+                        .requestMatchers("/v1/metrics/**").authenticated()
                         .requestMatchers("/v1/family-board/**").authenticated()
                         .requestMatchers("/v1/integration/**").authenticated()
                         // 관리자 전용 엔드포인트 (추후 확장 가능)

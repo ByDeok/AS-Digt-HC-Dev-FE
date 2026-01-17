@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/metrics")
+@RequestMapping("/v1/metrics")
 @RequiredArgsConstructor
 public class HealthMetricController {
 

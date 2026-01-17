@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/reports")
+@RequestMapping("/v1/reports")
 @RequiredArgsConstructor
 public class ReportController {
 
