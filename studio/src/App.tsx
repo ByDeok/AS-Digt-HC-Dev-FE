@@ -5,6 +5,7 @@
  * 함수 호출 구조:
  * App
  * ├── BrowserRouter (Router Provider)
+ * ├── AnalyticsTracker (GA4 페이지뷰 자동 추적)
  * ├── Suspense (Async Loading Boundary)
  * │   └── Routes (Route Matcher)
  * │       ├── Route (/) -> LandingPage (Hook 랜딩)
@@ -14,8 +15,9 @@
  * └── Toaster (Global Toast Provider)
  */
 
-import { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { initGA, trackPageView } from '@/lib/analytics';
 import { Toaster } from '@/components/ui/toaster';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -42,6 +44,26 @@ const ProfilePage = lazy(() => import('./app/onboarding/profile/page'));
 const CompletePage = lazy(() => import('./app/onboarding/complete/page'));
 
 /**
+ * GA4 페이지뷰 자동 추적 컴포넌트
+ * 라우트 변경 시 자동으로 page_view 이벤트를 전송합니다.
+ */
+function AnalyticsTracker() {
+  const location = useLocation();
+
+  // GA4 초기화 (앱 마운트 시 1회)
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  // 라우트 변경 시 페이지뷰 추적
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location.pathname]);
+
+  return null;
+}
+
+/**
  * 프로그램 단위 용도: 전체 앱의 라우팅 구조 정의 및 공통 레이아웃 적용
  * @returns JSX.Element - 라우터가 적용된 앱 컴포넌트
  */
@@ -49,6 +71,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        {/* GA4 페이지뷰 자동 추적 */}
+        <AnalyticsTracker />
         {/* 브랜드 대표 아이콘: 라우트와 무관하게 모든 페이지에 고정 노출 */}
         <BrandCornerIcon />
         <Suspense fallback={<LoadingSpinner />}>

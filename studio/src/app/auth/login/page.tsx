@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import { login } from '@/services/authService';
 import { setAuthSession } from '@/lib/auth';
+import { trackLoginSuccess, trackLoginFail, setUserId } from '@/lib/analytics';
 
 const schema = z.object({
   // 개발/테스트 편의: 고정 관리자 계정 "admin"도 허용
@@ -48,10 +49,19 @@ export default function LoginPage() {
     try {
       const token = await login(values);
       setAuthSession(token);
+
+      // GA4: 로그인 성공 이벤트 및 사용자 ID 설정
+      trackLoginSuccess(values.email === 'admin' ? 'admin' : 'email');
+      setUserId(token.user.id || token.user.email);
+
       toast({ title: '로그인 성공', description: `${token.user.name}님, 환영합니다.` });
       navigate(fromPath, { replace: true });
     } catch (e) {
       const message = e instanceof Error ? e.message : '로그인에 실패했습니다.';
+
+      // GA4: 로그인 실패 이벤트
+      trackLoginFail(message.includes('비밀번호') ? 'invalid_password' : 'invalid_credentials');
+
       toast({ title: '로그인 실패', description: message, variant: 'destructive' });
     } finally {
       setSubmitting(false);

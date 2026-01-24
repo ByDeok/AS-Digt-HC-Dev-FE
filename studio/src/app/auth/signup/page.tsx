@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { signup } from '@/services/authService';
+import { trackSignupStart, trackSignupComplete, trackSignupError } from '@/lib/analytics';
 
 const passwordRule =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
@@ -38,6 +39,14 @@ export default function SignupPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+  // 회원가입 시작 시간 기록 (소요 시간 계산용)
+  const startTimeRef = useRef<number>(Date.now());
+
+  // GA4: 회원가입 페이지 진입 이벤트
+  useEffect(() => {
+    trackSignupStart(document.referrer || 'direct');
+    startTimeRef.current = Date.now();
+  }, []);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -67,6 +76,10 @@ export default function SignupPage() {
         },
       });
 
+      // GA4: 회원가입 완료 이벤트 (소요 시간 포함)
+      const timeToComplete = Math.round((Date.now() - startTimeRef.current) / 1000);
+      trackSignupComplete(timeToComplete);
+
       toast({
         title: '회원가입 완료',
         description: '이제 로그인할 수 있습니다.',
@@ -74,6 +87,11 @@ export default function SignupPage() {
       navigate('/login', { replace: true });
     } catch (e) {
       const message = e instanceof Error ? e.message : '회원가입에 실패했습니다.';
+
+      // GA4: 회원가입 실패 이벤트
+      const errorType = message.includes('이메일') ? 'duplicate_email' : 'unknown';
+      trackSignupError(errorType, message);
+
       toast({ title: '회원가입 실패', description: message, variant: 'destructive' });
     } finally {
       setSubmitting(false);

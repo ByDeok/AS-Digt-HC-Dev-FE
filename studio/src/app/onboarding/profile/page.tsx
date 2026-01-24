@@ -11,7 +11,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +22,7 @@ import { WizardLayout } from '@/components/layout/WizardLayout';
 import { onboardingService } from '@/services/onboardingService';
 import { userService } from '@/services/userService';
 import { useToast } from '@/hooks/use-toast';
+import { trackOnboardingStepView, trackOnboardingStepComplete } from '@/lib/analytics';
 
 type Step = 'name' | 'birthdate' | 'conditions';
 
@@ -44,10 +45,15 @@ export default function OnboardingProfilePage() {
   });
   const navigate = useNavigate();
   const { toast } = useToast();
+  // 단계별 시작 시간 기록 (소요 시간 계산용)
+  const stepStartTimeRef = useRef<number>(Date.now());
 
   useEffect(() => {
     // 온보딩 세션 시작(best-effort). 인증이 없으면 401이므로 무시 가능.
     onboardingService.start().catch(() => undefined);
+    // GA4: 첫 단계 시작 이벤트
+    trackOnboardingStepView('name', 1);
+    stepStartTimeRef.current = Date.now();
   }, []);
 
   const toIsoDate = (yyyymmdd: string) => {
@@ -57,7 +63,14 @@ export default function OnboardingProfilePage() {
 
   const handleNext = async () => {
     if (step === 'name') {
+      // GA4: 이름 단계 완료 이벤트
+      const durationSec = Math.round((Date.now() - stepStartTimeRef.current) / 1000);
+      trackOnboardingStepComplete('name', 1, durationSec, formData.name ? 1 : 0, 1);
+
       setStep('birthdate');
+      // GA4: 다음 단계 시작 이벤트
+      trackOnboardingStepView('birthdate', 2);
+      stepStartTimeRef.current = Date.now();
       return;
     }
 
@@ -85,7 +98,15 @@ export default function OnboardingProfilePage() {
       } catch {
         // 온보딩 저장은 best-effort (서버 미연동/권한 문제로 실패해도 UX를 막지 않음)
       }
+
+      // GA4: 생년월일 단계 완료 이벤트
+      const durationSec = Math.round((Date.now() - stepStartTimeRef.current) / 1000);
+      trackOnboardingStepComplete('birthdate', 2, durationSec, birthDate ? 1 : 0, 1);
+
       setStep('conditions');
+      // GA4: 다음 단계 시작 이벤트
+      trackOnboardingStepView('conditions', 3);
+      stepStartTimeRef.current = Date.now();
       return;
     }
 
@@ -113,6 +134,11 @@ export default function OnboardingProfilePage() {
           gender: gender ?? undefined,
           primaryConditions,
         });
+
+        // GA4: 건강정보 단계 완료 이벤트
+        const durationSec = Math.round((Date.now() - stepStartTimeRef.current) / 1000);
+        const fieldsCompleted = (formData.gender ? 1 : 0) + (formData.conditions.length > 0 ? 1 : 0);
+        trackOnboardingStepComplete('conditions', 3, durationSec, fieldsCompleted, 2);
       } catch (e) {
         const message = e instanceof Error ? e.message : '프로필 저장에 실패했습니다.';
         toast({ title: '저장 실패', description: message, variant: 'destructive' });

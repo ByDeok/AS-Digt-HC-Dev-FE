@@ -30,7 +30,15 @@ import {
   useMyFamilyBoard,
 } from '@/hooks/queries/useFamilyBoard';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import {
+  trackFamilyBoardView,
+  trackFamilyInviteOpen,
+  trackFamilyInviteSend,
+  trackFamilyInviteCopyCode,
+  trackFamilyJoinAttempt,
+  trackFamilyJoinSuccess,
+} from '@/lib/analytics';
 
 /**
  * 프로그램 단위 용도: 연결된 가족 멤버 목록과 그들의 최근 활동 내역을 표시
@@ -46,14 +54,35 @@ export default function FamilyPage() {
   const inviteMutation = useInviteFamilyMember();
   const acceptMutation = useAcceptFamilyInvite();
   const [inviteCode, setInviteCode] = useState('');
+  // 페이지뷰 추적 여부 (중복 방지)
+  const hasPageViewTracked = useRef(false);
+
+  // GA4: 가족 보드 페이지 조회 이벤트 (한 번만)
+  useEffect(() => {
+    if (!boardLoading && !membersLoading && !hasPageViewTracked.current) {
+      hasPageViewTracked.current = true;
+      // 현재 사용자의 역할 찾기 (members 배열에서)
+      const currentUserRole = members.find((m) => m.role === 'ADMIN')?.role || 'VIEWER';
+      trackFamilyBoardView(members.length, currentUserRole);
+    }
+  }, [board, members, boardLoading, membersLoading]);
 
   const handleInvite = async () => {
+    // GA4: 초대 모달 열기 이벤트
+    trackFamilyInviteOpen();
+
     const email = window.prompt('초대할 가족의 이메일을 입력해주세요.');
     if (!email) return;
 
     try {
       const inv = await inviteMutation.mutateAsync({ inviteeEmail: email, intendedRole: 'VIEWER' });
       await navigator.clipboard.writeText(inv.inviteCode);
+
+      // GA4: 초대 발송 이벤트
+      trackFamilyInviteSend('VIEWER');
+      // GA4: 초대 코드 복사 이벤트
+      trackFamilyInviteCopyCode();
+
       toast({
         title: '초대 코드가 복사되었습니다.',
         description: `초대 코드: ${inv.inviteCode}`,
@@ -68,9 +97,16 @@ export default function FamilyPage() {
     const code = inviteCode.trim();
     if (!code) return;
 
+    // GA4: 참여 시도 이벤트
+    trackFamilyJoinAttempt();
+
     try {
       await acceptMutation.mutateAsync(code);
       setInviteCode('');
+
+      // GA4: 참여 성공 이벤트
+      trackFamilyJoinSuccess('invite_code');
+
       toast({ title: '참여 완료', description: '가족 보드에 참여했습니다.' });
     } catch (e) {
       const message = e instanceof Error ? e.message : '초대 수락에 실패했습니다.';

@@ -14,7 +14,7 @@
 
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -26,6 +26,14 @@ import { useDeleteReport, useGenerateReport, useReports } from '@/hooks/queries/
 import type { HealthReport } from '@/services/reportsService';
 import { Trash2 } from 'lucide-react';
 import type { PeriodType } from '@/services/reportsService';
+import {
+  trackReportPageView,
+  trackReportTypeToggle,
+  trackReportGenerateClick,
+  trackReportGenerateSuccess,
+  trackReportView,
+  trackReportDelete,
+} from '@/lib/analytics';
 
 function formatRange(r: HealthReport) {
   return `${r.startDate} ~ ${r.endDate}`;
@@ -39,16 +47,36 @@ export default function ReportPage() {
   const deleteMutation = useDeleteReport(periodType);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // 페이지뷰 추적 여부 (중복 방지)
+  const hasPageViewTracked = useRef(false);
 
   const selected = useMemo(() => {
     if (!selectedId) return reports[0] || null;
     return reports.find((r) => r.reportId === selectedId) || null;
   }, [reports, selectedId]);
 
+  // GA4: 리포트 페이지 조회 이벤트 (한 번만)
+  useEffect(() => {
+    if (!isLoading && !hasPageViewTracked.current) {
+      hasPageViewTracked.current = true;
+      trackReportPageView(reports.length);
+    }
+  }, [reports, isLoading]);
+
   const handleGenerate = async () => {
+    // GA4: 리포트 생성 시도 이벤트
+    trackReportGenerateClick(periodType === 'WEEKLY' ? 'weekly' : 'monthly');
+
     try {
       const created = await generateMutation.mutateAsync();
       setSelectedId(created.reportId);
+
+      // GA4: 리포트 생성 성공 이벤트
+      trackReportGenerateSuccess(
+        periodType === 'WEEKLY' ? 'weekly' : 'monthly',
+        created.reportId
+      );
+
       toast({ title: '리포트 생성 완료', description: '새 리포트가 생성되었습니다.' });
     } catch (e) {
       const message = e instanceof Error ? e.message : '리포트 생성에 실패했습니다.';
@@ -57,19 +85,34 @@ export default function ReportPage() {
   };
 
   const handlePeriodToggle = () => {
-    setPeriodType((prev) => (prev === 'WEEKLY' ? 'MONTHLY' : 'WEEKLY'));
+    const newPeriodType = periodType === 'WEEKLY' ? 'MONTHLY' : 'WEEKLY';
+    setPeriodType(newPeriodType);
     setSelectedId(null); // Reset selection when changing period
+
+    // GA4: 리포트 유형 토글 이벤트
+    trackReportTypeToggle(newPeriodType === 'WEEKLY' ? 'weekly' : 'monthly');
   };
 
   const handleDelete = async (id: string) => {
     try {
       await deleteMutation.mutateAsync(id);
+
+      // GA4: 리포트 삭제 이벤트
+      trackReportDelete(id);
+
       toast({ title: '삭제 완료', description: '리포트가 삭제되었습니다.' });
       if (selectedId === id) setSelectedId(null);
     } catch (e) {
       const message = e instanceof Error ? e.message : '리포트 삭제에 실패했습니다.';
       toast({ title: '삭제 실패', description: message, variant: 'destructive' });
     }
+  };
+
+  // 리포트 선택 핸들러 (GA4 이벤트 포함)
+  const handleSelectReport = (reportId: string) => {
+    setSelectedId(reportId);
+    // GA4: 리포트 조회 이벤트
+    trackReportView(reportId, periodType === 'WEEKLY' ? 'weekly' : 'monthly');
   };
 
   if (isLoading) {
@@ -119,7 +162,7 @@ export default function ReportPage() {
               {reports.map((r) => (
                 <ListItem
                   key={r.reportId}
-                  onClick={() => setSelectedId(r.reportId)}
+                  onClick={() => handleSelectReport(r.reportId)}
                   className={selected?.reportId === r.reportId ? 'bg-primary/5 border-border' : 'bg-card'}
                   middle={
                     <div className="space-y-1">

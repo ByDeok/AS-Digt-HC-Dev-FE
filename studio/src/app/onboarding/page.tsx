@@ -11,13 +11,14 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { KakaoIcon } from '@/components/icons/kakao';
 import { NaverIcon } from '@/components/icons/naver';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { trackOnboardingStart, trackEvent } from '@/lib/analytics';
 
 /**
  * 프로그램 단위 용도: 소셜 로그인(카카오, 네이버)을 통해 사용자를 인증하고 온보딩 프로세스를 시작
@@ -30,7 +31,17 @@ export default function OnboardingAuthPage() {
   const [isLoading, setIsLoading] = useState<null | 'kakao' | 'naver'>(null);
   const navigate = useNavigate();
 
+  // GA4: 온보딩 시작 이벤트 및 시작 시간 저장
+  useEffect(() => {
+    trackOnboardingStart();
+    // 온보딩 완료 시 소요 시간 계산을 위해 시작 시간 저장
+    sessionStorage.setItem('onboarding_start_time', Date.now().toString());
+  }, []);
+
   const handleLogin = (provider: 'kakao' | 'naver') => {
+    // GA4: 소셜 로그인 클릭 이벤트
+    trackEvent('social_login_click', { provider });
+
     setIsLoading(provider);
     setTimeout(() => {
       navigate('/onboarding/profile');

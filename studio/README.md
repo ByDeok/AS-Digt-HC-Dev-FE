@@ -134,6 +134,17 @@ VITE_ENABLE_MOCK_DATA=false
 
 # 디버그 모드
 VITE_DEBUG_MODE=true
+
+# =================================================================
+# API 로깅 설정
+# =================================================================
+# 각 로거 유형을 독립적으로 온/오프 가능
+VITE_API_LOGGING_ENABLED=true     # 전체 마스터 스위치
+VITE_API_LOGGING_REQUEST=true     # 요청 로깅
+VITE_API_LOGGING_RESPONSE=true    # 응답 로깅
+VITE_API_LOGGING_ERROR=true       # 에러 로깅
+VITE_API_LOGGING_HEADERS=true     # 헤더 포함
+VITE_API_LOGGING_BODY=true        # 본문 포함
 ```
 
 ### 환경변수 목록
@@ -146,6 +157,10 @@ VITE_DEBUG_MODE=true
 | `GOOGLE_GENAI_API_KEY` | ⚠️ | ❌ | Google AI API 키 |
 | `VITE_ENABLE_AI_FEATURES` | ❌ | ✅ | AI 기능 활성화 여부 |
 | `VITE_ENABLE_MOCK_DATA` | ❌ | ✅ | 목업 데이터 사용 여부 |
+| `VITE_API_LOGGING_ENABLED` | ❌ | ✅ | API 로깅 전체 활성화 (개발환경 기본 true) |
+| `VITE_API_LOGGING_REQUEST` | ❌ | ✅ | 요청 로깅 활성화 |
+| `VITE_API_LOGGING_RESPONSE` | ❌ | ✅ | 응답 로깅 활성화 |
+| `VITE_API_LOGGING_ERROR` | ❌ | ✅ | 에러 로깅 활성화 |
 
 ---
 
@@ -199,6 +214,56 @@ const apiKey = process.env.GOOGLE_GENAI_API_KEY;
 - [ ] `VITE_` 변수에 민감 정보가 없는지 확인
 - [ ] API 키에 사용량 제한 및 도메인 제한 설정
 - [ ] 프로덕션 환경변수가 CI/CD 시크릿으로 관리되는지 확인
+- [ ] 프로덕션에서 `VITE_API_LOGGING_ENABLED=false` 설정
+
+---
+
+## 📝 API 로깅
+
+### 로거 함수
+
+`src/lib/apiLogger.ts`에서 제공하는 로깅 함수들:
+
+| 함수 | 설명 |
+|------|------|
+| `logRequest()` | API 요청 로깅 (시작 시간 반환) |
+| `logResponse()` | API 응답 로깅 (Duration 포함) |
+| `logError()` | API 에러 로깅 |
+
+### 런타임 로깅 제어
+
+```typescript
+import { 
+  setLoggingEnabled, 
+  setRequestLoggingEnabled,
+  enableAllLogging,
+  disableAllLogging,
+  printLogConfig 
+} from '@/lib/apiLogger';
+
+// 전체 로깅 끄기 (운영 환경)
+disableAllLogging();
+
+// 요청 로깅만 끄기
+setRequestLoggingEnabled(false);
+
+// 현재 설정 콘솔 출력
+printLogConfig();
+```
+
+### 로그 출력 예시
+
+```
+{01HJ7X8Y...} 🚀 [FE Request] POST /api/v1/auth/login
+  🆔 Request ID: 01HJ7X8Y...
+  📅 Timestamp: 2025-01-24T10:30:00.000Z
+  📦 Request Body: { "email": "...", "password": "***MASKED***" }
+
+{01HJ7X8Y...} ✅ [FE Response] POST /api/v1/auth/login
+  Status: 200 OK
+  ⏱️ Duration: 150ms
+  📦 Response Body: { "accessToken": "***MASKED***", ... }
+```
 
 ---
 
@@ -243,8 +308,15 @@ studio/
 
 | 문서 | 설명 |
 |------|------|
-| [환경변수 관리 가이드](docs/ENV_MANAGEMENT_GUIDE.md) | 환경변수 상세 관리 방법 |
+| [환경변수 관리 가이드](../docs/ENV_MANAGEMENT_GUIDE.md) | 환경변수 상세 관리 방법 |
 | [로컬 설정 가이드](../scripts/LOCAL_SETUP_GUIDE.md) | 로컬 개발 환경 구축 |
+
+### API 연동 문서
+
+| 문서 | 설명 |
+|------|------|
+| [FE-BE API 연동 상태](../docs/FE_BE_API_INTEGRATION_STATUS.md) | 페이지별 API 연동 현황 |
+| [FE-BE 통합 계획서](../FE_BE_INTEGRATION_PLAN.md) | 연동 범위 및 실행 계획 |
 
 ---
 

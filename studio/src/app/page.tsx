@@ -36,6 +36,7 @@ import { ScrollAnimate } from '@/components/landing/ScrollAnimate';
 import { isAuthenticated } from '@/lib/auth';
 import videoSrc from '@/assets/resource/goden wellness.mp4';
 import logoSrc from '@/assets/resource/Logo_wint_name-Photoroom.png';
+import { trackScrollDepth, trackCtaClick, trackEvent, trackSectionView } from '@/lib/analytics';
 
 type TrackProps = Record<string, string | number | boolean | null | undefined>;
 
@@ -94,7 +95,7 @@ export default function LandingPage() {
         thresholds.forEach((t) => {
           if (percent >= t && !seen.has(t)) {
             seen.add(t);
-            track('landing_scroll_depth', { percent: t });
+            trackScrollDepth(t);
           }
         });
 
@@ -134,35 +135,35 @@ export default function LandingPage() {
             <a 
               href="#problem" 
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => track('landing_nav_click', { to: '#problem' })}
+              onClick={() => trackEvent('landing_nav_click', { to: '#problem' })}
             >
               왜 필요한가요?
             </a>
             <a 
               href="#how" 
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => track('landing_nav_click', { to: '#how' })}
+              onClick={() => trackEvent('landing_nav_click', { to: '#how' })}
             >
               어떻게 동작하나요?
             </a>
             <a 
               href="#reviews" 
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => track('landing_nav_click', { to: '#reviews' })}
+              onClick={() => trackEvent('landing_nav_click', { to: '#reviews' })}
             >
               사용자 후기
             </a>
             <a 
               href="#trust" 
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => track('landing_nav_click', { to: '#trust' })}
+              onClick={() => trackEvent('landing_nav_click', { to: '#trust' })}
             >
               신뢰와 안전
             </a>
             <a 
               href="#faq" 
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-              onClick={() => track('landing_nav_click', { to: '#faq' })}
+              onClick={() => trackEvent('landing_nav_click', { to: '#faq' })}
             >
               자주 묻는 질문
             </a>
@@ -175,7 +176,7 @@ export default function LandingPage() {
                 variant="ghost"
                 size="sm"
                 className="text-muted-foreground hover:text-foreground"
-                onClick={() => track('landing_cta_click', { location: 'header_login', to: '/login' })}
+                onClick={() => trackCtaClick('login', 'header')}
               >
                 로그인
               </Button>
@@ -184,7 +185,7 @@ export default function LandingPage() {
               <Button
                 size="sm"
                 className="font-medium shadow-sm"
-                onClick={() => track('landing_cta_click', { location: 'header_primary', to: '/start' })}
+                onClick={() => trackCtaClick('무료로 시작하기', 'header')}
               >
                 무료로 시작하기 <ArrowRight className="ml-1 h-3.5 w-3.5" />
               </Button>
@@ -236,7 +237,7 @@ export default function LandingPage() {
                 <Button
                   size="lg"
                   className="w-full h-12 px-8 text-base shadow-lg shadow-primary/20 transition-all hover:scale-105 whitespace-nowrap"
-                  onClick={() => track('landing_cta_click', { location: 'top_hero_primary', to: '/start' })}
+                  onClick={() => trackCtaClick('무료로 시작하기', 'top_hero')}
                 >
                   무료로 시작하기 <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -246,7 +247,7 @@ export default function LandingPage() {
                   size="lg"
                   variant="outline"
                   className="w-full h-12 px-8 text-base bg-background/50 backdrop-blur hover:bg-background/80 whitespace-nowrap"
-                  onClick={() => track('landing_cta_click', { location: 'top_hero_secondary', to: '#trust' })}
+                  onClick={() => trackCtaClick('공유 원칙 살펴보기', 'top_hero')}
                 >
                   공유 원칙 살펴보기
                 </Button>
@@ -334,7 +335,7 @@ export default function LandingPage() {
                 <Button
                   size="xl"
                   className="w-full min-w-[200px] shadow-lg shadow-primary/10"
-                  onClick={() => track('landing_cta_click', { location: 'hero_primary', to: '/start' })}
+                  onClick={() => trackCtaClick('3분만에 시작하기', 'hero')}
                 >
                   3분만에 시작하기 <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -344,7 +345,7 @@ export default function LandingPage() {
                   size="xl"
                   variant="ghost"
                   className="w-full"
-                  onClick={() => track('landing_cta_click', { location: 'hero_secondary', to: '#how' })}
+                  onClick={() => trackCtaClick('넣으면 뭐가 나오나요?', 'hero')}
                 >
                   넣으면 뭐가 나오나요?
                 </Button>
@@ -561,7 +562,7 @@ export default function LandingPage() {
             <Button
               size="lg"
               className="h-14 px-8 text-lg shadow-lg shadow-primary/20 rounded-full"
-              onClick={() => track('landing_cta_click', { location: 'mid', to: '/start' })}
+              onClick={() => trackCtaClick('내 결과물 미리보기', 'mid')}
             >
               내 결과물 미리보기 <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -724,7 +725,7 @@ export default function LandingPage() {
               <Button
                 size="xl"
                 className="h-14 px-10 text-lg shadow-xl shadow-primary/20 rounded-full transition-transform hover:scale-105"
-                onClick={() => track('landing_cta_click', { location: 'bottom_primary', to: '/start' })}
+                onClick={() => trackCtaClick('지금 결과물 받아보기', 'bottom')}
               >
                 지금 결과물 받아보기 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>

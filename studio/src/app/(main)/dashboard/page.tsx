@@ -10,7 +10,7 @@
  *     └── Button (Toggle Mission)
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Bell, Check, Circle, RefreshCw, RotateCcw } from 'lucide-react';
@@ -27,6 +27,12 @@ import { getStoredUser } from '@/lib/auth';
 import { useDailyHealthMetrics, useUpsertDailyHealthMetrics } from '@/hooks/queries/useHealthMetrics';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  trackMissionView,
+  trackMissionComplete,
+  trackHealthRecordSubmit,
+  trackEvent,
+} from '@/lib/analytics';
 
 /**
  * 프로그램 단위 용도: 사용자의 오늘의 미션을 관리하고, 알림을 확인하는 메인 화면
@@ -63,6 +69,9 @@ export default function DashboardPage() {
     steps: '',
   });
 
+  // 미션 목록 추적 여부 (중복 방지)
+  const hasMissionViewTracked = useRef(false);
+
   // Sync form data with fetched metrics
   useEffect(() => {
     if (todayMetrics) {
@@ -75,6 +84,15 @@ export default function DashboardPage() {
       });
     }
   }, [todayMetrics]);
+
+  // GA4: 미션 목록 조회 이벤트 (한 번만)
+  useEffect(() => {
+    if (!isLoading && actions.length > 0 && !hasMissionViewTracked.current) {
+      hasMissionViewTracked.current = true;
+      const completedCount = actions.filter((a) => a.status === 'COMPLETED').length;
+      trackMissionView(actions.length, completedCount);
+    }
+  }, [actions, isLoading]);
 
   // Window resize handler for Confetti
   useEffect(() => {
@@ -130,6 +148,19 @@ export default function DashboardPage() {
       onSuccess: () => {
         setCompletedMissionId(String(actionId));
         setShowConfetti(true);
+
+        // GA4: 미션 완료 이벤트
+        const isFirstMissionToday = actions.filter((a) => a.status === 'COMPLETED').length === 0;
+        trackMissionComplete(
+          String(actionId),
+          action.title,
+          'health', // 카테고리 (action에 category 필드가 있으면 사용)
+          isFirstMissionToday
+        );
+
+        // GA4: 폭죽 효과 트리거 이벤트
+        trackEvent('confetti_trigger', { trigger_type: 'mission_complete' });
+
         toast({
           title: '참 잘했어요!',
           description: `'${action.title}' 행동을 완료했어요.`,
@@ -217,6 +248,15 @@ export default function DashboardPage() {
         heartRate: healthData.heartRate ? Number(healthData.heartRate) : null,
         steps: healthData.steps ? Number(healthData.steps) : null,
       });
+
+      // GA4: 건강 기록 제출 이벤트
+      const metricsTypes: string[] = [];
+      if (healthData.systolic || healthData.diastolic) metricsTypes.push('bloodPressure');
+      if (healthData.weight) metricsTypes.push('weight');
+      if (healthData.heartRate) metricsTypes.push('heartRate');
+      if (healthData.steps) metricsTypes.push('steps');
+      trackHealthRecordSubmit(today, metricsTypes, metricsTypes.length);
+
       toast({
         title: '건강 기록 저장 완료',
         description: `${today}의 건강 데이터가 저장되었습니다.`,

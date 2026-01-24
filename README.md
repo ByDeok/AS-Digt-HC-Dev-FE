@@ -22,12 +22,13 @@ Spring Boot 기반의 RESTful API 서버로, 사용자 인증, 건강 데이터 
 | 구분 | 기술 |
 |------|------|
 | **Language** | Java 21 |
-| **Framework** | Spring Boot 4.0 |
+| **Framework** | Spring Boot 3.x |
 | **ORM** | Spring Data JPA + Hibernate |
 | **Database** | H2 (local default) / MySQL 9.x (prod) |
 | **Security** | Spring Security + JWT |
 | **Build Tool** | Gradle (Groovy) |
 | **AI Integration** | Google AI (Gemini) via REST API |
+| **Logging** | Logback + API Request/Response Logger |
 
 ---
 
@@ -127,6 +128,62 @@ external:
 | `DB_PASSWORD` | ⚠️ | DB 비밀번호 | - |
 | `JWT_SECRET` | ✅ | JWT 서명 키 (256비트+) | - |
 | `GOOGLE_AI_API_KEY` | ⚠️ | Google AI API 키 | - |
+| `API_LOGGING_ENABLED` | ❌ | API 로깅 전체 활성화 | `true` |
+| `API_LOGGING_REQUEST` | ❌ | 요청 로깅 활성화 | `true` |
+| `API_LOGGING_RESPONSE` | ❌ | 응답 로깅 활성화 | `true` |
+
+---
+
+## 📝 API 로깅 설정
+
+### 로깅 아키텍처
+
+백엔드와 프론트엔드 모두에서 API 요청/응답을 로깅할 수 있습니다.
+
+| 로거 유형 | 위치 | 설명 |
+|----------|------|------|
+| **Backend Request Logger** | Spring Boot | 백엔드에서 받는 요청 로깅 |
+| **Backend Response Logger** | Spring Boot | 백엔드에서 보내는 응답 로깅 |
+| **Frontend Request Logger** | React | 프론트엔드에서 보내는 요청 로깅 |
+| **Frontend Response Logger** | React | 프론트엔드에서 받는 응답 로깅 |
+
+### 백엔드 로깅 설정 (`application.yml`)
+
+```yaml
+app:
+  logging:
+    api:
+      enabled: true           # 전체 마스터 스위치
+      request-enabled: true   # 요청 로깅
+      response-enabled: true  # 응답 로깅
+      include-headers: true   # 헤더 포함
+      include-body: true      # 본문 포함
+      max-body-length: 5000   # 본문 최대 길이
+```
+
+### 로그 파일 위치
+
+| 파일 | 용도 |
+|------|------|
+| `logs/api-requests.log` | API 요청/응답 전용 로그 |
+| `logs/application.log` | 전체 애플리케이션 로그 |
+| `logs/application-error.log` | 에러 로그 전용 |
+
+### 런타임 로깅 제어 (Java)
+
+```java
+@Autowired
+private ApiLogger apiLogger;
+
+// 전체 로깅 끄기
+apiLogger.disableAllLogging();
+
+// 요청 로깅만 활성화
+apiLogger.enableRequestLoggingOnly();
+
+// 현재 설정 확인
+apiLogger.getLoggingStatus();
+```
 
 ---
 
@@ -220,9 +277,20 @@ credentials/
 
 ## 📚 관련 문서
 
+### 개발 가이드
 - [로컬 개발 환경 설정 가이드](scripts/LOCAL_SETUP_GUIDE.md)
-- [환경변수 관리 상세 가이드](studio/docs/ENV_MANAGEMENT_GUIDE.md)
+- [환경변수 관리 상세 가이드](docs/ENV_MANAGEMENT_GUIDE.md)
+- [로깅 가이드](LOGGING_GUIDE.md)
+
+### API 연동
+- [FE-BE API 연동 상태 분석표](docs/FE_BE_API_INTEGRATION_STATUS.md)
+- [FE-BE 통합 연동 계획서](FE_BE_INTEGRATION_PLAN.md)
+
+### 프론트엔드
 - [프론트엔드 README](studio/README.md)
+- [프론트엔드 종합 문서](docs/README.md)
+
+### 기획/디자인
 - [랜딩페이지 원고(강력 버전)](docs/Landing_advanced.md)
 - [랜딩페이지 결과 검수 체크리스트](docs/Landing_advanced_checklist.md)
 - [랜딩페이지 고도화 전략(레퍼런스)](docs/landing_page.md)

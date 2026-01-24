@@ -3,6 +3,7 @@ package vibe.digthc.as_digt_hc_dev_fe;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableJpaAuditing  // JPA Auditing 활성화 (BaseTimeEntity 사용을 위해)
 @EnableScheduling   // 스케줄링 기능 활성화
+@EnableAsync        // 비동기 처리 활성화 (GA4 이벤트 전송 등)
 public class AsDigtHcDevFeApplication {
 
 	public static void main(String[] args) {
